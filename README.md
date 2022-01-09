@@ -8,6 +8,7 @@ The nginx proxy is used to easily deploy anything that can be run in docker and 
 
 1. Linux server / VPS
 2. Docker and docker-compose installed on your server
+3. Shell access with permissions to execute docker commands
 
 <br />
 
