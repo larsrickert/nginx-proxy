@@ -1,0 +1,20 @@
+# This docker-compose deploys an application with an official image from docker hub.
+version: '3'
+
+services:
+  # TODO: CHANGE ME:
+  example-app:
+    # TODO: CHANGE ME:
+    image: nginx:stable-alpine
+    restart: always
+    # TODO: CHANGE ME IF NECESSARY, e.g. if Dockerfile exposes PORT 3000, change to 3000
+    expose:
+      - 80
+    environment:
+      VIRTUAL_HOST: '${DOMAIN}'
+      LETSENCRYPT_HOST: '${DOMAIN}'
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true

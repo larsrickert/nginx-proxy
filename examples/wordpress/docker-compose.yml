@@ -1,0 +1,38 @@
+# This docker-compose deploys a wordpress website.
+version: '3'
+
+services:
+  wordpress_db:
+    image: mariadb
+    restart: always
+    env_file: .env
+    volumes:
+      - ./db:/var/lib/mysql
+
+  wordpress:
+    image: wordpress
+    restart: always
+    expose:
+      - 80
+    environment:
+      WORDPRESS_DB_HOST: wordpress_db
+      WORDPRESS_DB_USER: '${MYSQL_USER}'
+      WORDPRESS_DB_PASSWORD: '${MYSQL_PASSWORD}'
+      VIRTUAL_HOST: '${DOMAIN}'
+      LETSENCRYPT_HOST: '${DOMAIN}'
+      # Custom configs for wp-config.php:
+      # WORDPRESS_CONFIG_EXTRA: |
+      #   define('SOME_CONSTANT_NAME', 'someValue');
+    depends_on:
+      - wordpress_db
+    links:
+      - wordpress_db
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+      # change wordpress max upload size
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true

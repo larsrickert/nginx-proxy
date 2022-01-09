@@ -1,0 +1,16 @@
+# This docker-compose redirects incoming requests to the REDIRECT_TARGET specified in .env file.
+version: '3'
+
+services:
+  redirect:
+    image: morbz/docker-web-redirect
+    restart: always
+    env_file: .env
+    environment:
+      VIRTUAL_HOST: '${DOMAIN}'
+      LETSENCRYPT_HOST: '${DOMAIN}'
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true

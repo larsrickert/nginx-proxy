@@ -1,0 +1,128 @@
+version: '3'
+
+services:
+  # External dependencies
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - './mailu/redis:/data'
+
+  postgres:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_DB: '${DB_NAME}'
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_PASSWORD: '${DB_PW}'
+    volumes:
+      - ./mailu/postgres:/var/lib/postgresql/data
+      # create 2nd database for webmail:
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+
+  # Core services
+  front:
+    image: mailu/nginx:${MAILU_VERSION:-1.8}
+    restart: always
+    env_file: .env
+    logging:
+      driver: json-file
+    ports:
+      - '25:25'
+      - '465:465'
+      - '587:587'
+      - '995:995' # POP3S (secure), do not use port 110 for POP3 because its insecure
+      - '143:143'
+      - '993:993'
+    volumes:
+      # TODO: CHANGE ME
+      # path to certs of nginx-proxy
+      - '../../certs/mail.${DOMAIN}:/certs:ro'
+      - './mailu/overrides/nginx:/overrides:ro'
+    environment:
+      # nginx proxy will request cert for all hostnames in a single cert
+      # so the cert runs under the name of the first hostname and includes all other hostnames
+      # so only the first cert has to be mounted in volumes to /certs
+      VIRTUAL_HOST: '${HOSTNAMES}'
+      LETSENCRYPT_HOST: '${HOSTNAMES}'
+    networks:
+      - default
+      - nginx-proxy
+
+  admin:
+    image: mailu/admin:${MAILU_VERSION:-1.8}
+    restart: always
+    env_file: .env
+    volumes:
+      - './mailu/data:/data'
+      - './mailu/dkim:/dkim'
+    depends_on:
+      - redis
+      - postgres
+
+  imap:
+    image: mailu/dovecot:${MAILU_VERSION:-1.8}
+    restart: always
+    env_file: .env
+    volumes:
+      - './mailu/mail:/mail'
+      - './mailu/overrides/dovecot:/overrides:ro'
+    depends_on:
+      - front
+
+  smtp:
+    image: mailu/postfix:${MAILU_VERSION:-1.8}
+    restart: always
+    env_file: .env
+    volumes:
+      - './mailu/mailqueue:/queue'
+      - './mailu/overrides/postfix:/overrides:ro'
+    depends_on:
+      - front
+
+  antispam:
+    image: mailu/rspamd:${MAILU_VERSION:-1.8}
+    hostname: antispam
+    restart: always
+    env_file: .env
+    volumes:
+      - './mailu/filter:/var/lib/rspamd'
+      - './mailu/dkim:/dkim:ro'
+      - './mailu/overrides/rspamd:/etc/rspamd/override.d:ro'
+    depends_on:
+      - front
+
+  # Optional services
+  antivirus:
+    image: mailu/clamav:${MAILU_VERSION:-1.8}
+    restart: always
+    env_file: .env
+    volumes:
+      - './mailu/filter:/data'
+
+  # somehow not working, needs additional checks
+  fetchmail:
+    image: mailu/fetchmail:${MAILU_VERSION:-1.8}
+    restart: always
+    env_file: .env
+
+  # Webmail
+  webmail:
+    image: mailu/roundcube:${MAILU_VERSION:-1.8}
+    restart: always
+    env_file: .env
+    environment:
+      ROUNDCUBE_DB_HOST: postgres
+    depends_on:
+      - imap
+      - postgres
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}
+  nginx-proxy:
+    external: true

@@ -1,0 +1,5 @@
+# Excluded folders for all applications:
+.env
+db
+data
+wp-content

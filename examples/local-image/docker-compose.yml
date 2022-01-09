@@ -1,0 +1,23 @@
+# This docker-compose deploys an application with a dedicated Dockerfile.
+version: '3'
+
+services:
+  # TODO: CHANGE ME:
+  example-app:
+    # path to Dockerfile dir
+    build: .
+    # name of the build image
+    # TODO: CHANGE ME:
+    image: larsrickert/local-image
+    restart: always
+    # TODO: CHANGE ME IF NECESSARY, e.g. if Dockerfile exposes PORT 3000, change to 3000
+    expose:
+      - 80
+    environment:
+      VIRTUAL_HOST: '${DOMAIN}'
+      LETSENCRYPT_HOST: '${DOMAIN}'
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true

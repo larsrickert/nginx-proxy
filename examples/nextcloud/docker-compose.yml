@@ -1,0 +1,48 @@
+# This docker-compose deploys a nextcloud (private cloud for storing files).
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    env_file: .env
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: >
+      --requirepass '${REDIS_HOST_PASSWORD}'
+
+  app:
+    image: nextcloud:production-apache
+    restart: always
+    expose:
+      - 80
+    volumes:
+      - nextcloud:/var/www/html
+      - ./data:/var/www/html/data
+    env_file: .env
+    environment:
+      POSTGRES_HOST: db
+      REDIS_HOST: redis
+      NEXTCLOUD_TRUSTED_DOMAINS: '${DOMAIN}'
+      OVERWRITEPROTOCOL: https
+      VIRTUAL_HOST: '${DOMAIN}'
+      LETSENCRYPT_HOST: '${DOMAIN}'
+    links:
+      - db
+      - redis
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  nextcloud:
+  db:
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true
