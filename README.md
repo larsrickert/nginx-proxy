@@ -2,10 +2,14 @@
 
 The nginx proxy is used to easily deploy anything that can be run in docker and connect it to a domain (e.g. blog.example.com). It will automatically manage and renew ssl certificates.
 
+<br />
+
 # Prerequisites
 
 1. Linux server / VPS
 2. Docker and docker-compose installed on your server
+
+<br />
 
 # Step 1: Setup nginx proxy
 
