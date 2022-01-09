@@ -1,3 +1,4 @@
+# This docker-compose deploys a mailu mailserver with antivirus, antispam, webmailer, admin UI, multiple hosts/domains and more.
 version: '3'
 
 services:
