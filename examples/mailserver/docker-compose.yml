@@ -35,8 +35,7 @@ services:
       - '143:143'
       - '993:993'
     volumes:
-      # TODO: CHANGE ME
-      # path to certs of nginx-proxy
+      # TODO: CHANGE ME: path to cert folder of nginx-proxy
       - '../../certs/mail.${DOMAIN}:/certs:ro'
       - './mailu/overrides/nginx:/overrides:ro'
     environment:

@@ -21,6 +21,7 @@ services:
       VIRTUAL_HOST: '${DOMAIN}'
       LETSENCRYPT_HOST: '${DOMAIN}'
       # Custom configs for wp-config.php:
+      # TODO: CHANGE ME (if necessary):
       # WORDPRESS_CONFIG_EXTRA: |
       #   define('SOME_CONSTANT_NAME', 'someValue');
     depends_on:
@@ -29,7 +30,7 @@ services:
       - wordpress_db
     volumes:
       - ./wp-content:/var/www/html/wp-content
-      # change wordpress max upload size
+      # wordpress max upload size
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
 networks:

@@ -7,7 +7,7 @@ services:
     # TODO: CHANGE ME:
     image: nginx:stable-alpine
     restart: always
-    # TODO: CHANGE ME IF NECESSARY, e.g. if Dockerfile exposes PORT 3000, change to 3000
+    # TODO: CHANGE ME (if necessary), e.g. if Dockerfile exposes PORT 3000, change to 3000
     expose:
       - 80
     environment:
