@@ -17,14 +17,14 @@ The nginx proxy is used to easily deploy any docker application and connect it t
 
 The nginx-proxy will automatically start when you start/restart your server.
 
-1. Copy `docker-compose.yml`, `proxy.conf` and `.gitignore` to a destination of your liking on your linux server.
+1. Copy `docker-compose.yml`, `proxy.conf`, `.env.example` and `.gitignore` to a destination of your liking on your linux server.
 2. Create a docker network for nginx-proxy that allows the proxy to recognize the deployed containers.
 
    ```
    docker network create nginx-proxy
    ```
 
-3. Change the `LETSENCRYPT_EMAIL` value in `.env` to your email. This mail will be used to send letsencrypt reminders for e.g. expiring certificates.
+3. Rename `.env.example` to `.env` and change the `LETSENCRYPT_EMAIL` value to your email. This mail will be used to send letsencrypt reminders for e.g. expiring certificates.
 4. Start the nginx-proxy with:
 
    ```
