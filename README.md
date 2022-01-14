@@ -1,6 +1,6 @@
 # Nginx proxy
 
-The nginx proxy is used to easily deploy anything that can be run in docker and connect it to a domain (e.g. blog.example.com). It will automatically manage and renew ssl certificates.
+The nginx proxy is used to easily deploy any docker application and connect it to a domain (e.g. blog.example.com). It will automatically manage and renew ssl certificates.
 
 <br />
 
@@ -9,6 +9,7 @@ The nginx proxy is used to easily deploy anything that can be run in docker and 
 1. Linux server / VPS
 2. Docker and docker-compose installed on your server
 3. Shell access with permissions to execute docker commands
+4. Domain with access to the DNS settings
 
 <br />
 
@@ -17,7 +18,7 @@ The nginx proxy is used to easily deploy anything that can be run in docker and 
 The nginx-proxy will automatically start when you start/restart your server.
 
 1. From folder `nginx-proxy`, copy all files but `examples` to a destination of your liking on your linux server.
-2. Create docker network for nginx-proxy that allows the proxy to recognize the deployed containers.
+2. Create a docker network for nginx-proxy that allows the proxy to recognize the deployed containers.
 
    ```
    docker network create nginx-proxy
@@ -36,9 +37,9 @@ The nginx-proxy will automatically start when you start/restart your server.
 
 Make sure to create an A Record that redirects each domain you want to use with the nginx-proxy to the IP of your server.
 
-You can find `docker-compose.yml` examples for different applications in the `examples` folder of `nginx-proxy`. <br />
+You can find examples for different applications in the `examples` folder. <br /> <br />
 There are `TODO: CHANGE ME` comments above all lines
-of the example files that you need to change to make the example application your own. <br />
+of the example files that you need to change to make the example application your own.
 You don't have to care about the other settings to get the application working but you might want to take a look at them for custom behavior.
 
 Important for any `docker-compose.yml` / application that you want to deploy:
