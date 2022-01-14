@@ -17,7 +17,7 @@ The nginx proxy is used to easily deploy any docker application and connect it t
 
 The nginx-proxy will automatically start when you start/restart your server.
 
-1. From folder `nginx-proxy`, copy all files but `examples` to a destination of your liking on your linux server.
+1. Copy `docker-compose.yml`, `proxy.conf` and `.gitignore` to a destination of your liking on your linux server.
 2. Create a docker network for nginx-proxy that allows the proxy to recognize the deployed containers.
 
    ```
