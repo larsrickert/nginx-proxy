@@ -1,5 +1,16 @@
 # Linux server / VPS setup utilities
 
+Here you find useful linux commands and scripts that will speed up the setup of your linux server. It is recommended to use ubuntu as linux distribution. When using debian or another distribution you might need to adjust the commands and script.
+
+The utilities include:
+
+1. Creating non-root sudo user
+2. ssh key management
+3. firewall setup
+4. Docker and docker-compose installation
+
+<br />
+
 # Prerequisites
 
 1. Linux server running Ubuntu
@@ -30,17 +41,17 @@ Copying your ssh key to the linux server allows you to connect to the server fro
 
 1. Generate ssh key (if not already generated):
 
-If you dont already have a ssh key generated on you machine, run:
+   If you dont already have a ssh key generated on you machine, run:
 
-```
-ssh-keygen -t rsa -b 4096
-```
+   ```
+   ssh-keygen -t rsa -b 4096
+   ```
 
 2. Copy key to your linux server
    - change `{IP}` to the IP or domain of your server and `{username}` to your created user
    - on Windows:
    ```
-   type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {username}@{IP} "cat >> .ssh/authorized_keys"
+   type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {username}@{IP} "mkdir ~/.ssh && cat >> ~/.ssh/authorized_keys"
    ```
    - on Mac:
    ```
