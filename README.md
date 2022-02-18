@@ -1,6 +1,6 @@
 # Nginx proxy
 
-The nginx proxy is used to easily deploy any docker application and connect it to a domain (e.g. blog.example.com). It will automatically manage and renew ssl certificates.
+This repo contains documentation about how to use the official [nginx-proxy docker image](https://hub.docker.com/r/jwilder/nginx-proxy) from jwilder to deploy any application on your linux server. It will automatically connect an arbitrary domain (e.g. blog.example.com) to the application and manage/renew ssl certificates.
 
 <br />
 
@@ -10,6 +10,10 @@ The nginx proxy is used to easily deploy any docker application and connect it t
 2. Docker and docker-compose installed on your server
 3. Shell access with permissions to execute docker commands
 4. Domain with access to the DNS settings
+
+If you don't have a linux server yet you can check out [netcup](https://www.netcup.de/vserver/vps.php) for a cheap and fast VPS.
+
+You can find more information about setting up the linux server in the `utils` folder.
 
 <br />
 
@@ -35,7 +39,7 @@ The nginx-proxy will automatically start when you start/restart your server.
 
 # Step 2 (optional): Deploy your first application
 
-Make sure to create an A Record that redirects each domain you want to use with the nginx-proxy to the IP of your server.
+Make sure to create an A Record in your domain DNS settings that points each domain you want to use with the nginx-proxy to the IP of your server.
 
 You can find examples for different applications in the `examples` folder. <br /> <br />
 There are `TODO: CHANGE ME` comments above all lines
@@ -62,7 +66,7 @@ Important for any `docker-compose.yml` / application that you want to deploy:
   LETSENCRYPT_HOST: blog.example.com
   ```
 
-  to the environment variables (changing "blog.example.com" to the domain that you want to deploy the application to). Otherwise the application will not be reachable under the domain.
+  to the environment variables of the `docker-compose.yml` (changing "blog.example.com" to the domain that you want to deploy the application to). Otherwise the application will not be reachable under the domain.
 
 <br />
 

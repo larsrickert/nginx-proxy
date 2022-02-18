@@ -13,7 +13,8 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./proxy.conf:/etc/nginx/conf.d/proxy.conf # custom additional nginx config
+      # custom additional nginx config
+      - ./proxy.conf:/etc/nginx/conf.d/proxy.conf
 
   nginx-proxy-le:
     image: nginxproxy/acme-companion
