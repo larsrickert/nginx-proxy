@@ -5,8 +5,8 @@ Here you find useful linux commands and scripts that will speed up the setup of 
 The utilities include:
 
 1. Creating non-root sudo user
-2. ssh key management
-3. firewall setup
+2. SSH key management
+3. Firewall setup
 4. Docker and docker-compose installation
 
 <br />
