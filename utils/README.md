@@ -51,7 +51,7 @@ Copying your ssh key to the linux server allows you to connect to the server fro
    - change `{IP}` to the IP or domain of your server and `{username}` to your created user
    - on Windows:
    ```
-   type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {username}@{IP} "mkdir ~/.ssh && cat >> ~/.ssh/authorized_keys"
+   type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {username}@{IP} "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
    ```
    - on Mac:
    ```
