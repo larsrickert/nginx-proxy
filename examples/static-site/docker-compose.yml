@@ -1,4 +1,4 @@
-# This docker-compose deploys a static site (such as angular/vue/react app or just playn html file).
+# This docker-compose deploys a static site (such as angular/vue/react app or just plain html/css/js files).
 # Unknown url routes are redirect to the index.html which is the expected behaviour for
 # SPAs = single page applications such as a vue app.
 version: '3'
