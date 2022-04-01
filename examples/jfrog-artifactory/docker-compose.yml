@@ -1,4 +1,4 @@
-# This docker-compose deploys two jfrog artifactories - one normal and one for apis
+# This docker-compose deploys a jfrog artifactory
 version: '3'
 
 services:
