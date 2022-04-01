@@ -7,3 +7,9 @@
 db
 data
 wp-content
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
