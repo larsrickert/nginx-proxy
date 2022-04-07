@@ -28,10 +28,10 @@ You can install Docker and docker-compose with their official instructions:
 
 If you want to speed up the installation you can use the following script which includes all official installation steps to install the latest versions:
 
-#### **Step 1:** Create a `install-docker.sh` file
+#### **Step 1:** Create a `install-docker-ubuntu.sh` file
 
 ```bash
-touch install-docker.sh
+touch install-docker-ubuntu.sh
 ```
 
 and add the following content:
