@@ -4,6 +4,10 @@
 For the following instructions we assume that you are using docker-compose for your applications.
 :::
 
+::: info Deployment
+In fact, this documentation that you are just reading is also deployed using the `nginx-proxy`. You can check out its `docker-compose.yml` on [GitHub](https://github.com/larsrickert/nginx-proxy/blob/docs/docker-compose.yml).
+:::
+
 For deploying any application with the nginx-proxy you first need to create a Dockerfile / docker-compose setup that suits your application. Since this is very application-dependent we can't give you instructions on this. But you will most likely find examples on the internet.
 
 Beside the general Docker setup of your application there are three main aspects that you must follow to deploy your application with the nginx-proxy.
