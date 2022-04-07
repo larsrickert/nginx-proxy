@@ -1,84 +1,23 @@
-# Nginx proxy
+# nginx-proxy
 
-This repo contains documentation about how to use the official [nginx-proxy docker image](https://hub.docker.com/r/jwilder/nginx-proxy) from jwilder to deploy any application on your linux server. It will automatically connect an arbitrary domain (e.g. blog.example.com) to the application and manage/renew ssl certificates.
+nginx-proxy is a combination of Open Source tools that enable you to easily deploy any (web) application that runs with Docker on your own linux server. Technically it is an automated nginx reverse proxy. The nginx-proxy will automatically detect your docker applications, will make them available under your specified domain such as `blog.example.com` and automatically requests and manages / renews Let’s Encrypt SSL certificates.
 
-<br />
-
-# Prerequisites
-
-1. Linux server / VPS
-2. Docker and docker-compose installed on your server
-3. Shell access with permissions to execute docker commands
-4. Domain with access to the DNS settings
-
-If you don't have a linux server yet you can check out [netcup](https://www.netcup.de/vserver/vps.php) for a cheap and fast VPS.
-
-You can find more information about setting up the linux server in the `utils` folder.
+This nginx-proxy uses [Docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) and is based on the [jwilder/nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy) Docker image.
 
 <br />
 
-# Step 1: Setup nginx proxy
-
-The nginx-proxy will automatically start when you start/restart your server.
-
-1. Copy `docker-compose.yml`, `proxy.conf`, `.env.example` and `.gitignore` to a destination of your liking on your linux server.
-2. Create a docker network for nginx-proxy that allows the proxy to recognize the deployed containers.
-
-   ```
-   docker network create nginx-proxy
-   ```
-
-3. Rename `.env.example` to `.env` and change the `LETSENCRYPT_EMAIL` value to your email. This mail will be used to send letsencrypt reminders for e.g. expiring certificates.
-4. Start the nginx-proxy with:
-
-   ```
-   docker-compose up -d
-   ```
+# [Documentation](https://nginxproxy.lars-rickert.de/)
 
 <br />
 
-# Step 2 (optional): Deploy your first application
+## Example use case
 
-Make sure to create an A Record in your domain DNS settings that points each domain you want to use with the nginx-proxy to the IP of your server.
+Imagine you just created a cool website or API that is now ready to be published to the world. While looking for a provider to deploy your application(s) you may find free providers like [Netlify](https://www.netlify.com/) or [Heroku](https://www.heroku.com/).
 
-You can find examples for different applications in the `examples` folder. <br /> <br />
-There are `TODO: CHANGE ME` comments above all lines
-of the example files that you need to change to make the example application your own.
-You don't have to care about the other settings to get the application working but you might want to take a look at them for custom behavior.
+While they are great to deploy static content (e.g. plain HTML, CSS and JavaScript files) for free you will quickly recognize that e.g. server side applications are harder to deploy, cannot be deployed at all or you are not satisfied with the application speed. So you will have to look out for another provider for some of your applications.
 
-Important for any `docker-compose.yml` / application that you want to deploy:
+On the other side there are paid Cloud providers like AWS, Google Cloud or Azure Cloud. But personally, we think they are not very beginner friendly (even for more experienced developers) and more expensive / overkill.
 
-- Make sure to add:
+The goal of nginx-proxy is to have **ONE** easy, fast and cheap deployment solution for **ANY** application. This is where nginx-proxy comes into play. It will give you a self-hosted (and therefore performant) deployment solution with full-control.
 
-  ```
-  networks:
-    default:
-      name: nginx-proxy
-      external: true
-  ```
-
-  Otherwise the nginx-proxy will not be able to recognize your application and it will not be reachable through your domain.
-
-- Always add
-
-  ```
-  VIRTUAL_HOST: blog.example.com
-  LETSENCRYPT_HOST: blog.example.com
-  ```
-
-  to the environment variables of the `docker-compose.yml` (changing "blog.example.com" to the domain that you want to deploy the application to). Otherwise the application will not be reachable under the domain.
-
-<br />
-
-# Further information
-
-- Read [nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy) for more information and configs.
-
-<br />
-
-# Known issues and fixes for nginx-proxy / applications
-
-1. WordPress: Uploading large files to media library leads to unknown server error (status code 413)
-
-   - Problem: Default max. request body size of nginx proxy is too low
-   - Fix:. Change client_max_body_size in `proxy.conf` to your desired size and update the upload_max_filesize in the `uploads.ini` of your wordpress site.
+Once set up you will be able to deploy any Docker application in just a few minutes (or less) with automatically managed SSL certificates.
