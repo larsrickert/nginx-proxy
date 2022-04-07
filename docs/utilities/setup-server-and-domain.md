@@ -1,6 +1,6 @@
 # Setup linux server and domain
 
-If you don't meet the prerequisites described on the [Getting Started]("guide/getting-started) page, you will find recommendations and instructions on how to order and setup a linux server and domain below.
+If you don't meet the prerequisites described on the [Getting Started](/guide/getting-started) page, you will find recommendations and instructions on how to order and setup a linux server and domain below.
 
 ## Setup your own linux server
 
