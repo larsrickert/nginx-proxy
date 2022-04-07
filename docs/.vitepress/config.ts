@@ -50,6 +50,10 @@ export default defineConfig({
 						text: 'Setup UFW firewall',
 						link: '/utilities/firewall',
 					},
+					{
+						text: 'Using SSH keys',
+						link: '/utilities/ssh-keys',
+					},
 				],
 			},
 		],
