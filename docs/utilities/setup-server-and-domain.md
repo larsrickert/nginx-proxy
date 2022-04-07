@@ -8,7 +8,7 @@ If you don't meet the prerequisites described on the [Getting Started](/guide/ge
 
 You need a linux server for running the nginx-proxy. For servers located in Germany we recommend a Virtual Private Server (VPS) by netcup but you can use any linux server. They offer linux servers with following features:
 
-- Starting from 2,99 € for 2 Cores, 2GB RAM and 40GB SSD
+- Starting from 2,99€ per month for 2 Cores, 2GB RAM and 40GB SSD
 - RAID10
 - DDoS Protection
 - Hourly billing
