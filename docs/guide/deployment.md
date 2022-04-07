@@ -2,6 +2,8 @@
 
 ::: warning Disclaimer
 For the following instructions we assume that you are using docker-compose for your applications.
+
+Although you can place your applications in any folder on your linux server, we recommend creating an `applications` folder inside your `nginx-proxy` folder to group your applications.
 :::
 
 ::: info Deployment
