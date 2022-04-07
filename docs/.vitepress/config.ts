@@ -10,6 +10,7 @@ export default defineConfig({
 		repo: 'larsrickert/nginx-proxy',
 		logo: 'https://avatars.githubusercontent.com/u/67898185?v=4',
 		docsBranch: 'docs',
+		docsDir: 'docs',
 		editLinks: true,
 		editLinkText: 'Edit this page on GitHub',
 		lastUpdated: 'Last Updated',
