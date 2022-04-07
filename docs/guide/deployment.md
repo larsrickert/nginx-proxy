@@ -68,6 +68,10 @@ services:
       LETSENCRYPT_HOST: blog.example.com
 ```
 
+::: info SSL certificates
+After you started your application for the first time with a new domain you might get a `NET::ERR_CERT_COMMON_NAME_INVALID` error in your browser when you try to directly open the domain in your browser. The reason for this is that the SSL certificate for the domain takes a few seconds to be requested from Let's Encrypt. Just reload your browser after a few seconds.
+:::
+
 ## Ports
 
 Lastly it's important that you don't bind the service port (e.g. 80 or 443) to your linux server because they are used / blocked by the nginx-proxy itself.
