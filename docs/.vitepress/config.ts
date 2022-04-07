@@ -1,19 +1,21 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-	lang: 'en',
+	lang: 'en-US',
 	title: 'nginx-proxy',
 	description:
 		'Easily deploy anything that can be run in docker and connect it to a domain on your linux server.',
 	lastUpdated: true,
+
 	themeConfig: {
 		repo: 'larsrickert/nginx-proxy',
-		logo: 'https://avatars.githubusercontent.com/u/67898185?v=4',
-		docsBranch: 'docs',
 		docsDir: 'docs',
+		docsBranch: 'docs',
 		editLinks: true,
 		editLinkText: 'Edit this page on GitHub',
 		lastUpdated: 'Last Updated',
+		logo: 'https://avatars.githubusercontent.com/u/67898185?v=4',
+
 		// nav: [{ text: 'Test', link: '/test' }],
 		sidebar: [
 			{
@@ -21,15 +23,15 @@ export default defineConfig({
 				children: [
 					{
 						text: 'What is nginx-proxy?',
-						link: 'index',
+						link: '/',
 					},
 					{
 						text: 'Getting Started',
-						link: 'guide/getting-started',
+						link: '/guide/getting-started',
 					},
 					{
 						text: 'Deploy applications',
-						link: 'guide/deployment',
+						link: '/guide/deployment',
 					},
 				],
 			},
@@ -42,7 +44,7 @@ export default defineConfig({
 				children: [
 					{
 						text: 'Setup linux server and domain',
-						link: 'utilities/setup-server-and-domain',
+						link: '/utilities/setup-server-and-domain',
 					},
 				],
 			},
