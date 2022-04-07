@@ -36,7 +36,7 @@ export default defineConfig({
 				],
 			},
 			{
-				text: 'Examples',
+				text: 'Example applications',
 				children: [],
 			},
 			{
