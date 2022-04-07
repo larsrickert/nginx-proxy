@@ -107,7 +107,7 @@ services:
 
 ## Deploy multiple applications with a single `docker-compose.yml`
 
-You can even deploy multiple applications with one single `docker-compose.yml`. Just add the `nginx-proxy` as described above, set the `VIRTUAL_HOST` and `LETSENCRYPT_HOST` environment variables and expose the application port on every service that you want to deploy.
+You can even deploy multiple applications with one single `docker-compose.yml`. Just add the `nginx-proxy` network as described above, set the `VIRTUAL_HOST` and `LETSENCRYPT_HOST` environment variables and expose the application port on every service that you want to deploy.
 
 ```yml
 version: '3'
