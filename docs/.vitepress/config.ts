@@ -16,7 +16,6 @@ export default defineConfig({
 		lastUpdated: 'Last Updated',
 		logo: 'https://avatars.githubusercontent.com/u/67898185?v=4',
 
-		// nav: [{ text: 'Test', link: '/test' }],
 		sidebar: [
 			{
 				text: 'Introduction',
@@ -35,10 +34,10 @@ export default defineConfig({
 					},
 				],
 			},
-			{
-				text: 'Example applications',
-				children: [],
-			},
+			// {
+			// 	text: 'Example applications',
+			// 	children: [],
+			// },
 			{
 				text: 'Utilities',
 				children: [
