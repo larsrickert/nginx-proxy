@@ -46,6 +46,10 @@ export default defineConfig({
 						text: 'Setup linux server and domain',
 						link: '/utilities/setup-server-and-domain',
 					},
+					{
+						text: 'Setup UFW firewall',
+						link: '/utilities/firewall',
+					},
 				],
 			},
 		],
