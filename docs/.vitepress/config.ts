@@ -15,6 +15,11 @@ export default defineConfig({
 		editLinkText: 'Edit this page on GitHub',
 		lastUpdated: 'Last Updated',
 		logo: 'https://avatars.githubusercontent.com/u/67898185?v=4',
+		algolia: {
+			appId: '5M2ESV3G5L',
+			apiKey: '4a956d78850feecd952338c6bf8f14dc',
+			indexName: 'nginx-proxy',
+		},
 
 		sidebar: [
 			{
