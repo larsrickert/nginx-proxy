@@ -6,8 +6,6 @@ on:
       - next
       - beta
       - alpha
-      # remove cli after PR is merged
-      - cli
     paths:
       - "cli/*"
   workflow_dispatch:

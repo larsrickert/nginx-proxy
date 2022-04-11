@@ -50,10 +50,6 @@
       {
         "name": "alpha",
         "prerelease": true
-      },
-      {
-        "name": "cli",
-        "prerelease": true
       }
     ],
     "plugins": [
