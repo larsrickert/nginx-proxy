@@ -18,6 +18,14 @@ program
 		'Root directory where the applications should be deployed',
 		`${process.cwd()}/applications`
 	)
+	.option(
+		'-f, --folder <folder>',
+		'Folder name inside the applications directory that the repo is cloned to. If not provided, repository name will be used'
+	)
+	.option(
+		'-r, --root <root>',
+		'Root directory in the git repository where the docker-compose.yml is located that should be deployed. If not provided, repository root (.) will be used'
+	)
 	.action(async (url: string, options: OptionValues) => {
 		if (!shell.which('git') || !shell.which('docker-compose')) {
 			program.error('Sorry, this action requires git and docker-compose');
@@ -25,6 +33,16 @@ program
 
 		const branch = (options.branch as string).trim();
 		let applicationsDir = options.dir as string;
+		const folderName = options.folder as string | undefined;
+		const root = options.root as string | undefined;
+
+		if (folderName && (folderName.startsWith('.') || folderName.includes('/'))) {
+			return program.error(`Folder name "${folderName}" is invalid`);
+		}
+
+		if (root && root.startsWith('..')) {
+			return program.error(`Root parameter must not start with ".."`);
+		}
 
 		if (options.dir === '.') {
 			return program.error('Applications directory must not be "."');
@@ -41,7 +59,7 @@ program
 		shell.echo(`Deploying git repository "${url}" with branch "${branch}"...\n`);
 
 		try {
-			const repoPath = await cloneOrPullRepo(url, applicationsDir);
+			const repoPath = await cloneOrPullRepo(url, applicationsDir, folderName);
 			shell.cd(repoPath);
 
 			shell.echo(`Checking out branch ${branch}...`);
@@ -50,7 +68,7 @@ program
 			}
 
 			shell.echo(`Rebuilding docker-compose.yml...`);
-			if (shell.exec(` docker-compose up -d --build`).code !== 0) {
+			if (shell.exec(`${root ? `cd ${root} &&` : ''} docker-compose up -d --build`).code !== 0) {
 				program.error(`Error: docker-compose rebuild failed`);
 			}
 
