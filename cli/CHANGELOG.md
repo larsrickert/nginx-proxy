@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.0-beta.3](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.2...nginx-proxy-cli-v1.0.0-beta.3) (2022-04-12)
+
+
+### Bug Fixes
+
+* not waiting for shell scripts to finish ([8920b9e](https://github.com/larsrickert/nginx-proxy/commit/8920b9ed19e5399db343e719493370774936d70c))
+
 # [nginx-proxy-cli-v1.0.0-beta.2](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.1...nginx-proxy-cli-v1.0.0-beta.2) (2022-04-12)
 
 
