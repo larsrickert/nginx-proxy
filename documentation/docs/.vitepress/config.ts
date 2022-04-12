@@ -6,6 +6,7 @@ export default defineConfig({
 	description:
 		'Combination of Open Source tools that enable you to easily deploy any (web) application that runs with Docker on your own linux server.',
 	lastUpdated: true,
+
 	themeConfig: {
 		repo: 'larsrickert/nginx-proxy',
 		docsDir: 'documentation/docs',
