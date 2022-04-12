@@ -1,6 +1,8 @@
 import { mkdir } from 'fs/promises';
 import { basename, join } from 'path';
-import { exec, exists } from './fs';
+import shell from 'shelljs';
+import { program } from '..';
+import { exists } from './fs';
 
 export async function cloneOrPullRepo(url: string, path: string): Promise<string> {
 	const repoName = basename(url);
@@ -9,17 +11,21 @@ export async function cloneOrPullRepo(url: string, path: string): Promise<string
 	await mkdir(path, { recursive: true });
 
 	if (!(await exists(repoPath))) {
-		console.log(`Repository "${repoName}" is deployed for the first time. Cloning repository.`);
-		await exec(`cd ${path} && git clone ${url}`);
+		shell.echo(`Repository "${repoName}" is deployed for the first time. Cloning repository.`);
+		if (shell.exec(`cd ${path} && git clone ${url}`).code !== 0) {
+			program.error(`Error: Git clone repository failed`);
+		}
 	} else {
-		const { stdout: gitUrl } = await exec(`cd ${repoPath} && git config --get remote.origin.url`);
+		const { stdout: gitUrl } = shell.exec(`cd ${repoPath} && git config --get remote.origin.url`);
 
 		if (gitUrl.replace('\n', '') !== url) {
-			throw new Error(`A different repository with name "${repoName}" does already exist`);
+			program.error(`A different repository with name "${repoName}" does already exist`);
 		}
 
-		console.log('Pulling latest git changes.');
-		await exec(`cd ${repoPath} && git pull`, true);
+		shell.echo('Pulling latest git changes.');
+		if (shell.exec(`cd ${repoPath} && git pull`).code !== 0) {
+			program.error(`Error: Cannot pull latest git changes`);
+		}
 	}
 
 	return repoPath;

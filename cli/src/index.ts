@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 import { Command, OptionValues } from 'commander';
-import { exec } from './utils/fs';
+import shell from 'shelljs';
 import { cloneOrPullRepo } from './utils/git';
+const { version } = require('../package.json');
 
-const program = new Command('deploy');
+export const program = new Command();
+program.version(version, '-v, --version');
 
 program
 	.command('deploy')
@@ -17,6 +19,10 @@ program
 		`${process.cwd()}/applications`
 	)
 	.action(async (url: string, options: OptionValues) => {
+		if (!shell.which('git') || !shell.which('docker-compose')) {
+			program.error('Sorry, this action requires git and docker-compose');
+		}
+
 		const branch = (options.branch as string).trim();
 		let applicationsDir = options.dir as string;
 
@@ -32,18 +38,23 @@ program
 			return program.error('URL must start with https://');
 		}
 
-		console.log(`Deploying git repository "${url}" with branch "${branch}"...\n`);
+		shell.echo(`Deploying git repository "${url}" with branch "${branch}"...\n`);
 
 		try {
 			const repoPath = await cloneOrPullRepo(url, applicationsDir);
+			shell.cd(repoPath);
 
-			console.log(`Check out branch "${branch}".`);
-			await exec(`cd ${repoPath} && git checkout ${branch}`);
+			shell.echo(`Checking out branch ${branch}...`);
+			if (shell.exec(`git checkout ${branch}`).code !== 0) {
+				program.error(`Error: Git checking out branch ${branch} failed`);
+			}
 
-			console.log(`Rebuild docker-compose.yml.`);
-			await exec(`cd ${repoPath} && docker-compose up -d --build`, true);
+			shell.echo(`Rebuilding docker-compose.yml...`);
+			if (shell.exec(` docker-compose up -d --build`).code !== 0) {
+				program.error(`Error: docker-compose rebuild failed`);
+			}
 
-			console.log(`\n Successfully deployed application "${url}"`);
+			shell.echo(`\n Successfully deployed application "${url}"`);
 		} catch (e) {
 			let message = (e as Error).message.replace(applicationsDir, '***');
 			program.error(message);
