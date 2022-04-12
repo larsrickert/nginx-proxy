@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.0-beta.4](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.3...nginx-proxy-cli-v1.0.0-beta.4) (2022-04-12)
+
+
+### Features
+
+* add `--folder` and `--root` option ([14b5746](https://github.com/larsrickert/nginx-proxy/commit/14b57467b4571bf442ea1bbb7d300dab404322e1))
+
 # [nginx-proxy-cli-v1.0.0-beta.3](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.2...nginx-proxy-cli-v1.0.0-beta.3) (2022-04-12)
 
 
