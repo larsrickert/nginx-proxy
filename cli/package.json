@@ -15,6 +15,7 @@
 	"homepage": "https://nginxproxy.lars-rickert.de",
 	"files": [
 		"bin",
+		"public",
 		"package.json",
 		"CHANGELOG.md",
 		"README.md"
