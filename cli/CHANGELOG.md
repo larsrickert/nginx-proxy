@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.0-beta.5](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.4...nginx-proxy-cli-v1.0.0-beta.5) (2022-04-12)
+
+
+### Features
+
+* add `setup` command ([a900b1f](https://github.com/larsrickert/nginx-proxy/commit/a900b1f10839396199f445f6649adf7ebfa66929))
+
 # [nginx-proxy-cli-v1.0.0-beta.4](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.3...nginx-proxy-cli-v1.0.0-beta.4) (2022-04-12)
 
 
