@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-      # TODO: remove beta when merged into main
-      - beta
     paths:
       - 'documentation/**'
   workflow_dispatch:
