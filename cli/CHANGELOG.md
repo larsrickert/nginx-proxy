@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.0-beta.6](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.5...nginx-proxy-cli-v1.0.0-beta.6) (2022-04-12)
+
+
+### Bug Fixes
+
+* add `public` dir to published npm files ([dbae546](https://github.com/larsrickert/nginx-proxy/commit/dbae546cabae9c89686282d6012be9efe0077cf2))
+
 # [nginx-proxy-cli-v1.0.0-beta.5](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.4...nginx-proxy-cli-v1.0.0-beta.5) (2022-04-12)
 
 
