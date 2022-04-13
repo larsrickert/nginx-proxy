@@ -1,3 +1,15 @@
+# [nginx-proxy-cli-v1.0.0-beta.7](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.6...nginx-proxy-cli-v1.0.0-beta.7) (2022-04-13)
+
+
+### Code Refactoring
+
+* remove `setup` command ([77f1dbc](https://github.com/larsrickert/nginx-proxy/commit/77f1dbc5a220d0c45a57e6ebfd6de4770e7cef30))
+
+
+### BREAKING CHANGES
+
+* remove `setup` command
+
 # [nginx-proxy-cli-v1.0.0-beta.6](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.5...nginx-proxy-cli-v1.0.0-beta.6) (2022-04-12)
 
 
