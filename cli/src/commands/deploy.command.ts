@@ -58,7 +58,11 @@ export const deployCommand = new Command('deploy')
 			}
 
 			shell.echo(`Rebuilding docker-compose.yml...`);
-			if (shell.exec(`${root ? `cd ${root} &&` : ''} docker-compose up -d --build`).code !== 0) {
+			if (
+				shell.exec(
+					`${root ? `cd ${root} &&` : ''} docker-compose -f ./docker-compose.yml up -d --build`
+				).code !== 0
+			) {
 				cli.error(`Error: docker-compose rebuild failed`);
 			}
 
