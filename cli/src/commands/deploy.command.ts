@@ -10,7 +10,7 @@ export const deployCommand = new Command('deploy')
 	.option(
 		'-d, --dir <dir>',
 		'Root directory where the applications should be deployed',
-		`${process.cwd()}/applications`
+		'./applications'
 	)
 	.option(
 		'-f, --folder <folder>',
@@ -25,7 +25,7 @@ export const deployCommand = new Command('deploy')
 			cli.error('Sorry, this action requires git and docker-compose');
 		}
 
-		const branch = (options.branch as string).trim();
+		const branch = options.branch as string;
 		let applicationsDir = options.dir as string;
 		const folderName = options.folder as string | undefined;
 		const root = options.root as string | undefined;
@@ -34,12 +34,8 @@ export const deployCommand = new Command('deploy')
 			return cli.error(`Folder name "${folderName}" is invalid`);
 		}
 
-		if (root && root.startsWith('..')) {
+		if (root && (root.startsWith('..') || root.startsWith('/'))) {
 			return cli.error(`Root parameter must not start with ".."`);
-		}
-
-		if (options.dir === '.') {
-			return cli.error('Applications directory must not be "."');
 		}
 
 		if (!branch) {
