@@ -24,5 +24,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           envs: GITHUB_SERVER_URL,GITHUB_REPOSITORY,GITHUB_REF_NAME
-          # TODO: remove @beta after PR is merged and nginx-proxy-cli has been released
-          script: npx nginx-proxy-cli@beta deploy $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --dir=~/nginx-proxy/applications --branch=$GITHUB_REF_NAME --folder=nginxproxy.lars-rickert.de --root=documentation
+          script: npx nginx-proxy-cli deploy $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --dir=~/nginx-proxy/applications --branch=$GITHUB_REF_NAME --folder=nginxproxy.lars-rickert.de --root=documentation

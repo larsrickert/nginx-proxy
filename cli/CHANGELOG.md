@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.1](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0...nginx-proxy-cli-v1.0.1) (2022-04-14)
+
+
+### Bug Fixes
+
+* existance check not working properly ([5b6a111](https://github.com/larsrickert/nginx-proxy/commit/5b6a1114d1706df644bc3b6d0d1b3bedf9efaf9a))
+
 # nginx-proxy-cli-v1.0.0 (2022-04-14)
 
 
