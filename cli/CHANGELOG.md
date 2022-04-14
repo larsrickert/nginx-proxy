@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.2](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.1...nginx-proxy-cli-v1.0.2) (2022-04-14)
+
+
+### Bug Fixes
+
+* starting parent folder docker-compose.yml when no yml ([57445ef](https://github.com/larsrickert/nginx-proxy/commit/57445ef4fdea7d4b07eee8bda18aa0c264c8c6f4))
+
 # [nginx-proxy-cli-v1.0.1](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0...nginx-proxy-cli-v1.0.1) (2022-04-14)
 
 
