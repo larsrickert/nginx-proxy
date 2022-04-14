@@ -40,6 +40,23 @@ export default defineConfig({
 				],
 			},
 			{
+				text: 'CLI',
+				children: [
+					{
+						text: 'Usage',
+						link: '/cli/usage',
+					},
+					{
+						text: 'Commands',
+						link: '/cli/commands',
+					},
+					{
+						text: 'GitHub Actions',
+						link: '/cli/github-actions',
+					},
+				],
+			},
+			{
 				text: 'Utilities',
 				children: [
 					{
