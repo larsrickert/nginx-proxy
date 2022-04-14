@@ -1,14 +1,8 @@
-# nginx-proxy
+# What is nginx-proxy?
 
 nginx-proxy is a combination of Open Source tools that enable you to easily deploy any (web) application that runs with Docker on your own linux server. Technically it is an automated nginx reverse proxy. The nginx-proxy will automatically detect your docker applications, will make them available under your specified domain such as `blog.example.com` and automatically requests and manages / renews Let’s Encrypt SSL certificates.
 
 This nginx-proxy uses [Docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) and is based on the [jwilder/nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy) Docker image.
-
-<br />
-
-# [Documentation](https://nginxproxy.lars-rickert.de/)
-
-<br />
 
 ## Example use case
 

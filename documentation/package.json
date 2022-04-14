@@ -1,0 +1,19 @@
+{
+	"name": "nginx-proxy-docs",
+	"version": "1.0.0",
+	"description": "Documentation for nginx-proxy (https://nginxproxy.lars-rickert.de).",
+	"author": "larsrickert",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/larsrickert/nginx-proxy.git"
+	},
+	"homepage": "https://nginxproxy.lars-rickert.de",
+	"scripts": {
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:serve": "vitepress serve docs"
+	},
+	"devDependencies": {
+		"vitepress": "^0.22.3"
+	}
+}
