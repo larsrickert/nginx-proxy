@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.0-beta.8](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.7...nginx-proxy-cli-v1.0.0-beta.8) (2022-04-14)
+
+
+### Bug Fixes
+
+* node fs not correctly handling linux paths ([d546a9d](https://github.com/larsrickert/nginx-proxy/commit/d546a9dad8331213619a079746873867548631d5))
+
 # [nginx-proxy-cli-v1.0.0-beta.7](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.6...nginx-proxy-cli-v1.0.0-beta.7) (2022-04-13)
 
 
