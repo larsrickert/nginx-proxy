@@ -1,3 +1,10 @@
+# nginx-proxy-cli-v1.0.0 (2022-04-14)
+
+
+### Features
+
+* add CLI and monorepo ([#10](https://github.com/larsrickert/nginx-proxy/issues/10)) ([9ea3f75](https://github.com/larsrickert/nginx-proxy/commit/9ea3f75533b8e227be9b4ba323e4862e4c8757df))
+
 # [nginx-proxy-cli-v1.0.0-beta.9](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.8...nginx-proxy-cli-v1.0.0-beta.9) (2022-04-14)
 
 

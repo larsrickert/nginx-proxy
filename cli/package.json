@@ -1,6 +1,6 @@
 {
 	"name": "nginx-proxy-cli",
-	"version": "1.0.0-beta.9",
+	"version": "1.0.0",
 	"description": "CLI for deploying docker-compose applications using the nginx-proxy (https://nginxproxy.lars-rickert.de).",
 	"main": "bin/index.js",
 	"author": "larsrickert",
