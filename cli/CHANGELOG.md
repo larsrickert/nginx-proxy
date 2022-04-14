@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.0-beta.9](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.8...nginx-proxy-cli-v1.0.0-beta.9) (2022-04-14)
+
+
+### Bug Fixes
+
+* existing remote git url not recognized correctly ([a4be25a](https://github.com/larsrickert/nginx-proxy/commit/a4be25a3577e166a365d3647936833ab32da9c7b))
+
 # [nginx-proxy-cli-v1.0.0-beta.8](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.0-beta.7...nginx-proxy-cli-v1.0.0-beta.8) (2022-04-14)
 
 
