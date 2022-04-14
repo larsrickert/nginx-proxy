@@ -1,9 +1,1 @@
 .DS_STORE
-
-#
-# Exclude common files and directories for examples/applications running in a subfolder of this nginx-proxy:
-#
-.env
-db
-data
-wp-content
