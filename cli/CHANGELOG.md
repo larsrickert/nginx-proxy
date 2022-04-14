@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.3](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.2...nginx-proxy-cli-v1.0.3) (2022-04-14)
+
+
+### Bug Fixes
+
+* folder existance check not working properly ([ab94807](https://github.com/larsrickert/nginx-proxy/commit/ab948077df85f8e75b0c7f405256e078f0ddb8e6))
+
 # [nginx-proxy-cli-v1.0.2](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.1...nginx-proxy-cli-v1.0.2) (2022-04-14)
 
 
