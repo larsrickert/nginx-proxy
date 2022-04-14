@@ -1,8 +1,7 @@
-import { mkdir } from 'fs/promises';
 import { basename, join } from 'path';
 import shell from 'shelljs';
 import { cli } from '..';
-import { exists } from './fs';
+import { exists } from './shell';
 
 export async function cloneOrPullRepo(
 	url: string,
@@ -12,7 +11,9 @@ export async function cloneOrPullRepo(
 	folderName ||= basename(url);
 	const repoPath = join(path, folderName);
 
-	await mkdir(path, { recursive: true });
+	if (shell.exec(`mkdir -p ${path}`).code !== 0) {
+		cli.error(`Error: Unable to create applications root folder`);
+	}
 
 	if (!(await exists(repoPath))) {
 		shell.echo(`Application "${folderName}" is deployed for the first time. Cloning repository.`);
