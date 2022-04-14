@@ -15,7 +15,7 @@ export async function cloneOrPullRepo(
 		cli.error(`Error: Unable to create applications root folder`);
 	}
 
-	if (!(await exists(repoPath))) {
+	if (!exists(repoPath)) {
 		shell.echo(`Application "${folderName}" is deployed for the first time. Cloning repository.`);
 		if (shell.exec(`cd ${path} && git clone ${url} ${folderName}`).code !== 0) {
 			cli.error(`Error: Git clone repository failed`);
@@ -23,7 +23,7 @@ export async function cloneOrPullRepo(
 	} else {
 		const { stdout: gitUrl } = shell.exec(`cd ${repoPath} && git config --get remote.origin.url`);
 
-		if (gitUrl.replace('\n', '') !== url) {
+		if (!gitUrl.includes(url)) {
 			cli.error(`A different application with name "${folderName}" does already exist`);
 		}
 
