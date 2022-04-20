@@ -159,6 +159,20 @@ logs
 *.sw?
 ```
 
+- **Step 7:** Start the nginx-proxy
+
+```bash
+docker-compose up -d
+```
+
+- **Step 8 (optional):** Verify that the nginx-proxy is running successfully
+
+When running the below command you should see the `nginx-proxy` and `nginx-proxy-le` container running.
+
+```bash
+docker-compose ps
+```
+
 ## DNS records
 
 Your self-hosted nginx-proxy is now up and running. But in order to reach it through your own domain (e.g. `example.com`) you need to set your domain's DNS records accordingly.
