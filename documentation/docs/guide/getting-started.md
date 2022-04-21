@@ -50,8 +50,6 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      # custom additional nginx config
-      - ./proxy.conf:/etc/nginx/conf.d/proxy.conf
 
   nginx-proxy-le:
     image: nginxproxy/acme-companion
@@ -121,6 +119,16 @@ client_max_body_size 64m;
 ```
 
 This config file is for advanced developers and should generally not need to be edited. You can find an example configuration in the official [nginx documentation](https://www.nginx.com/resources/wiki/start/topics/examples/full/#proxy-conf).
+
+Then add the following volume to the nginx-proxy service in the `docker-compose.yml`:
+
+```yml
+nginx-proxy:
+  # ...
+  volumes:
+    # ...
+    - ./proxy.conf:/etc/nginx/conf.d/proxy.conf
+```
 
 - **Step 6 (optional):** Create a `.gitignore` file for excluding common files
 
