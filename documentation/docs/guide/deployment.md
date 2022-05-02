@@ -123,7 +123,7 @@ services:
     # ...
     environment:
       VIRTUAL_HOST: blog2.example.com
-      LETSENCRYPT_HOST: blog2.example.com#
+      LETSENCRYPT_HOST: blog2.example.com
 
 networks:
   default:
