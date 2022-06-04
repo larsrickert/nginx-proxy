@@ -1,15 +1,12 @@
-version: '3'
+version: "3"
 
 services:
   docs:
     build: .
     image: larsrickert/nginx-proxy-docs
     restart: always
+    ports:
+      - "80:80"
     environment:
-      VIRTUAL_HOST: '${DOMAIN}'
-      LETSENCRYPT_HOST: '${DOMAIN}'
-
-networks:
-  default:
-    name: nginx-proxy
-    external: true
+      VIRTUAL_HOST: "${DOMAIN}"
+      LETSENCRYPT_HOST: "${DOMAIN}"

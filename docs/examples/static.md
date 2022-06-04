@@ -121,12 +121,6 @@ Inside `./html` folder, create `index.html` file with the following content:
 </html>
 ```
 
-## Example maintenance page
-
-[Here](../assets/example-static-maintenance-page.zip) you can download a simple example website for a cool looking maintenance page. Copy the downloaded files to the directory that you mounted in step 1.
-
-![Example maintenance page](../assets/example-static-maintenance.png)
-
 ## Vue/React/Angular app
 
 You can just copy your static build files of your Vue/React/Angular app the the directory mounted in step 1. But we recommend to build your own standalone docker image using a Dockerfile:
