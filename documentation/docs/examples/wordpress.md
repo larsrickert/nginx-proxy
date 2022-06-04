@@ -61,7 +61,7 @@ DOMAIN=blog.example.de
 
 - **Step 3:** Create a `uploads.ini` file to increase file upload size.
 
-The default upload size is very small (around 2 MB) so we want to increase it to allow bigger file/image uploads. Make sure that "client_max_body_size" in "proxy.conf" file of nginx-proxy is high enough for the below size. See [Step 5 of the nginx-proxy installation guide](/getting-started.html#installation) for the `proxy.conf`.
+The default upload size is very small (around 2 MB) so we want to increase it to allow bigger file/image uploads. Make sure that "client_max_body_size" in "proxy.conf" file of nginx-proxy is high enough for the below size. See [Step 5 of the nginx-proxy installation guide](/guide/getting-started#installation) for the `proxy.conf`.
 
 ```apache
 # Change max upload size
