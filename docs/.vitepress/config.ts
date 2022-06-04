@@ -21,7 +21,7 @@ export default defineConfig({
     editLink: {
       repo: "larsrickert/nginx-proxy",
     },
-    logo: "../assets/logo.png",
+    logo: "/logo.png",
     algolia: {
       appId: "5M2ESV3G5L",
       apiKey: "4a956d78850feecd952338c6bf8f14dc",
