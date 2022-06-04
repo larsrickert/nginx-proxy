@@ -22,7 +22,7 @@ export default defineConfig({
       repo: "larsrickert/nginx-proxy",
       dir: "documentation/docs",
     },
-    logo: "https://avatars.githubusercontent.com/u/67898185?v=4",
+    logo: "../assets/logo.png",
     algolia: {
       appId: "5M2ESV3G5L",
       apiKey: "4a956d78850feecd952338c6bf8f14dc",
