@@ -45,6 +45,10 @@ export default defineConfig({
             text: "Deploy applications",
             link: "/guide/deployment",
           },
+          {
+            text: "Basic authentication",
+            link: "/guide/basic-authentication",
+          },
         ],
       },
       {
@@ -84,6 +88,10 @@ export default defineConfig({
           {
             text: "Static site",
             link: "/examples/static",
+          },
+          {
+            text: "Server monitoring",
+            link: "/examples/monitoring",
           },
         ],
       },
