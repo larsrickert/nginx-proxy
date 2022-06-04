@@ -1,13 +1,9 @@
 name: Semantic release (CLI)
 on:
   push:
-    branches:
-      - main
-      - next
-      - beta
-      - alpha
+    branches: [main, next, beta, alpha]
     paths:
-      - 'cli/**'
+      - "cli/**"
   workflow_dispatch:
 
 jobs:
@@ -25,8 +21,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
-          cache: 'npm'
+          node-version: "16"
+          cache: "npm"
           cache-dependency-path: cli/package-lock.json
       - name: Install node modules
         run: npm ci
