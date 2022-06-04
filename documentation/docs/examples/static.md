@@ -133,7 +133,7 @@ You can just copy your static build files of your Vue/React/Angular app the the 
 
 - **Step 1:** Create a `Dockerfile` file.
 
-```dockerfile
+```docker
 # build stage
 FROM node:17-alpine as build
 WORKDIR /app
