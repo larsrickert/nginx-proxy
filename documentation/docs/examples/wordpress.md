@@ -8,7 +8,7 @@ In general you don't have to change anything in the below example to make it wor
 
 - **Step 1:** Create a `docker-compose.yml` file.
 
-```yml
+```yaml
 version: "3"
 
 services:

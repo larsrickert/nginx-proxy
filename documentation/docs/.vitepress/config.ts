@@ -67,6 +67,14 @@ export default defineConfig({
             text: "Mailserver",
             link: "/examples/mailserver",
           },
+          {
+            text: "Redirect",
+            link: "/examples/redirect",
+          },
+          {
+            text: "Static site",
+            link: "/examples/static",
+          },
         ],
       },
       {

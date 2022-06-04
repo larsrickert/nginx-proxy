@@ -18,7 +18,7 @@ You must add the following secrets to your GitHub repository:
 - `SSH_PASSWORD`: linux password
   :::
 
-```yml
+```yaml
 name: Deploy
 on:
   push:

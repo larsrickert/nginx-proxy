@@ -34,8 +34,8 @@ touch docker-compose.yml
 
 and add the following content:
 
-```yml
-version: '3'
+```yaml
+version: "3"
 
 services:
   nginx-proxy:
@@ -43,8 +43,8 @@ services:
     container_name: nginx-proxy
     restart: always
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     volumes:
       - certs:/etc/nginx/certs
       - vhost:/etc/nginx/vhost.d
@@ -56,7 +56,7 @@ services:
     container_name: nginx-proxy-le
     restart: always
     environment:
-      DEFAULT_EMAIL: '${LETSENCRYPT_EMAIL}'
+      DEFAULT_EMAIL: "${LETSENCRYPT_EMAIL}"
       NGINX_PROXY_CONTAINER: nginx-proxy
     volumes:
       - certs:/etc/nginx/certs
@@ -122,7 +122,7 @@ This config file is for advanced developers and should generally not need to be 
 
 Then add the following volume to the nginx-proxy service in the `docker-compose.yml`:
 
-```yml
+```yaml
 nginx-proxy:
   # ...
   volumes:

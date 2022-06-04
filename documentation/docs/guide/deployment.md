@@ -20,8 +20,8 @@ There are two ways to achieve this:
 
 1. Set the `nginx-proxy` network as default network for all services in your `docker-compose.yml`. This approach is the easier once since you don't need to add the `nginx-proxy` and `default` network to every service that you want to deploy with the nginx-proxy
 
-```yml
-version: '3'
+```yaml
+version: "3"
 
 services:
   # ...
@@ -34,8 +34,8 @@ networks:
 
 2. Only set the network to the service that is should be exposed over the internet. The rest of the services belong to the internal network of your `docker-compose.yml`
 
-```yml
-version: '3'
+```yaml
+version: "3"
 
 services:
   my-app:
@@ -57,8 +57,8 @@ Now you need to define which service should be deployed with which domain. Add t
 - `VIRTUAL_HOST`: Domain under that your application should be reachable
 - `LETSENCRYPT_HOST`: Domain that a SSL certificate should be requested for
 
-```yml
-version: '3'
+```yaml
+version: "3"
 
 services:
   my-app:
@@ -79,8 +79,8 @@ Instead, you need to expose the application port in either your `Dockerfile` or 
 
 If you use an official Docker image it most likely already exposes a port so you don't need to expose it again. If your application doesn't expose a port you can do so with:
 
-```yml
-version: '3'
+```yaml
+version: "3"
 
 services:
   my-app:
@@ -95,8 +95,8 @@ Port `80` is just an example here. If you e.g. have an API that runs on port `30
 
 If your application only exposes one port the nginx-proxy will automatically use this port. However, if you expose multiple ports you need to explicitly define which port you want to bind to the domain. Therefore you need to define the `VIRTUAL_PORT` environment variable:
 
-```yml
-version: '3'
+```yaml
+version: "3"
 
 services:
   my-app:
@@ -109,8 +109,8 @@ services:
 
 You can even deploy multiple applications with one single `docker-compose.yml`. Just add the `nginx-proxy` network as described above, set the `VIRTUAL_HOST` and `LETSENCRYPT_HOST` environment variables and expose the application port on every service that you want to deploy.
 
-```yml
-version: '3'
+```yaml
+version: "3"
 
 services:
   my-app:

@@ -12,7 +12,7 @@ In general you don't have to change anything in the below example to make it wor
 
 All data that needs to be persisted will be mount to the `./mailu` folder. So if you need to back up the mailserver, you can simply backup this folder.
 
-```yml
+```yaml
 version: "3"
 
 services:
@@ -416,7 +416,7 @@ Since we are using the nginx-proxy that manages the SSL certificates the mailser
 
 Therefore, we need to change the `docker-compose.yml` of the [nginx-proxy](/guide/getting-started).
 
-```yml
+```yaml
 version: "3"
 
 services:
