@@ -4,7 +4,7 @@ export default defineConfig({
   lang: "en-US",
   title: "nginx-proxy",
   description:
-    "Combination of Open Source tools that enable you to easily deploy any (web) application that runs with Docker on your own linux server.",
+    "Combination of Open Source tools that enable you to easily deploy any application that runs with Docker on your own linux server.",
   lastUpdated: true,
 
   themeConfig: {
@@ -20,7 +20,6 @@ export default defineConfig({
     ],
     editLink: {
       repo: "larsrickert/nginx-proxy",
-      dir: "documentation/docs",
     },
     logo: "../assets/logo.png",
     algolia: {
