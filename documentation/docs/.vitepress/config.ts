@@ -32,7 +32,6 @@ export default defineConfig({
     sidebar: [
       {
         text: "Introduction",
-        collapsible: true,
         items: [
           {
             text: "What is nginx-proxy?",
