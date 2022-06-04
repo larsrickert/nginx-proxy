@@ -8,12 +8,20 @@ export default defineConfig({
   lastUpdated: true,
 
   themeConfig: {
-    repo: "larsrickert/nginx-proxy",
-    docsDir: "documentation/docs",
-    docsBranch: "main",
-    editLinks: true,
-    editLinkText: "Edit this page on GitHub",
-    lastUpdated: "Last Updated",
+    socialLinks: [
+      {
+        icon: "github",
+        link: "https://github.com/larsrickert/nginx-proxy",
+      },
+      {
+        icon: "discord",
+        link: "https://discord.com/users/251414332955557889",
+      },
+    ],
+    editLink: {
+      repo: "larsrickert/nginx-proxy",
+      dir: "documentation/docs",
+    },
     logo: "https://avatars.githubusercontent.com/u/67898185?v=4",
     algolia: {
       appId: "5M2ESV3G5L",
@@ -24,7 +32,8 @@ export default defineConfig({
     sidebar: [
       {
         text: "Introduction",
-        children: [
+        collapsible: true,
+        items: [
           {
             text: "What is nginx-proxy?",
             link: "/",
@@ -41,7 +50,8 @@ export default defineConfig({
       },
       {
         text: "CLI",
-        children: [
+        collapsible: true,
+        items: [
           {
             text: "Usage",
             link: "/cli/usage",
@@ -58,7 +68,8 @@ export default defineConfig({
       },
       {
         text: "Examples",
-        children: [
+        collapsible: true,
+        items: [
           {
             text: "WordPress",
             link: "/examples/wordpress",
@@ -79,7 +90,8 @@ export default defineConfig({
       },
       {
         text: "Utilities",
-        children: [
+        collapsible: true,
+        items: [
           {
             text: "Setup linux server and domain",
             link: "/utilities/setup-server-and-domain",
