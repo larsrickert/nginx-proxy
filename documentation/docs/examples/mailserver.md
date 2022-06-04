@@ -187,7 +187,7 @@ networks:
 
 - **Step 2:** Create a `.env` file.
 
-```apacheconf
+```apache
 # Mailu main configuration file
 #
 # For a detailed list of configuration variables, see the documentation at

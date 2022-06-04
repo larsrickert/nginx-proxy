@@ -45,7 +45,7 @@ networks:
 
 - **Step 2:** Create a `.env` file.
 
-```apacheconf
+```apache
 MYSQL_DATABASE=wordpress
 # TODO: CHANGE ME:
 MYSQL_ROOT_PASSWORD=somePassword
@@ -63,7 +63,7 @@ DOMAIN=blog.example.de
 
 The default upload size is very small (around 2 MB) so we want to increase it to allow bigger file/image uploads. Make sure that "client_max_body_size" in "proxy.conf" file of nginx-proxy is high enough for the below size. See [Step 5 of the nginx-proxy installation guide](/getting-started.html#installation) for the `proxy.conf`.
 
-```apacheconf
+```apache
 # Change max upload size
 # Make sure that "client_max_body_size" in "proxy.conf" of nginx-proxy is high enough for
 # the below settings

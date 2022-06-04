@@ -35,7 +35,7 @@ networks:
 
 - **Step 2:** Create a `.env` file.
 
-```apacheconf
+```apache
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
 DOMAIN=static.example.de
@@ -45,7 +45,7 @@ DOMAIN=static.example.de
 
 The `nginx.conf` file is needed to redirect all unknown URLs to `/` which is the expected behavior for single page applications (SPAs) like a Vue/React/Angular app. It also enables gzip compression to speed the serving of your files.
 
-```apacheconf
+```apache
 user nginx;
 worker_processes auto;
 

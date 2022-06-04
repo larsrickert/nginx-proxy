@@ -28,7 +28,7 @@ networks:
 
 - **Step 2:** Create a `.env` file.
 
-```apacheconf
+```apache
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
 DOMAIN=redirect.example.de

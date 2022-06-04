@@ -109,7 +109,7 @@ touch proxy.conf
 
 and add e.g. the following content:
 
-```apacheconf
+```apache
 #
 # custom additional nginx config
 #
@@ -144,7 +144,7 @@ touch .gitignore
 
 and add the following content:
 
-```apacheconf
+```apache
 .DS_STORE
 
 # Application directories and files
