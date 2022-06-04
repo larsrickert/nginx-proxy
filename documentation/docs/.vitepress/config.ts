@@ -93,6 +93,10 @@ export default defineConfig({
             text: "Server monitoring",
             link: "/examples/monitoring",
           },
+          {
+            text: "Nextcloud",
+            link: "/examples/nextcloud",
+          },
         ],
       },
       {

@@ -191,7 +191,7 @@ Every domain and / or subdomain that you want to deploy with the nginx-proxy mus
 
 - Host: blog.example.com
 - Type: A
-- Destination: 12.34.56.78 (your IP address)
+- Value: 12.34.56.78 (your IP address)
 
 Most domain providers enable you to just point the domain and every subdomain to a specific IP address, e.g. by setting the host to `*`. If doing so you don't need to adjust your DNS records for every application you want to deploy. Check your provider's documentation for instructions.
 
