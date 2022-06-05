@@ -4,7 +4,7 @@ This example creates a [netdata](https://hub.docker.com/r/netdata/netdata) serve
 
 ![Monitoring preview](../assets/example-monitoring.png)
 
-::: info Make the example your own
+::: warning Make the example your own
 In general you don't have to change anything in the below example to make it work for you. However, we highly recommend to take a closer look to the lines marked with a `TODO: CHANGE ME` comment.
 :::
 
