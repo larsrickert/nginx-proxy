@@ -27,7 +27,7 @@ services:
 - **Step 3:** Inside `htpasswd` create a file with the name of the domain that you want to protect.
 
 ```bash
-touch htpasswd/secret.example.de
+touch htpasswd/secret.example.com
 ```
 
 - **Step 4:** Install `apache2-utils` to generate encrypted password.

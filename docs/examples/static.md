@@ -38,7 +38,7 @@ networks:
 ```apache
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
-DOMAIN=static.example.de
+DOMAIN=static.example.com
 ```
 
 - **Step 3:** Create a `nginx.conf` file.

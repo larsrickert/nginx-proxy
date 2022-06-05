@@ -31,7 +31,7 @@ networks:
 ```apache
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
-DOMAIN=redirect.example.de
+DOMAIN=redirect.example.com
 
 # Target that DOMAIN should be redirected to
 # TODO: CHANGE ME:

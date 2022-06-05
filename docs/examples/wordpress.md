@@ -56,7 +56,7 @@ MYSQL_PASSWORD=somePassword
 
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
-DOMAIN=blog.example.de
+DOMAIN=blog.example.com
 ```
 
 - **Step 3:** Create a `uploads.ini` file to increase file upload size.

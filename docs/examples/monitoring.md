@@ -64,12 +64,12 @@ networks:
 ```apache
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
-DOMAIN=monitoring.example.de
+DOMAIN=monitoring.example.com
 
 # FQDN (full qualified domain name) of the DOMAIN above
 # It is e.g. displayed in the browser tab and application menu
 # TODO: CHANGE ME:
-HOST_FQDN=example.de
+HOST_FQDN=example.com
 
 # check virtualization on your host system with "systemd-detect-virt -v"
 # leave empty if you have no virtualization. Needed for correct monitoring

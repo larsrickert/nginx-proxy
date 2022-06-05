@@ -72,7 +72,7 @@ NEXTCLOUD_ADMIN_PASSWORD=somePassword
 
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
-DOMAIN=nextcloud.example.de
+DOMAIN=nextcloud.example.com
 ```
 
 - **Step 3:** Create a `nginx.conf` file.

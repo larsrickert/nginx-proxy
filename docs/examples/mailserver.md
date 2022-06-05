@@ -225,13 +225,13 @@ DNS=192.168.203.254
 
 # Main mail domain
 # TODO: CHANGE ME:
-DOMAIN=example.de
+DOMAIN=example.com
 
 # Hostnames for this server, separated with comas
 # The HOSTNAMES are all public hostnames for the mail server. Mailu supports a mail server with multiple hostnames. The first declared hostname is the main hostname and will be exposed over SMTP, IMAP, etc.
 # SSL certificates are required for all hostnames (see "front" service in docker-compose)
 # TODO: CHANGE ME:
-HOSTNAMES=mail.example.de,mail.example2.de
+HOSTNAMES=mail.example.com,mail.example2.com
 
 # Postmaster local part (will append the main mail domain). It is recommended to setup a generic value and later configure a mail alias for that address
 POSTMASTER=postmaster
@@ -332,7 +332,7 @@ SITENAME=Mailu Mailserver
 
 # Linked Website URL
 # TODO: CHANGE ME:
-WEBSITE=https://example.de
+WEBSITE=https://example.com
 
 # Background colour for the brand logo in the topleft of the main admin interface, default: #2980b9
 LOGO_BACKGROUND=
@@ -428,7 +428,7 @@ services:
     volumes:
       # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2
       # TODO: CHANGE ME: change path to your mailserver directory
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.de
+      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com
       # ...
 
   nginx-proxy-le:
@@ -437,7 +437,7 @@ services:
     volumes:
       # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2
       # TODO: CHANGE ME: change path to your mailserver directory
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.de
+      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com
       # ...
 
 volumes:
@@ -469,16 +469,16 @@ sudo ufw allow 993
 
 ### rDNS
 
-In order to correctly send/receive emails you need to set the rDNS entry of your linux server to a domain that points to your server (e.g. example.de or mail.example.de). If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Customer Control Panel (CCP) under `Produkte -> Click on your server -> rDNS`.
+In order to correctly send/receive emails you need to set the rDNS entry of your linux server to a domain that points to your server (e.g. example.com or mail.example.com). If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Customer Control Panel (CCP) under `Produkte -> Click on your server -> rDNS`.
 
 ### MX record
 
 The MX record tell your email client which email server should be used when sending/receiving mails for your domain. You need to set up the following MX record:
 
-- Host: example.de (your domain without any subdomain)
+- Host: example.com (your domain without any subdomain)
 - Type: MX
 - Priority: 10
-- Value: mail.example.de
+- Value: mail.example.com
 
 Change value to hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in step 2).
 
@@ -486,8 +486,8 @@ Change value to hostname of your mailserver (your entry in `HOSTNAMES` env varia
 
 The SPF record is optional but is used to prevent forging the sender address of an email / spam.
 
-- Host: example.de (your domain without any subdomain)
+- Host: example.com (your domain without any subdomain)
 - Type: TXT
-- Value: v=spf1 mx a:mail.example.de ~all
+- Value: v=spf1 mx a:mail.example.com ~all
 
-Change `mail.example.de` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in step 2).
+Change `mail.example.com` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in step 2).

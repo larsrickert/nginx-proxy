@@ -93,10 +93,10 @@ This service is the SSL part of the setup. It is responsible for automatically r
 touch .env
 ```
 
-and add the following content (replace `mail@example.de` with your email address):
+and add the following content (replace `mail@example.com` with your email address):
 
 ```
-LETSENCRYPT_EMAIL=mail@example.de
+LETSENCRYPT_EMAIL=mail@example.com
 ```
 
 The email address defined here will be used by the `nginx-proxy-le` service to send you Let's Encrypt related emails, e.g. reminders for expiring SSL certificates. Although the certificates are renewed automatically it's recommended to add your email here.
