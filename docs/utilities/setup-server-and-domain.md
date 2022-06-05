@@ -26,7 +26,7 @@ You can install Docker and docker-compose with their official instructions:
 - [Install Docker](https://docs.docker.com/engine/install/)
 - [Install docker-compose](https://docs.docker.com/compose/install/)
 
-If you want to speed up the installation you can use the following script which includes all official installation steps to install the latest versions:
+If you have installed ubuntu on your server and want to speed up the installation you can use the following script which includes all official installation steps to install the latest versions:
 
 #### **Step 1:** Create a `install-docker-ubuntu.sh` file
 

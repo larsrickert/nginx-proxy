@@ -4,6 +4,10 @@ This example creates a [Mailu](https://mailu.io/) mailserver with antivirus, ant
 
 ![Mailserver preview](../assets/example-mailserver.png)
 
+::: warning Server requirements
+In order to smoothly run the mailserver, its recommended that you have at least 3GB of RAM. You can remove the antivirus service in the `docker-compose.yml` in step 1 to reduce the required memory to 1GB. Although this is not recommended due to security reasons.
+:::
+
 ::: warning Make the example your own
 In general you don't have to change anything in the below example to make it work for you. However, we highly recommend to take a closer look to the lines marked with a `TODO: CHANGE ME` comment.
 :::
@@ -56,7 +60,7 @@ services:
       - "143:143"
       - "993:993"
     volumes:
-      # TODO: CHANGE ME: path to cert folder of nginx-proxy (see step 4)
+      # path to cert folder
       - "./certs:/certs:ro"
       - "./mailu/overrides/nginx:/overrides:ro"
     environment:
@@ -439,12 +443,15 @@ services:
       # TODO: CHANGE ME: change path to your mailserver directory
       - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com
       # ...
-
-volumes:
-  # remove "certs:" if its present here
 ```
 
-- **Step 5:** Start the application.
+and restart the nginx-proxy with
+
+```bash
+docker-compose up -d
+```
+
+- **Step 5:** Start the mailserver.
 
 ```bash
 docker-compose up -d

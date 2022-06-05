@@ -49,7 +49,7 @@ Copy the generated command line output to the file created in step 3 and safe it
 - **Step 6:** Restart nginx-proxy.
 
 ```bash
-docker-compose restart
+docker-compose up -d
 ```
 
 When you now open the domain specified in step 3, you will be prompted to enter your username and password.

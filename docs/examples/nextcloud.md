@@ -77,6 +77,8 @@ DOMAIN=nextcloud.example.com
 
 - **Step 3:** Start the application.
 
+When first starting nextcloud, it will take a while for it to initialize. While initializing you might get a 502 Bad Gateway error when opening the domain.
+
 ```bash
 docker-compose up -d
 ```
