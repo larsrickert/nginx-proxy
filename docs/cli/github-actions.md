@@ -22,8 +22,7 @@ You must add the following secrets to your GitHub repository:
 name: Deploy
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -39,11 +38,10 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          envs: GITHUB_SERVER_URL,GITHUB_REPOSITORY,GITHUB_REF_NAME
-          script: npx nginx-proxy-cli deploy $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --dir=~/nginx-proxy/applications --branch=$GITHUB_REF_NAME
+          envs: GITHUB_SERVER_URL,GITHUB_REPOSITORY
+          script: npx nginx-proxy-cli deploy $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --dir=~/nginx-proxy/applications
 ```
 
 **Notes**:
 
 - The `$GITHUB_SERVER_URL` and `$GITHUB_REPOSITORY` environment variables are provided by GitHub and make up the full URL of the repository that the above action was triggered in, e.g. `https://github.com/larsrickert/nginx-proxy`
-- The `GITHUB_REF_NAME` environment variable is provided by GitHub and is the name of the branch that triggered the action, e.g. `main`
