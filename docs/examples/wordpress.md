@@ -13,14 +13,14 @@ version: "3"
 
 services:
   db:
-    image: mariadb
+    image: mariadb:10.7
     restart: always
     env_file: .env
     volumes:
       - ./data/db:/var/lib/mysql
 
   wordpress:
-    image: wordpress
+    image: wordpress:6-php7.4
     restart: always
     environment:
       WORDPRESS_DB_HOST: db
@@ -36,10 +36,13 @@ services:
       - ./data/wp-content:/var/www/html/wp-content
       # wordpress max upload size
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    networks:
+      - default
+      - nginx-proxy
 
 networks:
   default:
-    name: nginx-proxy
+  nginx-proxy:
     external: true
 ```
 

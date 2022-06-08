@@ -17,7 +17,7 @@ version: "3"
 
 services:
   app:
-    image: nginx:stable-alpine
+    image: nginx:1.22-alpine
     restart: always
     environment:
       VIRTUAL_HOST: "${DOMAIN}"

@@ -73,28 +73,28 @@ export default defineConfig({
         collapsible: true,
         items: [
           {
-            text: "WordPress",
-            link: "/examples/wordpress",
-          },
-          {
             text: "Mailserver",
             link: "/examples/mailserver",
+          },
+          {
+            text: "Nextcloud",
+            link: "/examples/nextcloud",
           },
           {
             text: "Redirect",
             link: "/examples/redirect",
           },
           {
-            text: "Static site",
-            link: "/examples/static",
-          },
-          {
             text: "Server monitoring",
             link: "/examples/monitoring",
           },
           {
-            text: "Nextcloud",
-            link: "/examples/nextcloud",
+            text: "Static site",
+            link: "/examples/static",
+          },
+          {
+            text: "WordPress",
+            link: "/examples/wordpress",
           },
         ],
       },

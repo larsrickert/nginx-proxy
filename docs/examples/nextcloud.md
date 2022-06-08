@@ -13,21 +13,21 @@ version: "3"
 
 services:
   db:
-    image: postgres:alpine
+    image: postgres:14.3-alpine
     restart: always
     env_file: .env
     volumes:
       - ./data/db:/var/lib/postgresql/data
 
   redis:
-    image: redis:alpine
+    image: redis:7.0-alpine
     restart: always
     env_file: .env
     command: >
       --requirepass ${REDIS_HOST_PASSWORD}
 
   nextcloud:
-    image: nextcloud:production-apache
+    image: nextcloud:24.0-apache
     restart: always
     env_file: .env
     volumes:
@@ -45,10 +45,13 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - default
+      - nginx-proxy
 
 networks:
   default:
-    name: nginx-proxy
+  nginx-proxy:
     external: true
 ```
 

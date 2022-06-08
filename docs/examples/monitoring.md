@@ -15,7 +15,7 @@ version: "3"
 
 services:
   netdata:
-    image: netdata/netdata:stable
+    image: netdata/netdata:v1.35
     hostname: "${HOST_FQDN}"
     restart: always
     cap_add:
@@ -41,12 +41,12 @@ services:
 
   # proxy for host docker socket (more secure than mounting directly to netdata service)
   proxy:
-    image: tecnativa/docker-socket-proxy
+    image: tecnativa/docker-socket-proxy:0.1
     restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       CONTAINERS: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
   netdataconfig:
