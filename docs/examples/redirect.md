@@ -6,7 +6,9 @@ This example creates a redirect to another domain.
 In general you don't have to change anything in the below example to make it work for you. However, we highly recommend to take a closer look to the lines marked with a `TODO: CHANGE ME` comment.
 :::
 
-- **Step 1:** Create a `docker-compose.yml` file.
+## Installation
+
+### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
 version: "3"
@@ -26,7 +28,7 @@ networks:
     external: true
 ```
 
-- **Step 2:** Create a `.env` file.
+### Step 2: Create a `.env` file
 
 ```apache
 # Domain that the application should be deployed to
@@ -38,7 +40,7 @@ DOMAIN=redirect.example.com
 REDIRECT_TARGET=google.de
 ```
 
-- **Step 3:** Start the application.
+### Step 3: Start the application
 
 ```bash
 docker-compose up -d

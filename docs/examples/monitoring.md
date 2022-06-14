@@ -8,7 +8,9 @@ This example creates a [netdata](https://hub.docker.com/r/netdata/netdata) serve
 In general you don't have to change anything in the below example to make it work for you. However, we highly recommend to take a closer look to the lines marked with a `TODO: CHANGE ME` comment.
 :::
 
-- **Step 1:** Create a `docker-compose.yml` file.
+## Installation
+
+### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
 version: "3"
@@ -59,7 +61,7 @@ networks:
     external: true
 ```
 
-- **Step 2:** Create a `.env` file.
+### Step 2: Create a `.env` file
 
 ```apache
 # Domain that the application should be deployed to
@@ -78,7 +80,7 @@ VIRTUALIZATION=
 
 ```
 
-- **Step 3:** Start the application.
+### Step 3: Start the application
 
 ```bash
 docker-compose up -d

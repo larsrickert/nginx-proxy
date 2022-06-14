@@ -6,7 +6,9 @@ This example creates a [Nextcloud](https://nextcloud.com/) private cloud.
 In general you don't have to change anything in the below example to make it work for you. However, we highly recommend to take a closer look to the lines marked with a `TODO: CHANGE ME` comment.
 :::
 
-- **Step 1:** Create a `docker-compose.yml` file.
+## Installation
+
+### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
 version: "3"
@@ -55,7 +57,7 @@ networks:
     external: true
 ```
 
-- **Step 2:** Create a `.env` file.
+### Step 2: Create a `.env` file
 
 ```apache
 POSTGRES_DB=nextcloud
@@ -78,7 +80,7 @@ NEXTCLOUD_ADMIN_PASSWORD=somePassword
 DOMAIN=nextcloud.example.com
 ```
 
-- **Step 3:** Start the application.
+### Step 3: Start the application
 
 When first starting nextcloud, it will take a while for it to initialize. While initializing you might get a 502 Bad Gateway error when opening the domain.
 

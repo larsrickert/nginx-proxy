@@ -6,7 +6,9 @@ This example creates a [WordPress](https://wordpress.org/) website/blog.
 In general you don't have to change anything in the below example to make it work for you. However, we highly recommend to take a closer look to the lines marked with a `TODO: CHANGE ME` comment.
 :::
 
-- **Step 1:** Create a `docker-compose.yml` file.
+## Installation
+
+### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
 version: "3"
@@ -46,7 +48,7 @@ networks:
     external: true
 ```
 
-- **Step 2:** Create a `.env` file.
+### Step 2: Create a `.env` file
 
 ```apache
 MYSQL_DATABASE=wordpress
@@ -62,9 +64,9 @@ MYSQL_PASSWORD=somePassword
 DOMAIN=blog.example.com
 ```
 
-- **Step 3:** Create a `uploads.ini` file to increase file upload size.
+### Step 3: Create a `uploads.ini` file to increase file upload size
 
-The default upload size is very small (around 2 MB) so we want to increase it to allow bigger file/image uploads. Make sure that "client_max_body_size" in "proxy.conf" file of nginx-proxy is high enough for the below size. See [Step 5 of the nginx-proxy installation guide](/guide/getting-started#installation) for the `proxy.conf`.
+The default upload size is very small (around 2 MB) so we want to increase it to allow bigger file/image uploads. Make sure that "client_max_body_size" in "proxy.conf" file of nginx-proxy is high enough for the below size. See [Step 5 of the nginx-proxy installation guide](/guide/getting-started#step-5-optional-create-a-proxy-conf-file-for-custom-nginx-configuration) for the `proxy.conf`.
 
 ```apache
 # Change max upload size
@@ -74,7 +76,7 @@ upload_max_filesize = 64M
 post_max_size = 64M
 ```
 
-- **Step 4:** Start the application.
+### Step 4: Start the application
 
 ```bash
 docker-compose up -d

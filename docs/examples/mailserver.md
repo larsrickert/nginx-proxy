@@ -14,7 +14,7 @@ In general you don't have to change anything in the below example to make it wor
 
 ## Installation
 
-- **Step 1:** Create a `docker-compose.yml` file.
+### Step 1: Create a `docker-compose.yml` file
 
 All data that needs to be persisted will be mount to the `./mailu` folder. So if you need to back up the mailserver, you can simply backup this folder.
 
@@ -191,7 +191,7 @@ networks:
     external: true
 ```
 
-- **Step 2:** Create a `.env` file.
+### Step 2: Create a `.env` file
 
 ```apache
 # Mailu main configuration file
@@ -396,11 +396,11 @@ ROUNDCUBE_DB_HOST=postgres
 ROUNDCUBE_DB_NAME=roundcube
 ```
 
-- **Step 3:** Create a `docker_postgres_init.sql` file.
+### Step 3: Create a `docker_postgres_init.sql` file
 
 The mailserver needs two databases: one for the admin interface and another one for the webmailer. To avoid starting up a seconds postgres docker container, we can create a .sql file that creates a new database inside our existing postgres database.
 
-You only have to change the password below to the one you defined in the `ROUNDCUBE_DB_PW` env variable in step 2. The .sql file is automatically used by the postgres container on startup.
+You only have to change the password below to the one you defined in the `ROUNDCUBE_DB_PW` env variable in [step 2](#step-2-create-a-env-file). The .sql file is automatically used by the postgres container on startup.
 
 ```sql
 -- according to: https://onexlab-io.medium.com/docker-compose-postgres-multiple-database-bbc0816db603
@@ -416,7 +416,7 @@ CREATE DATABASE roundcube
     CONNECTION LIMIT = -1;
 ```
 
-- **Step 4:** Change the path to the SSL certificate of your domain.
+### Step 4: Change the path to the SSL certificate of your domain
 
 Since we are using the nginx-proxy that manages the SSL certificates the mailserver can't request it on its own. So we need to mount the cert to the mailserver.
 
@@ -451,13 +451,13 @@ and restart the nginx-proxy with
 docker-compose up -d
 ```
 
-- **Step 5:** Start the mailserver.
+### Step 5: Start the mailserver
 
 ```bash
 docker-compose up -d
 ```
 
-After starting up the mailserver you can access the admin interface with the `DOMAIN` that you defined in the `.env` in step 2.
+After starting up the mailserver you can access the admin interface with the `DOMAIN` that you defined in the `.env` in [step 2](#step-2-create-a-env-file).
 
 ## Firewall settings
 
@@ -487,7 +487,7 @@ The MX record tell your email client which email server should be used when send
 - Priority: 10
 - Value: mail.example.com
 
-Change value to hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in step 2).
+Change value to hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 2](#step-2-create-a-env-file)).
 
 ### SPF record
 
@@ -497,4 +497,4 @@ The SPF record is optional but is used to prevent forging the sender address of 
 - Type: TXT
 - Value: v=spf1 mx a:mail.example.com ~all
 
-Change `mail.example.com` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in step 2).
+Change `mail.example.com` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 2](#step-2-create-a-env-file)).

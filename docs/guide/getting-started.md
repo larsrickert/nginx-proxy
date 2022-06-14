@@ -12,13 +12,13 @@ If you don't meet one of the requirements we will give you recommendations and i
 
 ## Installation
 
-- **Step 1:** Create and change into a new directory called `nginx-proxy`
+### Step 1: Create and change into a new directory called `nginx-proxy`
 
 ```bash
 mkdir nginx-proxy && cd nginx-proxy
 ```
 
-- **Step 2:** Create a new docker network
+### Step 2: Create a new docker network
 
 ```bash
 docker network create nginx-proxy
@@ -26,7 +26,7 @@ docker network create nginx-proxy
 
 All your Docker applications inside this network will be discoverable for the nginx-proxy. Therefore your application must define this network. We will take a look at this later on. If you don't want your application (or some of the services) to be accessible for the nginx-proxy just use another network for them.
 
-- **Step 3:** Create a `docker-compose.yml` file for the nginx-proxy
+### Step 3: Create a `docker-compose.yml` file for the nginx-proxy
 
 ```bash
 touch docker-compose.yml
@@ -87,7 +87,7 @@ This service is the heart of our setup that will automatically generate reverse 
 
 This service is the SSL part of the setup. It is responsible for automatically requesting, managing and renewing free Let's Encrypt SSL certificates for all your applications that are using the nginx-proxy to secure the traffic with SSL (HTTPS).
 
-- **Step 4:** Create a `.env` file for environment variables
+### Step 4: Create a `.env` file for environment variables
 
 ```bash
 touch .env
@@ -101,7 +101,7 @@ LETSENCRYPT_EMAIL=mail@example.com
 
 The email address defined here will be used by the `nginx-proxy-le` service to send you Let's Encrypt related emails, e.g. reminders for expiring SSL certificates. Although the certificates are renewed automatically it's recommended to add your email here.
 
-- **Step 5 (optional):** Create a `proxy.conf` file for custom nginx configuration
+### Step 5 (optional): Create a `proxy.conf` file for custom nginx configuration
 
 ```bash
 touch proxy.conf
@@ -130,7 +130,7 @@ nginx-proxy:
     - ./proxy.conf:/etc/nginx/conf.d/proxy.conf
 ```
 
-- **Step 6 (optional):** Create a `.gitignore` file for excluding common files
+### Step 6 (optional): Create a `.gitignore` file for excluding common files
 
 If you want to use git with the nginx-proxy or any applications inside it you should exclude common application, editor and environment files.
 
@@ -167,13 +167,13 @@ logs
 *.sw?
 ```
 
-- **Step 7:** Start the nginx-proxy
+### Step 7: Start the nginx-proxy
 
 ```bash
 docker-compose up -d
 ```
 
-- **Step 8 (optional):** Verify that the nginx-proxy is running successfully
+### Step 8 (optional): Verify that the nginx-proxy is running successfully
 
 When running the below command you should see the `nginx-proxy` and `nginx-proxy-le` container running.
 

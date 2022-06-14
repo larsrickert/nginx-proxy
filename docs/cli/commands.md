@@ -1,7 +1,7 @@
 # CLI commands
 
 ::: warning Disclaimer
-Before using any of the below commands, make sure that you followed the step described on the [CLI usage page](/cli/usage).
+Before using any of the below commands, make sure that you followed the steps described on the [CLI usage page](/cli/usage).
 :::
 
 To see a list of all commands, you can run:

@@ -10,7 +10,7 @@ In general you don't have to change anything in the below example to make it wor
 
 This example serves static files from a local directory on your linux server.
 
-- **Step 1:** Create a `docker-compose.yml` file.
+### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
 version: "3"
@@ -33,7 +33,7 @@ networks:
     external: true
 ```
 
-- **Step 2:** Create a `.env` file.
+### Step 2: Create a `.env` file
 
 ```apache
 # Domain that the application should be deployed to
@@ -41,7 +41,7 @@ networks:
 DOMAIN=static.example.com
 ```
 
-- **Step 3:** Create a `nginx.conf` file.
+### Step 3: Create a `nginx.conf` file
 
 The `nginx.conf` file is needed to redirect all unknown URLs to `/` which is the expected behavior for single page applications (SPAs) like a Vue/React/Angular app. It also enables gzip compression to speed the serving of your files.
 
@@ -95,13 +95,13 @@ http {
 }
 ```
 
-- **Step 4:** Start the application.
+### Step 4: Start the application
 
 ```bash
 docker-compose up -d
 ```
 
-- **Step 5 (optional):** Create dummy content.
+### Step 5 (optional): Create dummy content
 
 Inside `./html` folder, create `index.html` file with the following content:
 
@@ -123,9 +123,9 @@ Inside `./html` folder, create `index.html` file with the following content:
 
 ## Vue/React/Angular app
 
-You can just copy your static build files of your Vue/React/Angular app the the directory mounted in step 1. But we recommend to build your own standalone docker image using a Dockerfile:
+You can just copy your static build files of your Vue/React/Angular app the the directory mounted in [step 1](#step-1-create-a-docker-compose-yml-file). But we recommend to build your own standalone docker image using a Dockerfile:
 
-- **Step 1:** Create a `Dockerfile` file.
+### Create a `Dockerfile` file
 
 ```docker
 # build stage
@@ -146,7 +146,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-- **Step 3:** Change `docker-compose.yml` file.
+### Change `docker-compose.yml` file
 
 ```yaml
 version: "3"
