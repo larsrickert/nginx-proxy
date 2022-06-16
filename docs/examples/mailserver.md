@@ -243,6 +243,13 @@ POSTMASTER=postmaster
 # Choose how secure connections will behave (value: letsencrypt, cert, notls, mail, mail-letsencrypt)
 TLS_FLAVOR=mail
 
+# Mailu uses `cert.pem` by default. However, some mail clients (outlook etc.) may throw a warning that the mailserver
+# certificate can not be trusted. The reason is that the `cert.pem` does not include the complete certificate chain from letsencrypt.
+# `fullchain.pem` however does include it, so we need to specify it here.
+# For mailu configuration reference, see here: https://mailu.io/1.9/compose/setup.html#finish-setting-up-tls
+# To check your mailserver certificate, see here: https://www.sslshopper.com/ssl-checker.html#hostname=mail.example.com:465
+TLS_CERT_FILENAME=fullchain.pem
+
 # Authentication rate limit per IP (per /24 on ipv4 and /56 on ipv6)
 AUTH_RATELIMIT_IP=60/hour
 
