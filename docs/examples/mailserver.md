@@ -24,7 +24,7 @@ version: "3"
 services:
   # External dependencies
   redis:
-    image: redis:alpine
+    image: redis:7-alpine
     restart: always
     volumes:
       - "./mailu/redis:/data"
@@ -34,7 +34,7 @@ services:
       - ${DNS}
 
   postgres:
-    image: postgres:alpine
+    image: postgres:14-alpine
     restart: always
     environment:
       POSTGRES_DB: "${DB_NAME}"
