@@ -6,8 +6,8 @@ services:
     image: larsrickert/nginx-proxy-docs
     restart: always
     environment:
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
+      VIRTUAL_HOST: nginxproxy.lars-rickert.de
+      LETSENCRYPT_HOST: nginxproxy.lars-rickert.de
 
 networks:
   default:

@@ -1,12 +1,12 @@
 {
   "name": "nginx-proxy-docs",
   "version": "1.0.0",
-  "description": "Documentation for nginx-proxy (https://nginxproxy.lars-rickert.de).",
+  "description": "Combination of Open Source tools that enable you to easily deploy any application that runs with Docker on your own linux server.",
   "author": "larsrickert",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/larsrickert/nginx-proxy.git"
+    "url": "https://github.com/larsrickert/nginx-proxy"
   },
   "homepage": "https://nginxproxy.lars-rickert.de",
   "scripts": {
@@ -15,6 +15,6 @@
     "docs:serve": "vitepress serve docs"
   },
   "devDependencies": {
-    "vitepress": "^1.0.0-alpha.1"
+    "vitepress": "^1.0.0-alpha.4"
   }
 }

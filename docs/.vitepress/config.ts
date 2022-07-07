@@ -1,17 +1,18 @@
 import { defineConfig } from "vitepress";
+import pkg from "../../package.json";
 
 export default defineConfig({
   lang: "en-US",
   title: "nginx-proxy",
-  description:
-    "Combination of Open Source tools that enable you to easily deploy any application that runs with Docker on your own linux server.",
+  description: pkg.description,
   lastUpdated: true,
 
   themeConfig: {
+    logo: "/logo.png",
     socialLinks: [
       {
         icon: "github",
-        link: "https://github.com/larsrickert/nginx-proxy",
+        link: pkg.repository.url,
       },
       {
         icon: "discord",
@@ -19,15 +20,13 @@ export default defineConfig({
       },
     ],
     editLink: {
-      repo: "larsrickert/nginx-proxy",
+      pattern: `${pkg.repository.url}/edit/main/docs/:path`,
     },
-    logo: "/logo.png",
     algolia: {
       appId: "5M2ESV3G5L",
       apiKey: "4a956d78850feecd952338c6bf8f14dc",
       indexName: "nginx-proxy",
     },
-
     sidebar: [
       {
         text: "Introduction",
