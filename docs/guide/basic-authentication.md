@@ -1,6 +1,6 @@
 # Basic authentication
 
-You might want to protect some applications that you deploy with the nginx-proxy using basic authentication (username + password) so that not everyone can access it. Nginx supports this out-of-the-box with a little bit of configuration.
+You might want to protect some applications that you deploy with the `nginx-proxy` using basic authentication (username + password) so that not everyone can access it. Nginx supports this out-of-the-box with a little bit of configuration.
 
 ## Step 1: Create `htpasswd` folder
 
@@ -15,11 +15,10 @@ version: "3"
 
 services:
   nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
     # ...
     volumes:
-      - ./htpasswd:/etc/nginx/htpasswd
       # ...
+      - ./htpasswd:/etc/nginx/htpasswd
 
   # ...
 ```

@@ -1,14 +1,18 @@
+---
+outline: deep
+---
+
 # Static site
 
-This example creates an application for static files (e.g. serving plain files or Vue/React/Angular application).
+This example creates an application for static files (e.g. serving plain files or Vue/React/Angular application). This documentation that you are reading is also deployed as static site using the instructions below.
 
 ::: warning Make the example your own
 In general you don't have to change anything in the below example to make it work for you. However, we highly recommend to take a closer look to the lines marked with a `TODO: CHANGE ME` comment.
 :::
 
-## Static files
+## With build step
 
-This example serves static files from a local directory on your linux server.
+In this example, we will deploy a static app that requires a build step, e.g. when you are using Vue, Angular, React etc.
 
 ### Step 1: Create a `docker-compose.yml` file
 
@@ -17,15 +21,14 @@ version: "3"
 
 services:
   app:
-    image: nginx:1.22-alpine
+    # path to dir with Dockerfile
+    build: .
+    # TODO: CHANGE ME: change image name to your liking
+    image: larsrickert/nginx-proxy-example-static
     restart: always
     environment:
       VIRTUAL_HOST: "${DOMAIN}"
       LETSENCRYPT_HOST: "${DOMAIN}"
-    volumes:
-      # TODO: CHANGE ME: change ./html to the path to your files
-      - ./html:/usr/share/nginx/html
-      - ./nginx.conf:/etc/nginx/nginx.conf
 
 networks:
   default:
@@ -33,17 +36,32 @@ networks:
     external: true
 ```
 
-### Step 2: Create a `.env` file
+### Step 2: Create a `Dockerfile`
 
-```apache
-# Domain that the application should be deployed to
-# TODO: CHANGE ME:
-DOMAIN=static.example.com
+You need to adjust the `Dockerfile` below to suit your application needs. This example is for a Node application such as a Vue, Angular or React app.
+
+```docker
+# build stage
+FROM node:17-alpine as build
+WORKDIR /app
+
+# build application
+COPY package*.json ./
+RUN npm ci
+COPY . ./
+RUN npm run build
+
+# production stage
+FROM nginx:stable-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 ```
 
 ### Step 3: Create a `nginx.conf` file
 
-The `nginx.conf` file is needed to redirect all unknown URLs to `/` which is the expected behavior for single page applications (SPAs) like a Vue/React/Angular app. It also enables gzip compression to speed the serving of your files.
+The `nginx.conf` file is needed to redirect all unknown URLs to `/` which is the expected behavior for single page applications (SPAs) like a Vue/React/Angular app. It also enables gzip compression to speed the serving of your files. This file is copied into the docker image inside the previously created `Dockerfile`.
 
 ```apache
 user nginx;
@@ -68,14 +86,12 @@ http {
   sendfile on;
   keepalive_timeout 65;
 
-  # CUSTOM CONFIG
   # This is how we host our static site.
   server {
     listen 80;
     server_name localhost;
 
     location / {
-
       # Enable gzip. NOTE: text/html files are always gzipped when enabled
       gzip on;
       gzip_min_length 1000;
@@ -95,74 +111,45 @@ http {
 }
 ```
 
-### Step 4: Start the application
+### Step 4: Create a `.env` file
+
+```apache
+# Domain that the application should be deployed to
+# TODO: CHANGE ME:
+DOMAIN=static.example.com
+```
+
+### Step 5: Start the application
 
 ```bash
 docker-compose up -d
 ```
 
-### Step 5 (optional): Create dummy content
+## Without build step
 
-Inside `./html` folder, create `index.html` file with the following content:
+If you don't have a build step for you static content (e.g. you just want to serve static files from a directory on your server) you need to follow the above steps and make following changes:
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dummy site</title>
-  </head>
+- don't create `Dockerfile`
+- create folder `./html` and put your static files inside it
+- use following `docker-compose.yml`:
 
-  <body>
-    <p>I am static content served by the nginx-proxy.</p>
-  </body>
-</html>
-```
+  ```yaml
+  version: "3"
 
-## Vue/React/Angular app
+  services:
+    app:
+      image: nginx:1.22-alpine
+      restart: always
+      environment:
+        VIRTUAL_HOST: "${DOMAIN}"
+        LETSENCRYPT_HOST: "${DOMAIN}"
+      volumes:
+        # TODO: CHANGE ME: change ./html to the path to your files
+        - ./html:/usr/share/nginx/html
+        - ./nginx.conf:/etc/nginx/nginx.conf
 
-You can just copy your static build files of your Vue/React/Angular app the the directory mounted in [step 1](#step-1-create-a-docker-compose-yml-file). But we recommend to build your own standalone docker image using a Dockerfile:
-
-### Create a `Dockerfile` file
-
-```docker
-# build stage
-FROM node:17-alpine as build
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-
-COPY . ./
-RUN npm run build
-
-# production stage
-FROM nginx:stable-alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-# this is the nginx.conf that we created in step 3
-COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-### Change `docker-compose.yml` file
-
-```yaml
-version: "3"
-
-services:
-  app:
-    # TODO: CHANGE ME: Path to directory that your Dockerfile is in
-    build: .
-    image: larsrickert/nginx-proxy-example-static
-    restart: always
-    environment:
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
-
-networks:
-  default:
-    name: nginx-proxy
-    external: true
-```
+  networks:
+    default:
+      name: nginx-proxy
+      external: true
+  ```

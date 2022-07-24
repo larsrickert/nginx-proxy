@@ -5,18 +5,22 @@ You can use the CLI to automatically (re)deploy your application when you commit
 The following action will trigger a (re)deploy on every change to the `main` branch as well as on manually triggered workflow runs. Checkout the [deploy command documentation](/cli/commands#deploy) for more options.
 
 ::: danger .env file
-If your application uses a `.env` file for `docker-compose.yml`, the CLI does currently not support a way to pass environment variables. You will need to manually login to your linux server to create it.
+If your application uses a `.env` file for `docker-compose.yml`, this CLI does currently not support a way to pass environment variables. You will need to manually login to your linux server to create it.
 
-**Important**: Unless your `.env` only contains non-sensitive information (e.g. domain name), you should **NEVER** commit your `.env` file to git.
+**Important**: Unless your `.env` only contains non-sensitive information (e.g. domain name), you should not commit your `.env` file to git.
 :::
 
-::: warning GitHub secrets
-You must add the following secrets to your GitHub repository:
+## Add SSH credentials as GitHub secrets
 
-- `SSH_HOST`: The host of your linux server (e.g. IP address)
+In order to login to your linux server, you need to add your user credentials as GitHub secrets. Follow the [GitHub guide](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to add the following secrets:
+
+- `SSH_HOST`: The host of your linux server (e.g. IP address or domain)
 - `SSH_USERNAME`: linux username
 - `SSH_PASSWORD`: linux password
-  :::
+
+## Create GitHub workflow
+
+Inside your git repository, create a `.github/workflows/deploy.yml` file and add the following content:
 
 ```yaml
 name: Deploy

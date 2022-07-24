@@ -1,10 +1,10 @@
 # CLI usage
 
-The nginx-proxy offers a CLI that can be used to e.g. simplify or automate the deployment of applications.
+The `nginx-proxy` offers a Node CLI that can be used to e.g. simplify or automate the deployment of applications.
 
 ## Prerequisites
 
-1. You need to have node installed on your system when you want to use the CLI.
+You need to have node installed on your system when you want to use the CLI.
 
 ### Install node
 
@@ -32,7 +32,7 @@ apt install nodejs
 node -v
 ```
 
-# Use the CLI
+## Use the CLI
 
 To see a list of available commands you can run:
 

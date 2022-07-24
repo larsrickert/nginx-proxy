@@ -54,8 +54,8 @@ export default defineConfig({
         collapsible: true,
         items: [
           {
-            text: "Usage",
-            link: "/cli/usage",
+            text: "Installation",
+            link: "/cli/installation",
           },
           {
             text: "Commands",
