@@ -20,7 +20,7 @@ sudo ufw allow ssh
 
 ## Application rules
 
-Now we explicitly allow the ports / connections that our applications need. Basically you want to allow every port / application that you bind with `ports:` in your `docker-compose.yml`.
+Now we explicitly allow the ports / connections that our applications need. Basically you want to allow every port / application that you bind with `ports:` in any of your `docker-compose.yml`.
 You can either use the application / protocol name (e.g. http and https) or use the port directly (e.g. 80 and 443).
 
 ```bash
@@ -28,13 +28,13 @@ sudo ufw allow http
 sudo ufw allow https
 ```
 
-## Enable the firewall
-
-::: warning Update when deploying new applications
+::: info Update when deploying new applications
 Keep in mind that you may have to allow more ports when you deploy new applications that bind to your system with `ports:` in your `docker-compose.yml`.
 
 For applications that only use the nginx-proxy you don't have to change anything because they just expose a port for the nginx-proxy but don't bind it.
 :::
+
+## Enable the firewall
 
 Now that you are set up you can enable the firewall with:
 

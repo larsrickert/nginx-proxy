@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Mailserver
 
 This example creates a [Mailu](https://mailu.io/) mailserver with antivirus, antispam, roundcube webmailer, admin interface, multiple hosts/domains and more.

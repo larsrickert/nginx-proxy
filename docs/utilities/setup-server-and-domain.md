@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Setup linux server and domain
 
 If you don't meet the prerequisites described on the [Getting Started](/guide/getting-started) page, you will find recommendations and instructions on how to order and setup a linux server and domain below.
@@ -6,7 +10,7 @@ If you don't meet the prerequisites described on the [Getting Started](/guide/ge
 
 ### Order a VPS
 
-You need a linux server for running the nginx-proxy. For servers located in Germany we recommend a Virtual Private Server (VPS) by netcup but you can use any linux server. They offer linux servers with following features:
+You need a linux server for running the `nginx-proxy` and your applications. For servers located in Germany we recommend a Virtual Private Server (VPS) from netcup but you can use any linux server. They offer linux servers with following features:
 
 - Starting from 2,99€ per month for 2 Cores, 2GB RAM and 40GB SSD
 - RAID10
@@ -15,9 +19,9 @@ You need a linux server for running the nginx-proxy. For servers located in Germ
 
 You can checkout the prices on [their website](https://www.netcup.de/vserver/vps.php).
 
-::: info Install Ubuntu
-Netcup's servers are shipped with Debian Linux by default. We recommend installing the latest Ubuntu distribution before installing the nginx-proxy. To change the operating system login into their [server control panel](https://www.servercontrolpanel.de/SCP) and click on `Medien` in the nav bar. There you can choose between multiple images.
-:::
+### Install Ubuntu
+
+Some servers (like from netcup) are shipped with Debian Linux or another distribution by default. We recommend installing the latest Ubuntu distribution before installing the `nginx-proxy`. To change the operating system on a netcup server login into their [server control panel](https://www.servercontrolpanel.de/SCP) and click on `Medien` in the nav bar. There you can choose between multiple images.
 
 ### Install Docker and docker-compose
 
@@ -78,6 +82,6 @@ bash ./install-docker-ubuntu.sh
 
 ## Setup a domain
 
-You need to register / order a domain to use with the nginx-proxy, e.g. `example.com`. You can order your desired domain from any provider but you can order it together with your VPS [from netcup](https://www.netcup.de/bestellen/domainangebote.php) for e.g. 5€ per year for a `.de` domain.
+You need to register / order a domain to use with the `nginx-proxy`, e.g. `example.com`. You can order your desired domain from any provider but you can order it together with your VPS [from netcup](https://www.netcup.de/bestellen/domainangebote.php) for e.g. 5€ per year for a `.de` domain.
 
 After you ordered your domain make sure to [setup your DNS records](/guide/getting-started.html#dns-records).
