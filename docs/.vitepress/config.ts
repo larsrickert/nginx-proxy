@@ -14,10 +14,6 @@ export default defineConfig({
         icon: "github",
         link: pkg.repository.url,
       },
-      {
-        icon: "discord",
-        link: "https://discord.com/users/251414332955557889",
-      },
     ],
     editLink: {
       pattern: `${pkg.repository.url}/edit/main/docs/:path`,
@@ -27,6 +23,12 @@ export default defineConfig({
       apiKey: "4a956d78850feecd952338c6bf8f14dc",
       indexName: "nginx-proxy",
     },
+    nav: [
+      {
+        text: "Report bug",
+        link: `${pkg.repository.url}/issues/new`,
+      },
+    ],
     sidebar: [
       {
         text: "Introduction",
