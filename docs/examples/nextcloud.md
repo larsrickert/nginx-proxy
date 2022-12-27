@@ -15,21 +15,21 @@ version: "3"
 
 services:
   db:
-    image: postgres:14.3-alpine
+    image: postgres:15-alpine
     restart: always
     env_file: .env
     volumes:
       - ./data/db:/var/lib/postgresql/data
 
   redis:
-    image: redis:7.0-alpine
+    image: redis:7-alpine
     restart: always
     env_file: .env
     command: >
       --requirepass ${REDIS_HOST_PASSWORD}
 
   nextcloud:
-    image: nextcloud:24.0-apache
+    image: nextcloud:25.0-apache
     restart: always
     env_file: .env
     volumes:
