@@ -42,7 +42,7 @@ You need to adjust the `Dockerfile` below to suit your application needs. This e
 
 ```docker
 # build stage
-FROM node:17-alpine as build
+FROM node:18-alpine as build
 WORKDIR /app
 
 # build application
@@ -52,7 +52,7 @@ COPY . ./
 RUN npm run build
 
 # production stage
-FROM nginx:stable-alpine
+FROM nginx:1.23-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
@@ -138,7 +138,7 @@ If you don't have a build step for you static content (e.g. you just want to ser
 
   services:
     app:
-      image: nginx:1.22-alpine
+      image: nginx:1.23-alpine
       restart: always
       environment:
         VIRTUAL_HOST: "${DOMAIN}"

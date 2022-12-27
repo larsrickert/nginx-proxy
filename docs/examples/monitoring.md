@@ -17,7 +17,7 @@ version: "3"
 
 services:
   netdata:
-    image: netdata/netdata:v1.35
+    image: netdata/netdata:v1.37
     hostname: "${HOST_FQDN}"
     restart: always
     cap_add:

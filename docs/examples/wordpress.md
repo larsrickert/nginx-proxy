@@ -15,14 +15,14 @@ version: "3"
 
 services:
   db:
-    image: mariadb:10.7
+    image: mariadb:10
     restart: always
     env_file: .env
     volumes:
       - ./data/db:/var/lib/mysql
 
   wordpress:
-    image: wordpress:6-php7.4
+    image: wordpress:6-php8.2
     restart: always
     environment:
       WORDPRESS_DB_HOST: db
