@@ -101,7 +101,7 @@ LETSENCRYPT_EMAIL=mail@example.com
 
 The email address defined here will be used by the `nginx-proxy-le` service to send you Let's Encrypt related emails, e.g. reminders for expiring SSL certificates. Although the certificates are renewed automatically it's recommended to add your email here.
 
-### Step 5 (optional): Create a `proxy.conf` file for custom nginx configuration
+### Step 5: Create a `proxy.conf` file for custom nginx configuration <Badge text="optional" type="info" />
 
 ```bash
 touch proxy.conf
@@ -126,7 +126,7 @@ nginx-proxy:
     - ./proxy.conf:/etc/nginx/conf.d/proxy.conf
 ```
 
-### Step 6 (optional): Create a `.gitignore` file for excluding common files
+### Step 6: Create a `.gitignore` file for excluding common files <Badge text="optional" type="info" />
 
 If you want to use git with the nginx-proxy or any applications inside it you should exclude common application, editor and environment files.
 
@@ -168,7 +168,7 @@ logs
 docker-compose up -d
 ```
 
-### Step 8 (optional): Verify that the nginx-proxy is running successfully
+### Step 8: Verify that the nginx-proxy is running successfully <Badge text="optional" type="info" />
 
 When running the below command you should see the `nginx-proxy` and `nginx-proxy-le` container running.
 
