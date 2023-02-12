@@ -28,6 +28,7 @@ services:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: "${MYSQL_USER?:}"
       WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD?:}"
+      WORDPRESS_TABLE_PREFIX: "${WORDPRESS_TABLE_PREFIX}"
       VIRTUAL_HOST: "${DOMAIN?:}"
       LETSENCRYPT_HOST: "${DOMAIN?:}"
     depends_on:
@@ -58,6 +59,9 @@ MYSQL_ROOT_PASSWORD=somePassword
 MYSQL_USER=wordpress
 # TODO: CHANGE ME:
 MYSQL_PASSWORD=somePassword
+
+# can be used to change the wordpress db prefix
+# WORDPRESS_TABLE_PREFIX=wp_
 
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
