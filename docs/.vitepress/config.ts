@@ -53,7 +53,7 @@ export default defineConfig({
       },
       {
         text: "CLI",
-        collapsible: true,
+        collapsed: false,
         items: [
           {
             text: "Installation",
@@ -71,7 +71,7 @@ export default defineConfig({
       },
       {
         text: "Examples",
-        collapsible: true,
+        collapsed: false,
         items: [
           {
             text: "Mailserver",
@@ -101,7 +101,7 @@ export default defineConfig({
       },
       {
         text: "Utilities",
-        collapsible: true,
+        collapsed: false,
         items: [
           {
             text: "Setup linux server and domain",
