@@ -27,7 +27,7 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: cli/pnpm-lock.yaml
       - name: 📦 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
