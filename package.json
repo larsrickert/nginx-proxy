@@ -4,6 +4,7 @@
   "description": "Combination of Open Source tools that enable you to easily deploy any application that runs with Docker on your own linux server.",
   "author": "larsrickert",
   "license": "MIT",
+  "packageManager": "pnpm@7.21.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/larsrickert/nginx-proxy"
@@ -12,9 +13,11 @@
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "docs:serve": "vitepress serve docs",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
-    "vitepress": "^1.0.0-alpha.33"
+    "@algolia/client-search": "^4.14.3",
+    "vitepress": "^1.0.0-alpha.45"
   }
 }
