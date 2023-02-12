@@ -4,7 +4,7 @@
   "description": "Combination of Open Source tools that enable you to easily deploy any application that runs with Docker on your own linux server.",
   "author": "larsrickert",
   "license": "MIT",
-  "packageManager": "pnpm@7.21.0",
+  "packageManager": "pnpm@7.27.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/larsrickert/nginx-proxy"
