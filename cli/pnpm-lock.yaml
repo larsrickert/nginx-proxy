@@ -4,16 +4,16 @@ specifiers:
   '@semantic-release/changelog': ^6.0.2
   '@semantic-release/exec': ^6.0.3
   '@semantic-release/git': ^10.0.1
-  '@types/node': ^18.11.18
+  '@types/node': ^18.13.0
   '@types/shelljs': ^0.8.11
-  commander: ^9.4.1
+  commander: ^10.0.0
   semantic-release: ^20.1.0
   semantic-release-monorepo: ^7.0.5
   shelljs: ^0.8.5
-  typescript: ^4.9.4
+  typescript: ^4.9.5
 
 dependencies:
-  commander: 9.5.0
+  commander: 10.0.0
   shelljs: 0.8.5
 
 devDependencies:
@@ -591,9 +591,9 @@ packages:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: true
 
-  /commander/9.5.0:
-    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
-    engines: {node: ^12.20.0 || >=14}
+  /commander/10.0.0:
+    resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
+    engines: {node: '>=14'}
     dev: false
 
   /compare-func/2.0.0:
