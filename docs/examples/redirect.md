@@ -19,8 +19,8 @@ services:
     restart: always
     env_file: .env
     environment:
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
+      VIRTUAL_HOST: "${DOMAIN?:}"
+      LETSENCRYPT_HOST: "${DOMAIN?:}"
 
 networks:
   default:

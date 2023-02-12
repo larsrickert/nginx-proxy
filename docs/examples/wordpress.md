@@ -26,10 +26,10 @@ services:
     restart: always
     environment:
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: "${MYSQL_USER}"
-      WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD}"
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
+      WORDPRESS_DB_USER: "${MYSQL_USER?:}"
+      WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD?:}"
+      VIRTUAL_HOST: "${DOMAIN?:}"
+      LETSENCRYPT_HOST: "${DOMAIN?:}"
     depends_on:
       - db
     links:

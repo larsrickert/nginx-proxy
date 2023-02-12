@@ -26,7 +26,7 @@ services:
     restart: always
     env_file: .env
     command: >
-      --requirepass ${REDIS_HOST_PASSWORD}
+      --requirepass ${REDIS_HOST_PASSWORD?:}
 
   nextcloud:
     image: nextcloud:25.0-apache
@@ -37,10 +37,10 @@ services:
     environment:
       POSTGRES_HOST: db
       REDIS_HOST: redis
-      NEXTCLOUD_TRUSTED_DOMAINS: "${DOMAIN}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "${DOMAIN?:}"
       OVERWRITEPROTOCOL: https
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
+      VIRTUAL_HOST: "${DOMAIN?:}"
+      LETSENCRYPT_HOST: "${DOMAIN?:}"
     links:
       - db
       - redis

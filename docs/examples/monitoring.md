@@ -35,8 +35,8 @@ services:
       VIRTUALIZATION: "${VIRTUALIZATION}"
       DISABLE_TELEMETRY: 1
       DOCKER_HOST: proxy:2375
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
+      VIRTUAL_HOST: "${DOMAIN?:}"
+      LETSENCRYPT_HOST: "${DOMAIN?:}"
     networks:
       - default
       - nginx-proxy
