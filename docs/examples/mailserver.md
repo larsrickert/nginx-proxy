@@ -35,15 +35,15 @@ services:
     depends_on:
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
   postgres:
     image: postgres:14-alpine
     restart: always
     environment:
-      POSTGRES_DB: "${DB_NAME}"
-      POSTGRES_USER: "${DB_USER}"
-      POSTGRES_PASSWORD: "${DB_PW}"
+      POSTGRES_DB: "${DB_NAME?:}"
+      POSTGRES_USER: "${DB_USER?:}"
+      POSTGRES_PASSWORD: "${DB_PW?:}"
     volumes:
       - ./mailu/postgres:/var/lib/postgresql/data
       # create 2nd database for webmail:
@@ -71,12 +71,12 @@ services:
       # nginx proxy will request cert for all hostnames in a single cert
       # so the cert runs under the name of the first hostname and includes all other hostnames
       # so only the first cert has to be mounted in volumes to /certs
-      VIRTUAL_HOST: "${HOSTNAMES}"
-      LETSENCRYPT_HOST: "${HOSTNAMES}"
+      VIRTUAL_HOST: "${HOSTNAMES?:}"
+      LETSENCRYPT_HOST: "${HOSTNAMES?:}"
     depends_on:
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
     networks:
       - default
       - nginx-proxy
@@ -87,14 +87,14 @@ services:
     restart: always
     networks:
       default:
-        ipv4_address: ${DNS}
+        ipv4_address: ${DNS?:}
 
   admin:
     image: mailu/admin:${MAILU_VERSION:-1.9}
     restart: always
     env_file: .env
     environment:
-      INITIAL_ADMIN_DOMAIN: "${DOMAIN}"
+      INITIAL_ADMIN_DOMAIN: "${DOMAIN?:}"
       INITIAL_ADMIN_MODE: ifmissing
     volumes:
       - "./mailu/data:/data"
@@ -104,7 +104,7 @@ services:
       - postgres
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
   imap:
     image: mailu/dovecot:${MAILU_VERSION:-1.9}
@@ -117,7 +117,7 @@ services:
       - front
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
   smtp:
     image: mailu/postfix:${MAILU_VERSION:-1.9}
@@ -130,7 +130,7 @@ services:
       - front
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
   antispam:
     image: mailu/rspamd:${MAILU_VERSION:-1.9}
@@ -144,7 +144,7 @@ services:
       - front
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
   # Optional services
   antivirus:
@@ -156,7 +156,7 @@ services:
     depends_on:
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
   fetchmail:
     image: mailu/fetchmail:${MAILU_VERSION:-1.9}
@@ -167,7 +167,7 @@ services:
     depends_on:
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
   # Webmail
   webmail:
@@ -182,7 +182,7 @@ services:
       - postgres
       - resolver
     dns:
-      - ${DNS}
+      - ${DNS?:}
 
 networks:
   default:
@@ -190,7 +190,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: ${SUBNET}
+        - subnet: ${SUBNET?:}
   nginx-proxy:
     external: true
 ```

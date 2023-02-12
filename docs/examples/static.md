@@ -27,8 +27,8 @@ services:
     image: larsrickert/nginx-proxy-example-static
     restart: always
     environment:
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
+      VIRTUAL_HOST: "${DOMAIN?:}"
+      LETSENCRYPT_HOST: "${DOMAIN?:}"
 
 networks:
   default:
@@ -141,8 +141,8 @@ If you don't have a build step for you static content (e.g. you just want to ser
       image: nginx:1.23-alpine
       restart: always
       environment:
-        VIRTUAL_HOST: "${DOMAIN}"
-        LETSENCRYPT_HOST: "${DOMAIN}"
+        VIRTUAL_HOST: "${DOMAIN?:}"
+        LETSENCRYPT_HOST: "${DOMAIN?:}"
       volumes:
         # TODO: CHANGE ME: change ./html to the path to your files
         - ./html:/usr/share/nginx/html
