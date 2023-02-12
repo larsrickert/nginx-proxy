@@ -1,5 +1,7 @@
+.git
 node_modules
 .vscode
 .idea
 dist
 /cli
+docs/.vitepress/cache
