@@ -18,10 +18,8 @@ export default defineConfig({
     editLink: {
       pattern: `${pkg.repository.url}/edit/main/docs/:path`,
     },
-    algolia: {
-      appId: "5M2ESV3G5L",
-      apiKey: "4a956d78850feecd952338c6bf8f14dc",
-      indexName: "nginx-proxy",
+    search: {
+      provider: "local",
     },
     nav: [
       {
