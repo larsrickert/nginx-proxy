@@ -18,11 +18,15 @@ In general you don't have to change anything in the below example to make it wor
 
 ## Installation
 
-### Step 1: Create a `docker-compose.yml` file
+### Step 1: Create a `docker-compose.yml` and `.env` file
 
 All data that needs to be persisted will be mount to the `./mailu` folder. So if you need to back up the mailserver, you can simply backup this folder.
 
-```yaml
+Make sure to replace the highlighted lines with your information.
+
+::: code-group
+
+```yml [docker-compose.yml]
 version: "3"
 
 services:
@@ -224,9 +228,7 @@ networks:
     external: true
 ```
 
-### Step 2: Create a `.env` file
-
-```apache
+```[.env]
 # Mailu main configuration file, based on https://setup.mailu.io, adapted for nginx-proxy
 #
 # For a detailed list of configuration variables, see the documentation at
@@ -239,11 +241,11 @@ networks:
 # Username for the initial admin account (first part of the e-mail address before the @).
 # Main mail domain (see DOMAIN env variable below) will be used as domain
 # TODO: CHANGE ME:
-INITIAL_ADMIN_ACCOUNT=admin
+INITIAL_ADMIN_ACCOUNT=admin // [!code hl]
 
 # Password for the initial admin account. Will not be updated if account already exists.
 # TODO: CHANGE ME:
-INITIAL_ADMIN_PW=somePassword
+INITIAL_ADMIN_PW=somePassword // [!code hl]
 
 ###################################
 # Common configuration variables
@@ -251,7 +253,7 @@ INITIAL_ADMIN_PW=somePassword
 
 # Set to a randomly generated 16 bytes string
 # TODO: CHANGE ME:
-SECRET_KEY=ABCDEFGHIJKLMNOP
+SECRET_KEY=ABCDEFGHIJKLMNOP // [!code hl]
 
 # Subnet of the docker network. This should not conflict with any networks to which your system is connected. (Internal and external!)
 # Typically, you don't have to change anything here.
@@ -262,13 +264,13 @@ DNS=192.168.203.254
 
 # Main mail domain
 # TODO: CHANGE ME:
-DOMAIN=example.com
+DOMAIN=example.com // [!code hl]
 
 # Hostnames for this server, separated with comas
 # The HOSTNAMES are all public hostnames for the mail server. Mailu supports a mail server with multiple hostnames. The first declared hostname is the main hostname and will be exposed over SMTP, IMAP, etc.
 # SSL certificates are required for all hostnames (see "front" service in docker-compose)
 # TODO: CHANGE ME:
-HOSTNAMES=mail.example.com,mail.example2.com
+HOSTNAMES=mail.example.com,mail.example2.com // [!code hl]
 
 # Postmaster local part (will append the main mail domain). It is recommended to setup a generic value and later configure a mail alias for that address
 POSTMASTER=postmaster
@@ -354,9 +356,9 @@ DMARC_RUF=postmaster
 # emails to all users.
 WELCOME=true
 # TODO: CHANGE ME (if necessary):
-WELCOME_SUBJECT=Your new email account
+WELCOME_SUBJECT=Your new email account // [!code hl]
 # TODO: CHANGE ME (if necessary):
-WELCOME_BODY=This is your new email account. If you get this email, everything is configured correctly!
+WELCOME_BODY=This is your new email account. If you get this email, everything is configured correctly! // [!code hl]
 
 # Maildir Compression
 # choose compression-method, default: none (value: gz, bz2, zstd)
@@ -385,11 +387,11 @@ WEB_API=
 
 # Website name
 # TODO: CHANGE ME:
-SITENAME=Mailu Mailserver
+SITENAME=Mailu Mailserver // [!code hl]
 
 # Linked Website URL
 # TODO: CHANGE ME:
-WEBSITE=https://mailu.io
+WEBSITE=https://mailu.io // [!code hl]
 
 # Background colour for the brand logo in the topleft of the main admin interface, default: #2980b9
 LOGO_BACKGROUND=
@@ -432,9 +434,11 @@ DEFAULT_SPAM_THRESHOLD=80
 API_TOKEN=
 ```
 
-### Step 3: Change the path to the SSL certificate of your domain
+:::
 
-Since we are using the nginx-proxy that manages the SSL certificates the mailserver can't request it on its own. So we need to mount the cert to the mailserver.
+### Step 2: Change the path to the SSL certificate of your domain
+
+Since we are using the nginx-proxy that manages the SSL certificates, the mailserver can/should not request it on its own. So we need to mount the certificates to the mailserver.
 
 Therefore, we need to change the `docker-compose.yml` of the [nginx-proxy](/guide/getting-started).
 
@@ -446,22 +450,21 @@ services:
     image: jwilder/nginx-proxy:alpine
     # ...
     volumes:
-      # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2
-      # TODO: CHANGE ME: change path to your mailserver directory
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com
+      # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2 (mail.example.com)
+      # TODO: CHANGE ME: change path to your mailserver directory (./applications/mailserver)
+      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com // [!code ++]
       # ...
 
   nginx-proxy-le:
     image: nginxproxy/acme-companion
     # ...
     volumes:
-      # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2
-      # TODO: CHANGE ME: change path to your mailserver directory
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com
+      # TODO: CHANGE ME: same as above
+      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com // [!code ++]
       # ...
 ```
 
-and restart the nginx-proxy with
+and then restart the nginx-proxy with
 
 ```bash
 docker-compose up -d
@@ -473,7 +476,7 @@ docker-compose up -d
 docker-compose up -d
 ```
 
-After starting up the mailserver you can access the admin interface with the `DOMAIN` that you defined in the `.env` in [step 2](#step-2-create-a-env-file).
+After starting up the mailserver, you can access the admin interface with the `DOMAIN` that you defined in the `.env` in [step 1](#step-1-create-a-docker-compose-yml-and-env-file).
 
 ## Firewall settings
 
@@ -503,7 +506,7 @@ The MX record tell your email client which email server should be used when send
 - Priority: 10
 - Value: mail.example.com
 
-Change value to hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 2](#step-2-create-a-env-file)).
+Change value to hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 1](#step-1-create-a-docker-compose-yml-and-env-file)).
 
 ### SPF record
 
@@ -513,4 +516,4 @@ The SPF record is optional but is used to prevent forging the sender address of 
 - Type: TXT
 - Value: v=spf1 mx a:mail.example.com ~all
 
-Change `mail.example.com` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 2](#step-2-create-a-env-file)).
+Change `mail.example.com` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 1](#step-1-create-a-docker-compose-yml-and-env-file)).
