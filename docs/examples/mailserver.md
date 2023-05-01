@@ -495,7 +495,9 @@ sudo ufw allow 993
 
 ### rDNS
 
-In order to correctly send/receive emails you need to set the rDNS entry of your linux server to a domain that points to your server (e.g. example.com or mail.example.com). If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Customer Control Panel (CCP) under `Produkte -> Click on your server -> rDNS`.
+In order to correctly send/receive emails, you need to set the rDNS entry of your linux server to `mail.example.com` (change `example.com` with the value of the `DOMAIN` variable from your `.env` file ).
+
+If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Customer Control Panel (CCP) under `Products -> Click on your server -> rDNS`.
 
 ### MX record
 
