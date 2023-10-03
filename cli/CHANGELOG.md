@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v1.0.7](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.6...nginx-proxy-cli-v1.0.7) (2023-10-03)
+
+
+### Bug Fixes
+
+* update dependencies ([#18](https://github.com/larsrickert/nginx-proxy/issues/18)) ([dd3c75b](https://github.com/larsrickert/nginx-proxy/commit/dd3c75b6042da099ceec613dc9b05c882bbaa0d7))
+
 # [nginx-proxy-cli-v1.0.6](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.5...nginx-proxy-cli-v1.0.6) (2023-02-12)
 
 
