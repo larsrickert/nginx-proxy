@@ -18,11 +18,15 @@ In general you don't have to change anything in the below example to make it wor
 
 ## Installation
 
-### Step 1: Create a `docker-compose.yml` file
+### Step 1: Create a `docker-compose.yml` and `.env` file
 
 All data that needs to be persisted will be mount to the `./mailu` folder. So if you need to back up the mailserver, you can simply backup this folder.
 
-```yaml
+Make sure to replace the highlighted lines with your information.
+
+::: code-group
+
+```yml [docker-compose.yml]
 version: "3"
 
 services:
@@ -37,25 +41,15 @@ services:
     dns:
       - ${DNS?:}
 
-  postgres:
-    image: postgres:14-alpine
-    restart: always
-    environment:
-      POSTGRES_DB: "${DB_NAME?:}"
-      POSTGRES_USER: "${DB_USER?:}"
-      POSTGRES_PASSWORD: "${DB_PW?:}"
-    volumes:
-      - ./mailu/postgres:/var/lib/postgresql/data
-      # create 2nd database for webmail:
-      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
-
   # Core services
   front:
-    image: mailu/nginx:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/nginx:${MAILU_VERSION:-2.0}
     restart: always
     env_file: .env
     logging:
-      driver: json-file
+      driver: journald
+      options:
+        tag: mailu-front
     ports:
       - "25:25"
       - "465:465"
@@ -79,10 +73,11 @@ services:
       - ${DNS?:}
     networks:
       - default
+      - webmail
       - nginx-proxy
 
   resolver:
-    image: mailu/unbound:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/unbound:${MAILU_VERSION:-2.0}
     env_file: .env
     restart: always
     networks:
@@ -90,26 +85,33 @@ services:
         ipv4_address: ${DNS?:}
 
   admin:
-    image: mailu/admin:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/admin:${MAILU_VERSION:-2.0}
     restart: always
     env_file: .env
     environment:
       INITIAL_ADMIN_DOMAIN: "${DOMAIN?:}"
       INITIAL_ADMIN_MODE: ifmissing
+    logging:
+      driver: journald
+      options:
+        tag: mailu-admin
     volumes:
       - "./mailu/data:/data"
       - "./mailu/dkim:/dkim"
     depends_on:
       - redis
-      - postgres
       - resolver
     dns:
       - ${DNS?:}
 
   imap:
-    image: mailu/dovecot:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/dovecot:${MAILU_VERSION:-2.0}
     restart: always
     env_file: .env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-imap
     volumes:
       - "./mailu/mail:/mail"
       - "./mailu/overrides/dovecot:/overrides:ro"
@@ -120,9 +122,13 @@ services:
       - ${DNS?:}
 
   smtp:
-    image: mailu/postfix:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/postfix:${MAILU_VERSION:-2.0}
     restart: always
     env_file: .env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-smtp
     volumes:
       - "./mailu/mailqueue:/queue"
       - "./mailu/overrides/postfix:/overrides:ro"
@@ -132,23 +138,44 @@ services:
     dns:
       - ${DNS?:}
 
+  oletools:
+    image: ghcr.io/mailu/oletools:${MAILU_VERSION:-2.0}
+    hostname: oletools
+    restart: always
+    networks:
+      - noinet
+    depends_on:
+      - resolver
+    dns:
+      - ${DNS?:}
+
   antispam:
-    image: mailu/rspamd:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/rspamd:${MAILU_VERSION:-2.0}
     hostname: antispam
     restart: always
     env_file: .env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-antispam
+    networks:
+      - default
+      - noinet
     volumes:
       - "./mailu/filter:/var/lib/rspamd"
-      - "./mailu/overrides/rspamd:/etc/rspamd/override.d:ro"
+      - "./mailu/overrides/rspamd:/overrides:ro"
     depends_on:
       - front
+      - redis
+      - oletools
+      - antivirus
       - resolver
     dns:
       - ${DNS?:}
 
   # Optional services
   antivirus:
-    image: mailu/clamav:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/clamav:${MAILU_VERSION:-2.0}
     restart: always
     env_file: .env
     volumes:
@@ -159,30 +186,31 @@ services:
       - ${DNS?:}
 
   fetchmail:
-    image: mailu/fetchmail:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/fetchmail:${MAILU_VERSION:-2.0}
     restart: always
     env_file: .env
     volumes:
       - "./mailu/data/fetchmail:/data"
     depends_on:
+      - admin
+      - smtp
+      - imap
       - resolver
     dns:
       - ${DNS?:}
 
   # Webmail
   webmail:
-    image: mailu/roundcube:${MAILU_VERSION:-1.9}
+    image: ghcr.io/mailu/webmail:${MAILU_VERSION:-2.0}
     restart: always
     env_file: .env
     volumes:
       - "./mailu/webmail:/data"
       - "./mailu/overrides/roundcube:/overrides:ro"
+    networks:
+      - webmail
     depends_on:
-      - imap
-      - postgres
-      - resolver
-    dns:
-      - ${DNS?:}
+      - front
 
 networks:
   default:
@@ -191,14 +219,17 @@ networks:
       driver: default
       config:
         - subnet: ${SUBNET?:}
+  webmail:
+    driver: bridge
+  noinet:
+    driver: bridge
+    internal: true
   nginx-proxy:
     external: true
 ```
 
-### Step 2: Create a `.env` file
-
-```apache
-# Mailu main configuration file
+```[.env]
+# Mailu main configuration file, based on https://setup.mailu.io, adapted for nginx-proxy
 #
 # For a detailed list of configuration variables, see the documentation at
 # https://mailu.io
@@ -210,11 +241,11 @@ networks:
 # Username for the initial admin account (first part of the e-mail address before the @).
 # Main mail domain (see DOMAIN env variable below) will be used as domain
 # TODO: CHANGE ME:
-INITIAL_ADMIN_ACCOUNT=admin
+INITIAL_ADMIN_ACCOUNT=admin // [!code hl]
 
 # Password for the initial admin account. Will not be updated if account already exists.
 # TODO: CHANGE ME:
-INITIAL_ADMIN_PW=somePassword
+INITIAL_ADMIN_PW=somePassword // [!code hl]
 
 ###################################
 # Common configuration variables
@@ -222,7 +253,7 @@ INITIAL_ADMIN_PW=somePassword
 
 # Set to a randomly generated 16 bytes string
 # TODO: CHANGE ME:
-SECRET_KEY=ABCDEFGHIJKLMNOP
+SECRET_KEY=ABCDEFGHIJKLMNOP // [!code hl]
 
 # Subnet of the docker network. This should not conflict with any networks to which your system is connected. (Internal and external!)
 # Typically, you don't have to change anything here.
@@ -233,13 +264,13 @@ DNS=192.168.203.254
 
 # Main mail domain
 # TODO: CHANGE ME:
-DOMAIN=example.com
+DOMAIN=example.com // [!code hl]
 
 # Hostnames for this server, separated with comas
 # The HOSTNAMES are all public hostnames for the mail server. Mailu supports a mail server with multiple hostnames. The first declared hostname is the main hostname and will be exposed over SMTP, IMAP, etc.
 # SSL certificates are required for all hostnames (see "front" service in docker-compose)
 # TODO: CHANGE ME:
-HOSTNAMES=mail.example.com,mail.example2.com
+HOSTNAMES=mail.example.com,mail.example2.com // [!code hl]
 
 # Postmaster local part (will append the main mail domain). It is recommended to setup a generic value and later configure a mail alias for that address
 POSTMASTER=postmaster
@@ -254,11 +285,11 @@ TLS_FLAVOR=mail
 # To check your mailserver certificate, see here: https://www.sslshopper.com/ssl-checker.html#hostname=mail.example.com:465
 TLS_CERT_FILENAME=fullchain.pem
 
-# Authentication rate limit per IP (per /24 on ipv4 and /56 on ipv6)
-AUTH_RATELIMIT_IP=60/hour
+# Authentication rate limit per IP (per /24 on ipv4 and /48 on ipv6)
+AUTH_RATELIMIT_IP=5/hour
 
 # Authentication rate limit per user (regardless of the source-IP)
-AUTH_RATELIMIT_USER=100/day
+AUTH_RATELIMIT_USER=50/day
 
 # Opt-out of statistics, replace with "True" to opt out
 DISABLE_STATISTICS=True
@@ -270,8 +301,11 @@ DISABLE_STATISTICS=True
 # Expose the admin interface (value: true, false)
 ADMIN=true
 
-# Choose which webmail to run if any (values: roundcube, rainloop, none)
+# Choose which webmail to run if any (values: roundcube, snappymail, none)
 WEBMAIL=roundcube
+
+# Expose the API interface (value: true, false)
+API=false
 
 # Dav server implementation (value: radicale, none)
 WEBDAV=none
@@ -279,9 +313,12 @@ WEBDAV=none
 # Antivirus solution (value: clamav, none)
 ANTIVIRUS=clamav
 
-# Behaviour when virus is detected, default: discard (values: discard, reject)
+# Behavior when virus is detected, default: discard (values: discard, reject)
 # discard: Mail will be silently discarded, reject: Mail will be rejected and sender will receive a reject message
 ANTIVIRUS_ACTION=reject
+
+# Scan Macros solution. Will reject emails that contain documents with malicious macros (value: true, false)
+SCAN_MACROS=true
 
 ###################################
 # Mail settings
@@ -302,6 +339,9 @@ RELAYNETS=
 # Will relay all outgoing mails if configured
 RELAYHOST=
 
+# Enable fetchmail. If true, the fetchmail functionality is enabled and shown in the admin interface (container still needs to be included in the docker-compose.yml).
+FETCHMAIL_ENABLED=true
+
 # Fetchmail delay
 FETCHMAIL_DELAY=600
 
@@ -314,13 +354,14 @@ DMARC_RUF=postmaster
 
 # Welcome email, enable and set a topic and body if you wish to send welcome
 # emails to all users.
-# TODO: CHANGE ME (if necessary):
 WELCOME=true
-WELCOME_SUBJECT=Your new email account
-WELCOME_BODY=This is your new email account. If you get this email, everything is configured correctly!
+# TODO: CHANGE ME (if necessary):
+WELCOME_SUBJECT=Your new email account // [!code hl]
+# TODO: CHANGE ME (if necessary):
+WELCOME_BODY=This is your new email account. If you get this email, everything is configured correctly! // [!code hl]
 
 # Maildir Compression
-# choose compression-method, default: none (value: gz, bz2, lz4, zstd)
+# choose compression-method, default: none (value: gz, bz2, zstd)
 COMPRESSION=
 # change compression-level, default: 6 (value: 1-9)
 COMPRESSION_LEVEL=
@@ -341,13 +382,16 @@ WEB_ADMIN=/admin
 # Path to the webmail if enabled
 WEB_WEBMAIL=/
 
+# Path to the API interface if enabled
+WEB_API=
+
 # Website name
 # TODO: CHANGE ME:
-SITENAME=Mailu Mailserver
+SITENAME=Mailu Mailserver // [!code hl]
 
 # Linked Website URL
 # TODO: CHANGE ME:
-WEBSITE=https://example.com
+WEBSITE=https://mailu.io // [!code hl]
 
 # Background colour for the brand logo in the topleft of the main admin interface, default: #2980b9
 LOGO_BACKGROUND=
@@ -360,12 +404,6 @@ LOGO_URL=
 ###################################
 # Advanced settings
 ###################################
-
-# Log driver for front service. Possible values:
-# json-file (default)
-# journald (On systemd platforms, useful for Fail2Ban integration)
-# syslog (Non systemd platforms, Fail2Ban integration. Disables `docker-compose log` for front!)
-# LOG_DRIVER=json-file
 
 # Docker-compose project name, this will prepended to containers names.
 COMPOSE_PROJECT_NAME=mailu
@@ -388,48 +426,19 @@ LOG_LEVEL=WARNING
 # Timezone for the Mailu containers. See this link for all possible values https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 TZ=Etc/UTC
 
-###################################
-# Database settings
-###################################
-DB_FLAVOR=postgresql
-DB_USER=mailu
-# TODO: CHANGE ME:
-DB_PW=somePassword
-DB_HOST=postgres
-DB_NAME=mailu
+# Default spam threshold used for new users
+DEFAULT_SPAM_THRESHOLD=80
 
-# Important: Data has to match docker_postgres_init.sql data!!!
-ROUNDCUBE_DB_FLAVOR=postgresql
-ROUNDCUBE_DB_USER=roundcube
-# TODO: CHANGE ME:
-ROUNDCUBE_DB_PW=somePassword
-ROUNDCUBE_DB_HOST=postgres
-ROUNDCUBE_DB_NAME=roundcube
+# API token required for authenticating to the RESTful API.
+# This is a mandatory setting for using the RESTful API.
+API_TOKEN=
 ```
 
-### Step 3: Create a `docker_postgres_init.sql` file
+:::
 
-The mailserver needs two databases: one for the admin interface and another one for the webmailer. To avoid starting up a seconds postgres docker container, we can create a .sql file that creates a new database inside our existing postgres database.
+### Step 2: Change the path to the SSL certificate of your domain
 
-You only have to change the password below to the one you defined in the `ROUNDCUBE_DB_PW` env variable in [step 2](#step-2-create-a-env-file). The .sql file is automatically used by the postgres container on startup.
-
-```sql
--- according to: https://onexlab-io.medium.com/docker-compose-postgres-multiple-database-bbc0816db603
--- TODO: CHANGE ME: password has to match "ROUNDCUBE_DB_PW" env variable defined in step 2
-CREATE USER roundcube WITH PASSWORD 'somePassword' CREATEDB;
-CREATE DATABASE roundcube
-    WITH
-    OWNER = roundcube
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.utf8'
-    LC_CTYPE = 'en_US.utf8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
-```
-
-### Step 4: Change the path to the SSL certificate of your domain
-
-Since we are using the nginx-proxy that manages the SSL certificates the mailserver can't request it on its own. So we need to mount the cert to the mailserver.
+Since we are using the nginx-proxy that manages the SSL certificates, the mailserver can/should not request it on its own. So we need to mount the certificates to the mailserver.
 
 Therefore, we need to change the `docker-compose.yml` of the [nginx-proxy](/guide/getting-started).
 
@@ -441,34 +450,33 @@ services:
     image: jwilder/nginx-proxy:alpine
     # ...
     volumes:
-      # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2
-      # TODO: CHANGE ME: change path to your mailserver directory
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com
+      # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2 (mail.example.com)
+      # TODO: CHANGE ME: change path to your mailserver directory (./applications/mailserver)
+      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com // [!code ++]
       # ...
 
   nginx-proxy-le:
     image: nginxproxy/acme-companion
     # ...
     volumes:
-      # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2
-      # TODO: CHANGE ME: change path to your mailserver directory
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com
+      # TODO: CHANGE ME: same as above
+      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com // [!code ++]
       # ...
 ```
 
-and restart the nginx-proxy with
+and then restart the nginx-proxy with
 
 ```bash
 docker-compose up -d
 ```
 
-### Step 5: Start the mailserver
+### Step 4: Start the mailserver
 
 ```bash
 docker-compose up -d
 ```
 
-After starting up the mailserver you can access the admin interface with the `DOMAIN` that you defined in the `.env` in [step 2](#step-2-create-a-env-file).
+After starting up the mailserver, you can access the admin interface with the `DOMAIN` that you defined in the `.env` in [step 1](#step-1-create-a-docker-compose-yml-and-env-file).
 
 ## Firewall settings
 
@@ -487,7 +495,9 @@ sudo ufw allow 993
 
 ### rDNS
 
-In order to correctly send/receive emails you need to set the rDNS entry of your linux server to a domain that points to your server (e.g. example.com or mail.example.com). If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Customer Control Panel (CCP) under `Produkte -> Click on your server -> rDNS`.
+In order to correctly send/receive emails, you need to set the rDNS entry of your linux server to `mail.example.com` (change `example.com` with the value of the `DOMAIN` variable from your `.env` file ).
+
+If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Customer Control Panel (CCP) under `Products -> Click on your server -> rDNS`.
 
 ### MX record
 
@@ -498,7 +508,7 @@ The MX record tell your email client which email server should be used when send
 - Priority: 10
 - Value: mail.example.com
 
-Change value to hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 2](#step-2-create-a-env-file)).
+Change value to hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 1](#step-1-create-a-docker-compose-yml-and-env-file)).
 
 ### SPF record
 
@@ -508,4 +518,4 @@ The SPF record is optional but is used to prevent forging the sender address of 
 - Type: TXT
 - Value: v=spf1 mx a:mail.example.com ~all
 
-Change `mail.example.com` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 2](#step-2-create-a-env-file)).
+Change `mail.example.com` to the hostname of your mailserver (your entry in `HOSTNAMES` env variable defined in .env file in [step 1](#step-1-create-a-docker-compose-yml-and-env-file)).
