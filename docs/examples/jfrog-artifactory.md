@@ -15,22 +15,20 @@ version: "3"
 
 services:
   artifactory:
-    image: docker.bintray.io/jfrog/artifactory-oss:latest
+    image: docker.bintray.io/jfrog/artifactory-oss:7.63.14
     restart: always
-    # TODO: CHANGE ME: After directory creation execute:
-    # sudo chown -R 1030:1030 Artifactory
     volumes:
       - ./artifactory:/var/opt/jfrog/artifactory
     environment:
       VIRTUAL_HOST: "${DOMAIN?:}"
       LETSENCRYPT_HOST: "${DOMAIN?:}"
       VIRTUAL_PORT: 8082
-    expose:
-      - 8081
-      - 8082
 
+  # Proxy service for redirect request to api.YOUR_DOMAIN.com to port 8081 of the Artifactory
+  # which exposes the REST API. Port 8082 on the other hand exposes the UI which is used in
+  # the service above.
   proxy:
-    image: alpine/socat
+    image: alpine/socat:1.7.4.4
     restart: always
     expose:
       - 80
@@ -51,6 +49,15 @@ networks:
 # Domain that the application should be deployed to
 # TODO: CHANGE ME:
 DOMAIN=jfrog.example.com
+
+# Unique and secret master key, can be generated with:
+# openssl rand -hex 32
+# TODO: CHANGE ME:
+MASTER_KEY=d9fed922206468b77de4e0c74a0dda647c3aaff7c7e58335c93fc62ffbe90035
+
+# Unique and secret join key, can be generated with:
+# openssl rand -hex 32
+JOIN_KEY=1a9278d6446e3cd1da0a144ef848bca46eaa984ebc781ffc09459a952f2dcf99
 ```
 
 ### Step 3: Start the application
@@ -64,3 +71,12 @@ docker-compose up -d
 ```bash
 sudo chown -R 1030:1030 ./artifactory
 ```
+
+### Step 5: Complete setup
+
+By default, the admin user is:
+
+- Username: admin
+- Password: password
+
+Just login with the above credentials and you will be automatically prompted to complete the setup which also includes changing the admin password.
