@@ -1,7 +1,4 @@
 .DS_STORE
-
-# Common working files
-.env
-db
-data
-wp-content
+node_modules
+dist
+docs/.vitepress/cache
