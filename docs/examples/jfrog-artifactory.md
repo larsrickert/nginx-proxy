@@ -62,6 +62,10 @@ JOIN_KEY=1a9278d6446e3cd1da0a144ef848bca46eaa984ebc781ffc09459a952f2dcf99
 
 ### Step 3: Start the application
 
+::: info
+The application needs some time to start up so don't worry if it is not directly available after you started it with the below command. You can still continue with Step 4.
+:::
+
 ```bash
 docker-compose up -d
 ```
