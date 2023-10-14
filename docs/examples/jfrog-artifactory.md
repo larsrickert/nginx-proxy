@@ -18,12 +18,12 @@ services:
     image: docker.bintray.io/jfrog/artifactory-oss:latest
     restart: always
     # TODO: CHANGE ME: After directory creation execute:
-    # sudo chown -R 1030:1030 artifactory
+    # sudo chown -R 1030:1030 Artifactory
     volumes:
       - ./artifactory:/var/opt/jfrog/artifactory
     environment:
-      VIRTUAL_HOST: "${DOMAIN}"
-      LETSENCRYPT_HOST: "${DOMAIN}"
+      VIRTUAL_HOST: "${DOMAIN?:}"
+      LETSENCRYPT_HOST: "${DOMAIN?:}"
       VIRTUAL_PORT: 8082
     expose:
       - 8081
@@ -35,8 +35,8 @@ services:
     expose:
       - 80
     environment:
-      VIRTUAL_HOST: "api.${DOMAIN}"
-      LETSENCRYPT_HOST: "api.${DOMAIN}"
+      VIRTUAL_HOST: "api.${DOMAIN?:}"
+      LETSENCRYPT_HOST: "api.${DOMAIN?:}"
     command: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:artifactory:8081"]
 
 networks:
