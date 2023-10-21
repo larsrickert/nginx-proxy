@@ -96,6 +96,10 @@ export default defineConfig({
             text: "WordPress",
             link: "/examples/wordpress",
           },
+          {
+            text: "JFrog Artifactory",
+            link: "/examples/jfrog-artifactory",
+          },
         ],
       },
       {
