@@ -15,16 +15,16 @@ jobs:
         working-directory: cli
     steps:
       - name: Checkout Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: "pnpm"
+          cache: pnpm
           cache-dependency-path: cli/pnpm-lock.yaml
       - name: 📦 Install dependencies
         run: pnpm install
