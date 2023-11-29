@@ -1,3 +1,15 @@
+# [nginx-proxy-cli-v2.0.0](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.7...nginx-proxy-cli-v2.0.0) (2023-11-29)
+
+
+### chore
+
+* update dependencies ([5f5e48f](https://github.com/larsrickert/nginx-proxy/commit/5f5e48f62bd66d9a5067d38a3aa349825cad4639))
+
+
+### BREAKING CHANGES
+
+* require node version >= 16
+
 # [nginx-proxy-cli-v1.0.7](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.6...nginx-proxy-cli-v1.0.7) (2023-10-03)
 
 
