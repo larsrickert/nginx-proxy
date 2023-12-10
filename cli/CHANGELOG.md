@@ -1,3 +1,10 @@
+# [nginx-proxy-cli-v2.0.1](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v2.0.0...nginx-proxy-cli-v2.0.1) (2023-12-10)
+
+
+### Bug Fixes
+
+* remove vulnerable dependencies ([#20](https://github.com/larsrickert/nginx-proxy/issues/20)) ([111b6a6](https://github.com/larsrickert/nginx-proxy/commit/111b6a6d29b3f8ef202ec0c753d956e5d39fd2b8))
+
 # [nginx-proxy-cli-v2.0.0](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v1.0.7...nginx-proxy-cli-v2.0.0) (2023-11-29)
 
 
