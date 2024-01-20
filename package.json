@@ -4,7 +4,7 @@
   "description": "Combination of Open Source tools that enable you to easily deploy any application that runs with Docker on your own linux server.",
   "author": "larsrickert",
   "license": "MIT",
-  "packageManager": "pnpm@8.11.0",
+  "packageManager": "pnpm@8.14.1",
   "type": "module",
   "repository": {
     "type": "git",
@@ -18,6 +18,6 @@
     "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
-    "vitepress": "^1.0.0-rc.31"
+    "vitepress": "1.0.0-rc.39"
   }
 }
