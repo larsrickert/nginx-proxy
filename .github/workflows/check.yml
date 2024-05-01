@@ -56,6 +56,10 @@ jobs:
 
       # TODO: FOR TESTING ONLY, REMOVE THIS
       - name: Debug
+        run: ssh ${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_HOST }} whoami && node -v
+
+      # TODO: FOR TESTING ONLY, REMOVE THIS
+      - name: Debug
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
