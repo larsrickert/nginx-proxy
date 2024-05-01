@@ -61,4 +61,4 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          script: pwd
+          script: whoami | cut -c 1-2
