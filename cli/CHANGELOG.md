@@ -1,3 +1,15 @@
+# [nginx-proxy-cli-v3.0.0](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v2.0.2...nginx-proxy-cli-v3.0.0) (2024-05-01)
+
+
+### chore
+
+* bump minimum node version ([#23](https://github.com/larsrickert/nginx-proxy/issues/23)) ([8763fb9](https://github.com/larsrickert/nginx-proxy/commit/8763fb914a57849b20a38949ba4363aecf1d1301))
+
+
+### BREAKING CHANGES
+
+* bump min node version to `>= 18`
+
 # [nginx-proxy-cli-v2.0.2](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v2.0.1...nginx-proxy-cli-v2.0.2) (2024-01-20)
 
 
