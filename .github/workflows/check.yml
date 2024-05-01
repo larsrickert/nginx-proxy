@@ -62,7 +62,7 @@ jobs:
 
       # TODO: FOR TESTING ONLY, REMOVE THIS
       - name: Debug
-        run: ssh ${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_HOST }} whoami && echo $PATH
+        run: ssh "${{ secrets.SSH_USERNAME }}":"${{ secrets.SSH_PASSWORD }}"@${{ secrets.SSH_HOST }} whoami && echo $PATH
 
       # TODO: FOR TESTING ONLY, REMOVE THIS
       - name: Debug
