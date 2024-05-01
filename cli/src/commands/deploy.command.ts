@@ -4,27 +4,21 @@ import { cli } from "..";
 import { cloneOrPullRepo } from "../utils/git";
 
 export const deployCommand = new Command("deploy")
-  .description(
-    "Clone or pull latest git repository and (re)build docker-compose.yml"
-  )
+  .description("Clone or pull latest git repository and (re)build docker-compose.yml")
   .argument("<url>", "URL of the git repository")
-  .option(
-    "-b, --branch <branch>",
-    "Branch name to checkout before deploying",
-    "main"
-  )
+  .option("-b, --branch <branch>", "Branch name to checkout before deploying", "main")
   .option(
     "-d, --dir <dir>",
     "Directory where the git repository should be cloned in. Will create a subfolder inside this directory (see option --folder)",
-    "./applications"
+    "./applications",
   )
   .option(
     "-f, --folder <folder>",
-    "Folder name inside the applications directory that the repo is cloned to. If not provided, repository name will be used"
+    "Folder name inside the applications directory that the repo is cloned to. If not provided, repository name will be used",
   )
   .option(
     "-r, --root <root>",
-    "Root directory inside the git repository where the docker-compose.yml is located that should be deployed. If not provided, repository root (.) will be used"
+    "Root directory inside the git repository where the docker-compose.yml is located that should be deployed. If not provided, repository root (.) will be used",
   )
   .action(async (url: string, options: OptionValues) => {
     if (!shell.which("git") || !shell.which("docker-compose")) {
@@ -36,10 +30,7 @@ export const deployCommand = new Command("deploy")
     const folderName = options.folder as string | undefined;
     const root = options.root as string | undefined;
 
-    if (
-      folderName &&
-      (folderName.startsWith(".") || folderName.includes("/"))
-    ) {
+    if (folderName && (folderName.startsWith(".") || folderName.includes("/"))) {
       return cli.error(`Folder name "${folderName}" is invalid`);
     }
 
@@ -55,9 +46,7 @@ export const deployCommand = new Command("deploy")
       return cli.error("URL must start with https://");
     }
 
-    shell.echo(
-      `Deploying git repository "${url}" with branch "${branch}"...\n`
-    );
+    shell.echo(`Deploying git repository "${url}" with branch "${branch}"...\n`);
 
     try {
       const repoPath = await cloneOrPullRepo(url, applicationsDir, folderName);
@@ -71,9 +60,7 @@ export const deployCommand = new Command("deploy")
       shell.echo(`Rebuilding docker-compose.yml...`);
       if (
         shell.exec(
-          `${
-            root ? `cd ${root} &&` : ""
-          } docker-compose -f ./docker-compose.yml up -d --build`
+          `${root ? `cd ${root} &&` : ""} docker-compose -f ./docker-compose.yml up -d --build`,
         ).code !== 0
       ) {
         cli.error(`Error: docker-compose rebuild failed`);
