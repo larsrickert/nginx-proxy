@@ -4,29 +4,22 @@ The `nginx-proxy` offers a Node CLI that can be used to e.g. simplify or automat
 
 ## Prerequisites
 
-You need to have node installed on your system when you want to use the CLI.
+You need to have [Node.js](https://nodejs.org) `>= 18` installed on your system when you want to use the CLI.
 
 ### Install node
 
-- **Step 1:** Get installation script with (replacing `16.x` with the version that you want to install):
+We recommend to install node using [fnm](https://github.com/Schniz/fnm).
+
+- **Step 1:** Follow the [fnm installation instructions](https://github.com/Schniz/fnm?tab=readme-ov-file#installation)
+
+- **Step 2:** Install your desired node version
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+fnm install 20
+fnm default 20
 ```
 
-- **Step 2:** Execute the script with:
-
-```bash
-bash nodesource_setup.sh
-```
-
-- **Step 3:** Install node
-
-```bash
-apt install nodejs
-```
-
-- **Step 4 (optional):** Check node version
+- **Step 3 (optional):** Verify installation
 
 ```bash
 node -v

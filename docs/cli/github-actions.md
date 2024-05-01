@@ -22,6 +22,11 @@ In order to login to your linux server, you need to add your user credentials as
 
 Inside your git repository, create a `.github/workflows/deploy.yml` file and add the following content:
 
+:::tip CLI version
+We recommend to specify the major version of the CLI to use (e.g. `npx nginx-proxy-cli@3`).
+Otherwise, breaking changes we make to the CLI might break your existing GitHub actions.
+:::
+
 ```yaml
 name: Deploy
 on:
@@ -35,15 +40,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
       - name: Deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           envs: GITHUB_SERVER_URL,GITHUB_REPOSITORY
-          script: npx nginx-proxy-cli deploy $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --dir=~/nginx-proxy/applications
+          script: npx nginx-proxy-cli@3 deploy $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --dir=~/nginx-proxy/applications
 ```
 
 **Notes**:
