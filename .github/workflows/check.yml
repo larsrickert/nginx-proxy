@@ -12,17 +12,21 @@ jobs:
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
+
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: pnpm
           cache-dependency-path: cli/pnpm-lock.yaml
+
       - name: 📦 Install dependencies
         run: pnpm install
-      - name: ⚒️ Build
+
+      - name: 🛠️ Build
         run: pnpm build
 
   check_docs:
@@ -31,14 +35,18 @@ jobs:
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
+
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: pnpm
+
       - name: 📦 Install dependencies
         run: pnpm install
-      - name: ⚒️ Build
+
+      - name: 🛠️ Build
         run: pnpm docs:build
