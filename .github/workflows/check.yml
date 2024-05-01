@@ -53,3 +53,12 @@ jobs:
 
       - name: 🛠️ Build
         run: pnpm docs:build
+
+      # TODO: FOR TESTING ONLY, REMOVE THIS
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: node -v

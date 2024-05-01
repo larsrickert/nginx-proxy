@@ -30,7 +30,7 @@ jobs:
         run: pnpm docs:build
 
       - name: Deploy
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
