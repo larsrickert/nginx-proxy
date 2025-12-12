@@ -25,6 +25,7 @@ jobs:
 
       - name: 📦 Install dependencies
         run: pnpm install
+        working-directory: cli
 
       - name: 🛠️ Build
         run: pnpm build
