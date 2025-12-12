@@ -24,6 +24,9 @@ importers:
       '@semantic-release/git':
         specifier: ^10.0.1
         version: 10.0.1(semantic-release@25.0.2(typescript@5.9.3))
+      '@tsconfig/node24':
+        specifier: ^24.0.3
+        version: 24.0.3
       '@types/node':
         specifier: ^24.10.3
         version: 24.10.3
@@ -202,6 +205,9 @@ packages:
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==, tarball: https://registry.npmjs.org/@sindresorhus/merge-streams/-/merge-streams-4.0.0.tgz}
     engines: {node: '>=18'}
+
+  '@tsconfig/node24@24.0.3':
+    resolution: {integrity: sha512-vcERKtKQKHgzt/vfS3Gjasd8SUI2a0WZXpgJURdJsMySpS5+ctgbPfuLj2z/W+w4lAfTWxoN4upKfu2WzIRYnw==, tarball: https://registry.npmjs.org/@tsconfig/node24/-/node24-24.0.3.tgz}
 
   '@types/node@24.10.3':
     resolution: {integrity: sha512-gqkrWUsS8hcm0r44yn7/xZeV1ERva/nLgrLxFRUGb7aoNMIJfZJ3AC261zDQuOAKC7MiXai1WCpYc48jAHoShQ==, tarball: https://registry.npmjs.org/@types/node/-/node-24.10.3.tgz}
@@ -1777,6 +1783,8 @@ snapshots:
   '@sindresorhus/is@4.6.0': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
+
+  '@tsconfig/node24@24.0.3': {}
 
   '@types/node@24.10.3':
     dependencies:
