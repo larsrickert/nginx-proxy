@@ -10,6 +10,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # required for npmjs.org trusted publishing
     defaults:
       run:
         working-directory: cli
@@ -34,6 +36,3 @@ jobs:
 
       - name: Release
         run: pnpm semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
