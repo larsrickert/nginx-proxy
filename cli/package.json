@@ -5,9 +5,9 @@
   "main": "bin/index.js",
   "author": "larsrickert",
   "license": "MIT",
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@10.25.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -34,18 +34,18 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "commander": "^12.0.0",
-    "shelljs": "~0.8.5"
+    "commander": "^14.0.2",
+    "shelljs": "~0.10.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^20.12.7",
-    "@types/shelljs": "~0.8.15",
-    "semantic-release": "^23.0.8",
+    "@types/node": "^24.10.3",
+    "@types/shelljs": "~0.10.0",
+    "semantic-release": "^25.0.2",
     "semantic-release-monorepo": "^8.0.2",
-    "typescript": "~5.4.5"
+    "typescript": "~5.9.3"
   },
   "release": {
     "extends": "semantic-release-monorepo",

@@ -1,5 +1,5 @@
 # build stage
-FROM node:20 as build
+FROM node:24 AS build
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN npm i -g $(node -p "require('./package.json').packageManager")
 RUN pnpm install --frozen-lockfile
 
 COPY . ./
-RUN pnpm docs:build
+RUN pnpm build
 
 # production stage
 FROM nginx:stable-alpine

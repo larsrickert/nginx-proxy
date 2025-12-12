@@ -11,13 +11,13 @@ jobs:
         working-directory: cli
     steps:
       - name: Checkout Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .node-version
           cache: pnpm
@@ -25,6 +25,7 @@ jobs:
 
       - name: 📦 Install dependencies
         run: pnpm install
+        working-directory: cli
 
       - name: 🛠️ Build
         run: pnpm build
@@ -34,13 +35,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .node-version
           cache: pnpm
@@ -52,4 +53,4 @@ jobs:
         run: pnpm format:check
 
       - name: 🛠️ Build
-        run: pnpm docs:build
+        run: pnpm build
