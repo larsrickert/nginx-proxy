@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # required for npmjs.org trusted publishing
+      contents: write
     defaults:
       run:
         working-directory: cli
