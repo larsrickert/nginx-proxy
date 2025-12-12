@@ -1,3 +1,16 @@
+# [nginx-proxy-cli-v4.0.0](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v3.0.0...nginx-proxy-cli-v4.0.0) (2025-12-12)
+
+
+### chore
+
+* **cli:** update tsconfig ([#26](https://github.com/larsrickert/nginx-proxy/issues/26)) ([986e08b](https://github.com/larsrickert/nginx-proxy/commit/986e08b61f484bab4b5b344610c8102796d5f116))
+
+
+### BREAKING CHANGES
+
+* **cli:** require minimum node version `>= 20` (actual change was
+included in a previous commit but it didn't trigger a release)
+
 # [nginx-proxy-cli-v3.0.0](https://github.com/larsrickert/nginx-proxy/compare/nginx-proxy-cli-v2.0.2...nginx-proxy-cli-v3.0.0) (2024-05-01)
 
 
