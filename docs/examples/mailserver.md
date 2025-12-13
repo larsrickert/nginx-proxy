@@ -20,7 +20,7 @@ In general you don't have to change anything in the below example to make it wor
 
 ### Step 1: Create a `docker-compose.yml` and `.env` file
 
-All data that needs to be persisted will be mount to the `./mailu` folder. So if you need to back up the mailserver, you can simply backup this folder.
+All data that needs to be persisted will be mount to the `.data` folder. So if you need to back up the mailserver, you can simply backup this folder.
 
 Make sure to replace the highlighted lines with your information.
 
@@ -30,10 +30,10 @@ Make sure to replace the highlighted lines with your information.
 services:
   # External dependencies
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     restart: always
     volumes:
-      - "./mailu/redis:/data"
+      - ".data/redis:/data"
     depends_on:
       - resolver
     dns:
@@ -41,7 +41,7 @@ services:
 
   # Core services
   front:
-    image: ghcr.io/mailu/nginx:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/nginx:2024.06
     restart: always
     env_file: .env
     logging:
@@ -55,10 +55,11 @@ services:
       - "995:995" # POP3S (secure), do not use port 110 for POP3 because its insecure
       - "143:143"
       - "993:993"
+      - "4190:4190"
     volumes:
       # path to cert folder
-      - "./certs:/certs:ro"
-      - "./mailu/overrides/nginx:/overrides:ro"
+      - "../path-to-your-nginx-proxy/.data/certs/mail.${DOMAIN?:}:/certs:ro"
+      - ".data/overrides/nginx:/overrides:ro"
     environment:
       # nginx proxy will request cert for all hostnames in a single cert
       # so the cert runs under the name of the first hostname and includes all other hostnames
@@ -75,15 +76,19 @@ services:
       - nginx-proxy
 
   resolver:
-    image: ghcr.io/mailu/unbound:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/unbound:2024.06
     env_file: .env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-resolver
     restart: always
     networks:
       default:
         ipv4_address: ${DNS?:}
 
   admin:
-    image: ghcr.io/mailu/admin:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/admin:2024.06
     restart: always
     env_file: .env
     environment:
@@ -94,8 +99,8 @@ services:
       options:
         tag: mailu-admin
     volumes:
-      - "./mailu/data:/data"
-      - "./mailu/dkim:/dkim"
+      - ".data/data:/data"
+      - ".data/dkim:/dkim"
     depends_on:
       - redis
       - resolver
@@ -103,7 +108,7 @@ services:
       - ${DNS?:}
 
   imap:
-    image: ghcr.io/mailu/dovecot:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/dovecot:2024.06
     restart: always
     env_file: .env
     logging:
@@ -111,8 +116,8 @@ services:
       options:
         tag: mailu-imap
     volumes:
-      - "./mailu/mail:/mail"
-      - "./mailu/overrides/dovecot:/overrides:ro"
+      - ".data/mail:/mail"
+      - ".data/overrides/dovecot:/overrides:ro"
     depends_on:
       - front
       - resolver
@@ -120,7 +125,7 @@ services:
       - ${DNS?:}
 
   smtp:
-    image: ghcr.io/mailu/postfix:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/postfix:2024.06
     restart: always
     env_file: .env
     logging:
@@ -128,8 +133,8 @@ services:
       options:
         tag: mailu-smtp
     volumes:
-      - "./mailu/mailqueue:/queue"
-      - "./mailu/overrides/postfix:/overrides:ro"
+      - ".data/mailqueue:/queue"
+      - ".data/overrides/postfix:/overrides:ro"
     depends_on:
       - front
       - resolver
@@ -137,18 +142,22 @@ services:
       - ${DNS?:}
 
   oletools:
-    image: ghcr.io/mailu/oletools:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/oletools:2024.06
     hostname: oletools
+    logging:
+      driver: journald
+      options:
+        tag: mailu-oletools
     restart: always
     networks:
-      - noinet
+      - oletools
     depends_on:
       - resolver
     dns:
       - ${DNS?:}
 
   antispam:
-    image: ghcr.io/mailu/rspamd:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/rspamd:2024.06
     hostname: antispam
     restart: always
     env_file: .env
@@ -158,10 +167,11 @@ services:
         tag: mailu-antispam
     networks:
       - default
-      - noinet
+      - oletools
+      - clamav
     volumes:
-      - "./mailu/filter:/var/lib/rspamd"
-      - "./mailu/overrides/rspamd:/overrides:ro"
+      - ".data/filter:/var/lib/rspamd"
+      - ".data/overrides/rspamd:/overrides:ro"
     depends_on:
       - front
       - redis
@@ -173,38 +183,35 @@ services:
 
   # Optional services
   antivirus:
-    image: ghcr.io/mailu/clamav:${MAILU_VERSION:-2.0}
+    image: clamav/clamav-debian:1.5
     restart: always
-    env_file: .env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-antivirus
+    networks:
+      - clamav
     volumes:
-      - "./mailu/filter:/data"
-    depends_on:
-      - resolver
-    dns:
-      - ${DNS?:}
-
-  fetchmail:
-    image: ghcr.io/mailu/fetchmail:${MAILU_VERSION:-2.0}
-    restart: always
-    env_file: .env
-    volumes:
-      - "./mailu/data/fetchmail:/data"
-    depends_on:
-      - admin
-      - smtp
-      - imap
-      - resolver
-    dns:
-      - ${DNS?:}
+      - ".data/clamav:/var/lib/clamav"
+    healthcheck:
+      test: ["CMD-SHELL", "kill -0 `cat /tmp/clamd.pid` && kill -0 `cat /tmp/freshclam.pid`"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   # Webmail
   webmail:
-    image: ghcr.io/mailu/webmail:${MAILU_VERSION:-2.0}
+    image: ghcr.io/mailu/webmail:2024.06
     restart: always
     env_file: .env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-webmail
     volumes:
-      - "./mailu/webmail:/data"
-      - "./mailu/overrides/roundcube:/overrides:ro"
+      - ".data/webmail:/data"
+      - ".data/overrides/roundcube:/overrides:ro"
     networks:
       - webmail
     depends_on:
@@ -219,7 +226,9 @@ networks:
         - subnet: ${SUBNET?:}
   webmail:
     driver: bridge
-  noinet:
+  clamav:
+    driver: bridge
+  oletools:
     driver: bridge
     internal: true
   nginx-proxy:
@@ -299,23 +308,23 @@ DISABLE_STATISTICS=True
 # Expose the admin interface (value: true, false)
 ADMIN=true
 
-# Choose which webmail to run if any (values: roundcube, snappymail, none)
+# Choose which webmail to run if any (values: roundcube, snappymail, none). When changing this feature, recreate the docker-compose.yml file via setup.
 WEBMAIL=roundcube
 
 # Expose the API interface (value: true, false)
 API=false
 
-# Dav server implementation (value: radicale, none)
+# Dav server implementation (value: radicale, none). When change this feature, recreate the docker-compose.yml file via setup.
 WEBDAV=none
 
-# Antivirus solution (value: clamav, none)
+# Antivirus solution (value: clamav, none). When change this feature, recreate the docker-compose.yml file via setup.
 ANTIVIRUS=clamav
 
 # Behavior when virus is detected, default: discard (values: discard, reject)
 # discard: Mail will be silently discarded, reject: Mail will be rejected and sender will receive a reject message
 ANTIVIRUS_ACTION=reject
 
-# Scan Macros solution. Will reject emails that contain documents with malicious macros (value: true, false)
+# Scan Macros solution. Will reject emails that contain documents with malicious macros (value: true, false). When change this feature, recreate the docker-compose.yml file via setup.
 SCAN_MACROS=true
 
 ###################################
@@ -337,8 +346,8 @@ RELAYNETS=
 # Will relay all outgoing mails if configured
 RELAYHOST=
 
-# Enable fetchmail. If true, the fetchmail functionality is enabled and shown in the admin interface (container still needs to be included in the docker-compose.yml).
-FETCHMAIL_ENABLED=true
+# Enable fetchmail
+FETCHMAIL_ENABLED=false
 
 # Fetchmail delay
 FETCHMAIL_DELAY=600
@@ -364,8 +373,10 @@ COMPRESSION=
 # change compression-level, default: 6 (value: 1-9)
 COMPRESSION_LEVEL=
 
-# IMAP full-text search is enabled by default. Set the following variable to off in order to disable the feature.
-# FULL_TEXT_SEARCH=off
+# IMAP full-text search is enabled by default.
+# Set the following variable to off in order to disable the feature
+# or a comma separated list of language codes to support
+FULL_TEXT_SEARCH=off
 
 ###################################
 # Web settings
@@ -381,7 +392,7 @@ WEB_ADMIN=/admin
 WEB_WEBMAIL=/
 
 # Path to the API interface if enabled
-WEB_API=
+WEB_API=/api
 
 # Website name
 # TODO: CHANGE ME:
@@ -430,6 +441,9 @@ DEFAULT_SPAM_THRESHOLD=80
 # API token required for authenticating to the RESTful API.
 # This is a mandatory setting for using the RESTful API.
 API_TOKEN=
+
+# Whether tika should be enabled (scan/OCR email attachements). To enable this feature, recreate the docker-compose.yml file via setup.
+FULL_TEXT_SEARCH_ATTACHMENTS=
 ```
 
 :::
