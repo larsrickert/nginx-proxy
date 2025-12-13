@@ -11,8 +11,6 @@ In general you don't have to change anything in the below example to make it wor
 ### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
-version: "3"
-
 services:
   db:
     image: postgres:15-alpine
@@ -37,10 +35,10 @@ services:
     environment:
       POSTGRES_HOST: db
       REDIS_HOST: redis
-      NEXTCLOUD_TRUSTED_DOMAINS: "${DOMAIN?:}"
+      NEXTCLOUD_TRUSTED_DOMAINS: ${DOMAIN?:}
       OVERWRITEPROTOCOL: https
-      VIRTUAL_HOST: "${DOMAIN?:}"
-      LETSENCRYPT_HOST: "${DOMAIN?:}"
+      VIRTUAL_HOST: ${DOMAIN?:}
+      LETSENCRYPT_HOST: ${DOMAIN?:}
     links:
       - db
       - redis
@@ -85,5 +83,5 @@ DOMAIN=nextcloud.example.com
 When first starting nextcloud, it will take a while for it to initialize. While initializing you might get a 502 Bad Gateway error when opening the domain.
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```

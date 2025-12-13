@@ -11,8 +11,6 @@ mkdir htpasswd
 ## Step 2: Extend `docker-compose.yml` of nginx-proxy
 
 ```yaml
-version: "3"
-
 services:
   nginx-proxy:
     # ...
@@ -48,7 +46,7 @@ Copy the generated command line output to the file created in [step 3](#step-3-i
 ## Step 6: Restart nginx-proxy
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 When you now open the domain specified in [step 3](#step-3-inside-htpasswd-create-a-file-with-the-name-of-the-domain-that-you-want-to-protect), you will be prompted to enter your username and password.

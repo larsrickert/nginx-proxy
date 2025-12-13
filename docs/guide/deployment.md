@@ -17,8 +17,6 @@ Beside the general Docker setup of your application there are three main aspects
 Add the following network definitions to the service(s) that you want to deploy with `nginx-proxy`. Note: If you e.g. have an app and a database service you most likely only want to deploy the app itself (and connect it to a domain), so you don't need to at the networks to your database service.
 
 ```yaml
-version: "3"
-
 services:
   my-app:
     # ...
@@ -54,8 +52,6 @@ Now you need to define which service should be deployed with which domain. Add t
 - `LETSENCRYPT_HOST`: Domain that a SSL certificate should be requested for
 
 ```yaml
-version: "3"
-
 services:
   my-app:
     # ...
@@ -78,8 +74,6 @@ The `nginx-proxy` will then redirect incoming requests to your domain to the exp
 If you use an official Docker image it most likely already exposes a port so you don't need to expose it again. If your application doesn't expose a port you can do so with:
 
 ```yaml
-version: "3"
-
 services:
   my-app:
     # ...
@@ -94,8 +88,6 @@ Port `80` is just an example here. If you e.g. have an API that runs on port `30
 If your application only exposes one port the nginx-proxy will automatically use this port. However, if you expose multiple ports you need to explicitly define which port you want to bind to the domain. Therefore you need to define the `VIRTUAL_PORT` environment variable:
 
 ```yaml
-version: "3"
-
 services:
   my-app:
     # if multiple ports are exposed, e.g. 80 and 3000
@@ -108,8 +100,6 @@ services:
 You can even deploy multiple applications within one single `docker-compose.yml`. Just add the `nginx-proxy` network as described above, set the `VIRTUAL_HOST` and `LETSENCRYPT_HOST` environment variables and expose the application port on **every service** that you want to deploy.
 
 ```yaml
-version: "3"
-
 services:
   my-app:
     # ...

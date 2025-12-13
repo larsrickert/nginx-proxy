@@ -27,8 +27,6 @@ Make sure to replace the highlighted lines with your information.
 ::: code-group
 
 ```yml [docker-compose.yml]
-version: "3"
-
 services:
   # External dependencies
   redis:
@@ -443,8 +441,6 @@ Since we are using the nginx-proxy that manages the SSL certificates, the mailse
 Therefore, we need to change the `docker-compose.yml` of the [nginx-proxy](/guide/getting-started).
 
 ```yaml
-version: "3"
-
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy:alpine
@@ -467,13 +463,13 @@ services:
 and then restart the nginx-proxy with
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Step 4: Start the mailserver
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 After starting up the mailserver, you can access the admin interface with the `DOMAIN` that you defined in the `.env` in [step 1](#step-1-create-a-docker-compose-yml-and-env-file).

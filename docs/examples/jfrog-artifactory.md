@@ -11,8 +11,6 @@ In general you don't have to change anything in the below example to make it wor
 ### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
-version: "3"
-
 services:
   artifactory:
     image: docker.bintray.io/jfrog/artifactory-oss:7.63.14
@@ -20,8 +18,8 @@ services:
     volumes:
       - ./artifactory:/var/opt/jfrog/artifactory
     environment:
-      VIRTUAL_HOST: "${DOMAIN?:}"
-      LETSENCRYPT_HOST: "${DOMAIN?:}"
+      VIRTUAL_HOST: ${DOMAIN?:}
+      LETSENCRYPT_HOST: ${DOMAIN?:}
       VIRTUAL_PORT: 8082
 
   # Proxy service for redirect request to api.YOUR_DOMAIN.com to port 8081 of the Artifactory
@@ -33,8 +31,8 @@ services:
     expose:
       - 80
     environment:
-      VIRTUAL_HOST: "api.${DOMAIN?:}"
-      LETSENCRYPT_HOST: "api.${DOMAIN?:}"
+      VIRTUAL_HOST: api.${DOMAIN?:}
+      LETSENCRYPT_HOST: api.${DOMAIN?:}
     command: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:artifactory:8081"]
 
 networks:
@@ -67,7 +65,7 @@ The application needs some time to start up so don't worry if it is not directly
 :::
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Step 4: Set volume permissions

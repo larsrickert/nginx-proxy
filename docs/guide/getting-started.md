@@ -34,42 +34,35 @@ touch docker-compose.yml
 
 and add the following content:
 
-```yaml
-version: "3"
+::: code-group
 
+```yaml [docker-compose.yml]
 services:
   nginx-proxy:
-    image: jwilder/nginx-proxy:1.0-alpine
+    image: jwilder/nginx-proxy:1.9-alpine
     container_name: nginx-proxy
     restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - certs:/etc/nginx/certs
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
+      - .data/certs:/etc/nginx/certs
+      - .data/vhost:/etc/nginx/vhost.d
+      - .data/html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
-  nginx-proxy-le:
-    image: nginxproxy/acme-companion:2.2
-    container_name: nginx-proxy-le
+  nginx-proxy-acme:
+    image: nginxproxy/acme-companion:2.6
+    container_name: nginx-proxy-acme
     restart: always
     environment:
-      DEFAULT_EMAIL: "${LETSENCRYPT_EMAIL}"
+      DEFAULT_EMAIL: ${LETSENCRYPT_EMAIL?:}
       NGINX_PROXY_CONTAINER: nginx-proxy
+    volumes_from:
+      - nginx-proxy
     volumes:
-      - certs:/etc/nginx/certs
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - acme:/etc/acme.sh
+      - .data/acme:/etc/acme.sh
       - /var/run/docker.sock:/var/run/docker.sock:ro
-
-volumes:
-  certs:
-  vhost:
-  html:
-  acme:
 
 networks:
   default:
@@ -77,13 +70,15 @@ networks:
     external: true
 ```
 
+:::
+
 Let's take a look at the two services that are defined in the `docker-compose.yml`:
 
 **nginx-proxy**:
 
 This service is the heart of the setup that will automatically generate reverse proxy configurations for all our applications and their domains. In non-technical words: It will make your application available to the internet. Whenever you enter your domain into a browser to access web content, the request will be handled by this service.
 
-**nginx-proxy-le:**
+**nginx-proxy-acme:**
 
 This service is the SSL part of the setup. It is responsible for automatically requesting, managing and renewing free Let's Encrypt SSL certificates for all your applications that are using the nginx-proxy to secure the traffic with SSL (HTTPS).
 
@@ -99,7 +94,7 @@ and add the following content (replace `mail@example.com` with your email addres
 LETSENCRYPT_EMAIL=mail@example.com
 ```
 
-The email address defined here will be used by the `nginx-proxy-le` service to send you Let's Encrypt related emails, e.g. reminders for expiring SSL certificates. Although the certificates are renewed automatically it's recommended to add your email here.
+The email address defined here will be used by the `nginx-proxy-acme` service to send you Let's Encrypt related emails, e.g. reminders for expiring SSL certificates. Although the certificates are renewed automatically it's recommended to add your email here.
 
 ### Step 5: Create a `proxy.conf` file for custom nginx configuration <Badge text="optional" type="info" />
 
@@ -165,15 +160,15 @@ logs
 ### Step 7: Start the nginx-proxy
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Step 8: Verify that the nginx-proxy is running successfully <Badge text="optional" type="info" />
 
-When running the below command you should see the `nginx-proxy` and `nginx-proxy-le` container running.
+When running the below command you should see the `nginx-proxy` and `nginx-proxy-acme` container running.
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 ## DNS records

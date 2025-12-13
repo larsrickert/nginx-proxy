@@ -11,8 +11,6 @@ In general you don't have to change anything in the below example to make it wor
 ### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
-version: "3"
-
 services:
   db:
     image: mariadb:10
@@ -26,11 +24,11 @@ services:
     restart: always
     environment:
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: "${MYSQL_USER?:}"
-      WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD?:}"
-      WORDPRESS_TABLE_PREFIX: "${WORDPRESS_TABLE_PREFIX}"
-      VIRTUAL_HOST: "${DOMAIN?:}"
-      LETSENCRYPT_HOST: "${DOMAIN?:}"
+      WORDPRESS_DB_USER: ${MYSQL_USER?:}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD?:}
+      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX}
+      VIRTUAL_HOST: ${DOMAIN?:}
+      LETSENCRYPT_HOST: ${DOMAIN?:}
     depends_on:
       - db
     links:
@@ -83,7 +81,7 @@ post_max_size = 64M
 ### Step 4: Start the application
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 When you directly open your domain after first running the above command, you may get a database connection error. In this case, just wait a few seconds and then try again. The database needs some time to initialize.

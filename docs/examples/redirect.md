@@ -11,16 +11,14 @@ In general you don't have to change anything in the below example to make it wor
 ### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
-version: "3"
-
 services:
   redirect:
     image: morbz/docker-web-redirect
     restart: always
     env_file: .env
     environment:
-      VIRTUAL_HOST: "${DOMAIN?:}"
-      LETSENCRYPT_HOST: "${DOMAIN?:}"
+      VIRTUAL_HOST: ${DOMAIN?:}
+      LETSENCRYPT_HOST: ${DOMAIN?:}
 
 networks:
   default:
@@ -43,5 +41,5 @@ REDIRECT_TARGET=google.de
 ### Step 3: Start the application
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```

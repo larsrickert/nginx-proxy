@@ -13,12 +13,10 @@ In general you don't have to change anything in the below example to make it wor
 ### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
-version: "3"
-
 services:
   netdata:
     image: netdata/netdata:v1.37
-    hostname: "${HOST_FQDN}"
+    hostname: ${HOST_FQDN}
     restart: always
     cap_add:
       - SYS_PTRACE
@@ -32,11 +30,11 @@ services:
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
     environment:
-      VIRTUALIZATION: "${VIRTUALIZATION}"
+      VIRTUALIZATION: ${VIRTUALIZATION}
       DISABLE_TELEMETRY: 1
       DOCKER_HOST: proxy:2375
-      VIRTUAL_HOST: "${DOMAIN?:}"
-      LETSENCRYPT_HOST: "${DOMAIN?:}"
+      VIRTUAL_HOST: ${DOMAIN?:}
+      LETSENCRYPT_HOST: ${DOMAIN?:}
     networks:
       - default
       - nginx-proxy
@@ -83,7 +81,7 @@ VIRTUALIZATION=
 ### Step 3: Start the application
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Basic authentication

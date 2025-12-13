@@ -17,8 +17,6 @@ In this example, we will deploy a static app that requires a build step, e.g. wh
 ### Step 1: Create a `docker-compose.yml` file
 
 ```yaml
-version: "3"
-
 services:
   app:
     # path to dir with Dockerfile
@@ -27,8 +25,8 @@ services:
     image: larsrickert/nginx-proxy-example-static
     restart: always
     environment:
-      VIRTUAL_HOST: "${DOMAIN?:}"
-      LETSENCRYPT_HOST: "${DOMAIN?:}"
+      VIRTUAL_HOST: ${DOMAIN?:}
+      LETSENCRYPT_HOST: ${DOMAIN?:}
 
 networks:
   default:
@@ -42,7 +40,7 @@ You need to adjust the `Dockerfile` below to suit your application needs. This e
 
 ```docker
 # build stage
-FROM node:18-alpine as build
+FROM node:24-alpine AS build
 WORKDIR /app
 
 # build application
@@ -52,7 +50,7 @@ COPY . ./
 RUN npm run build
 
 # production stage
-FROM nginx:1.23-alpine
+FROM nginx:stable-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
@@ -122,7 +120,7 @@ DOMAIN=static.example.com
 ### Step 5: Start the application
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Without build step
@@ -134,15 +132,13 @@ If you don't have a build step for you static content (e.g. you just want to ser
 - use following `docker-compose.yml`:
 
   ```yaml
-  version: "3"
-
   services:
     app:
-      image: nginx:1.23-alpine
+      image: nginx:stable-alpine
       restart: always
       environment:
-        VIRTUAL_HOST: "${DOMAIN?:}"
-        LETSENCRYPT_HOST: "${DOMAIN?:}"
+        VIRTUAL_HOST: ${DOMAIN?:}
+        LETSENCRYPT_HOST: ${DOMAIN?:}
       volumes:
         # TODO: CHANGE ME: change ./html to the path to your files
         - ./html:/usr/share/nginx/html
