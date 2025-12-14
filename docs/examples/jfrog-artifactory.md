@@ -14,7 +14,7 @@ In general you don't have to change anything in the below example to make it wor
 services:
   artifactory:
     image: docker.bintray.io/jfrog/artifactory-oss:7.63.14
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./artifactory:/var/opt/jfrog/artifactory
     environment:
@@ -27,7 +27,7 @@ services:
   # the service above.
   proxy:
     image: alpine/socat:1.7.4.4
-    restart: always
+    restart: unless-stopped
     expose:
       - 80
     environment:

@@ -17,7 +17,7 @@ services:
   netdata:
     image: netdata/netdata:v1.37
     hostname: ${HOST_FQDN}
-    restart: always
+    restart: unless-stopped
     cap_add:
       - SYS_PTRACE
     security_opt:
@@ -42,7 +42,7 @@ services:
   # proxy for host docker socket (more secure than mounting directly to netdata service)
   proxy:
     image: tecnativa/docker-socket-proxy:0.1
-    restart: always
+    restart: unless-stopped
     environment:
       CONTAINERS: 1
     volumes:

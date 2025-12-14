@@ -31,7 +31,7 @@ services:
   # External dependencies
   redis:
     image: redis:8-alpine
-    restart: always
+    restart: unless-stopped
     volumes:
       - ".data/redis:/data"
     depends_on:
@@ -42,7 +42,7 @@ services:
   # Core services
   front:
     image: ghcr.io/mailu/nginx:2024.06
-    restart: always
+    restart: unless-stopped
     env_file: .env
     logging:
       driver: journald
@@ -82,14 +82,14 @@ services:
       driver: journald
       options:
         tag: mailu-resolver
-    restart: always
+    restart: unless-stopped
     networks:
       default:
         ipv4_address: ${DNS?:}
 
   admin:
     image: ghcr.io/mailu/admin:2024.06
-    restart: always
+    restart: unless-stopped
     env_file: .env
     environment:
       INITIAL_ADMIN_DOMAIN: "${DOMAIN?:}"
@@ -109,7 +109,7 @@ services:
 
   imap:
     image: ghcr.io/mailu/dovecot:2024.06
-    restart: always
+    restart: unless-stopped
     env_file: .env
     logging:
       driver: journald
@@ -126,7 +126,7 @@ services:
 
   smtp:
     image: ghcr.io/mailu/postfix:2024.06
-    restart: always
+    restart: unless-stopped
     env_file: .env
     logging:
       driver: journald
@@ -148,7 +148,7 @@ services:
       driver: journald
       options:
         tag: mailu-oletools
-    restart: always
+    restart: unless-stopped
     networks:
       - oletools
     depends_on:
@@ -159,7 +159,7 @@ services:
   antispam:
     image: ghcr.io/mailu/rspamd:2024.06
     hostname: antispam
-    restart: always
+    restart: unless-stopped
     env_file: .env
     logging:
       driver: journald
@@ -184,7 +184,7 @@ services:
   # Optional services
   antivirus:
     image: clamav/clamav-debian:1.5
-    restart: always
+    restart: unless-stopped
     logging:
       driver: journald
       options:
@@ -203,7 +203,7 @@ services:
   # Webmail
   webmail:
     image: ghcr.io/mailu/webmail:2024.06
-    restart: always
+    restart: unless-stopped
     env_file: .env
     logging:
       driver: journald

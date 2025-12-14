@@ -14,21 +14,21 @@ In general you don't have to change anything in the below example to make it wor
 services:
   db:
     image: postgres:15-alpine
-    restart: always
+    restart: unless-stopped
     env_file: .env
     volumes:
       - ./data/db:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
-    restart: always
+    restart: unless-stopped
     env_file: .env
     command: >
       --requirepass ${REDIS_HOST_PASSWORD?:}
 
   nextcloud:
     image: nextcloud:25.0-apache
-    restart: always
+    restart: unless-stopped
     env_file: .env
     volumes:
       - ./data/nextcloud:/var/www/html

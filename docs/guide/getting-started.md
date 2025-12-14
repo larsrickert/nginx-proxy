@@ -41,7 +41,7 @@ services:
   nginx-proxy:
     image: jwilder/nginx-proxy:1.9-alpine
     container_name: nginx-proxy
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -54,7 +54,7 @@ services:
   nginx-proxy-acme:
     image: nginxproxy/acme-companion:2.6
     container_name: nginx-proxy-acme
-    restart: always
+    restart: unless-stopped
     environment:
       DEFAULT_EMAIL: ${LETSENCRYPT_EMAIL?:}
       NGINX_PROXY_CONTAINER: nginx-proxy

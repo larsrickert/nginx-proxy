@@ -2,7 +2,7 @@ services:
   docs:
     build: .
     image: larsrickert/nginx-proxy-docs
-    restart: always
+    restart: unless-stopped
     environment:
       VIRTUAL_HOST: nginxproxy.lars-rickert.de
       LETSENCRYPT_HOST: nginxproxy.lars-rickert.de

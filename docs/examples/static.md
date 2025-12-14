@@ -23,7 +23,7 @@ services:
     build: .
     # TODO: CHANGE ME: change image name to your liking
     image: larsrickert/nginx-proxy-example-static
-    restart: always
+    restart: unless-stopped
     environment:
       VIRTUAL_HOST: ${DOMAIN?:}
       LETSENCRYPT_HOST: ${DOMAIN?:}
@@ -135,7 +135,7 @@ If you don't have a build step for you static content (e.g. you just want to ser
   services:
     app:
       image: nginx:stable-alpine
-      restart: always
+      restart: unless-stopped
       environment:
         VIRTUAL_HOST: ${DOMAIN?:}
         LETSENCRYPT_HOST: ${DOMAIN?:}

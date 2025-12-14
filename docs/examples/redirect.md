@@ -14,7 +14,7 @@ In general you don't have to change anything in the below example to make it wor
 services:
   redirect:
     image: morbz/docker-web-redirect
-    restart: always
+    restart: unless-stopped
     env_file: .env
     environment:
       VIRTUAL_HOST: ${DOMAIN?:}
