@@ -49,11 +49,11 @@ services:
       options:
         tag: mailu-front
     ports:
+      # do not use ports 110, 143 and 587 since implicit TLS is safer
+      # see: https://mailu.io/2024.06/releases.html#starttls-ports-disabled-by-default
       - "25:25"
       - "465:465"
-      - "587:587"
-      - "995:995" # POP3S (secure), do not use port 110 for POP3 because its insecure
-      - "143:143"
+      - "995:995"
       - "993:993"
       - "4190:4190"
     volumes:
@@ -478,9 +478,7 @@ If you have enabled a firewall on your linux server (e.g. with our [firewall gui
 ```bash
 sudo ufw allow 25
 sudo ufw allow 465
-sudo ufw allow 587
 sudo ufw allow 995
-sudo ufw allow 143
 sudo ufw allow 993
 sudo ufw allow 4190
 ```
