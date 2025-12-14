@@ -33,7 +33,7 @@ services:
     image: redis:8-alpine
     restart: unless-stopped
     volumes:
-      - ".data/redis:/data"
+      - .data/redis:/data
     depends_on:
       - resolver
     dns:
@@ -58,14 +58,15 @@ services:
       - "4190:4190"
     volumes:
       # path to cert folder
-      - "../path-to-your-nginx-proxy/.data/certs/mail.${DOMAIN?:}:/certs:ro"
-      - ".data/overrides/nginx:/overrides:ro"
+      # TODO: CHANGE ME
+      - ../path-to-your-nginx-proxy/.data/certs/mail.${DOMAIN?:}:/certs:ro
+      - .data/overrides/nginx:/overrides:ro
     environment:
       # nginx proxy will request cert for all hostnames in a single cert
       # so the cert runs under the name of the first hostname and includes all other hostnames
       # so only the first cert has to be mounted in volumes to /certs
-      VIRTUAL_HOST: "${HOSTNAMES?:}"
-      LETSENCRYPT_HOST: "${HOSTNAMES?:}"
+      VIRTUAL_HOST: ${HOSTNAMES?:}
+      LETSENCRYPT_HOST: ${HOSTNAMES?:}
     depends_on:
       - resolver
     dns:
@@ -92,15 +93,15 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      INITIAL_ADMIN_DOMAIN: "${DOMAIN?:}"
+      INITIAL_ADMIN_DOMAIN: ${DOMAIN?:}
       INITIAL_ADMIN_MODE: ifmissing
     logging:
       driver: journald
       options:
         tag: mailu-admin
     volumes:
-      - ".data/data:/data"
-      - ".data/dkim:/dkim"
+      - .data/data:/data
+      - .data/dkim:/dkim
     depends_on:
       - redis
       - resolver
@@ -116,8 +117,8 @@ services:
       options:
         tag: mailu-imap
     volumes:
-      - ".data/mail:/mail"
-      - ".data/overrides/dovecot:/overrides:ro"
+      - .data/mail:/mail
+      - .data/overrides/dovecot:/overrides:ro
     depends_on:
       - front
       - resolver
@@ -133,8 +134,8 @@ services:
       options:
         tag: mailu-smtp
     volumes:
-      - ".data/mailqueue:/queue"
-      - ".data/overrides/postfix:/overrides:ro"
+      - .data/mailqueue:/queue
+      - .data/overrides/postfix:/overrides:ro
     depends_on:
       - front
       - resolver
@@ -170,8 +171,8 @@ services:
       - oletools
       - clamav
     volumes:
-      - ".data/filter:/var/lib/rspamd"
-      - ".data/overrides/rspamd:/overrides:ro"
+      - .data/filter:/var/lib/rspamd
+      - .data/overrides/rspamd:/overrides:ro
     depends_on:
       - front
       - redis
@@ -192,7 +193,7 @@ services:
     networks:
       - clamav
     volumes:
-      - ".data/clamav:/var/lib/clamav"
+      - .data/clamav:/var/lib/clamav
     healthcheck:
       test: ["CMD-SHELL", "kill -0 `cat /tmp/clamd.pid` && kill -0 `cat /tmp/freshclam.pid`"]
       interval: 10s
@@ -210,8 +211,8 @@ services:
       options:
         tag: mailu-webmail
     volumes:
-      - ".data/webmail:/data"
-      - ".data/overrides/roundcube:/overrides:ro"
+      - .data/webmail:/data
+      - .data/overrides/roundcube:/overrides:ro
     networks:
       - webmail
     depends_on:
@@ -248,7 +249,7 @@ networks:
 # Username for the initial admin account (first part of the e-mail address before the @).
 # Main mail domain (see DOMAIN env variable below) will be used as domain
 # TODO: CHANGE ME:
-INITIAL_ADMIN_ACCOUNT=admin // [!code hl]
+INITIAL_ADMIN_ACCOUNT=mail // [!code hl]
 
 # Password for the initial admin account. Will not be updated if account already exists.
 # TODO: CHANGE ME:
@@ -452,32 +453,14 @@ FULL_TEXT_SEARCH_ATTACHMENTS=
 
 Since we are using the nginx-proxy that manages the SSL certificates, the mailserver can/should not request it on its own. So we need to mount the certificates to the mailserver.
 
-Therefore, we need to change the `docker-compose.yml` of the [nginx-proxy](/guide/getting-started).
+Check this line in the mailserver's `docker-compose.yml` and change its path to the one to your `nginx-proxy`.
 
 ```yaml
-services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
-    # ...
-    volumes:
-      # TODO: CHANGE ME: change domain to the DOMAIN env variable you set in step 2 (mail.example.com)
-      # TODO: CHANGE ME: change path to your mailserver directory (./applications/mailserver)
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com // [!code ++]
-      # ...
-
-  nginx-proxy-le:
-    image: nginxproxy/acme-companion
-    # ...
-    volumes:
-      # TODO: CHANGE ME: same as above
-      - ./applications/mailserver/certs:/etc/nginx/certs/mail.example.com // [!code ++]
-      # ...
-```
-
-and then restart the nginx-proxy with
-
-```bash
-docker compose up -d
+front:
+  volumes:
+    # path to cert folder
+    # TODO: CHANGE ME
+    - ../path-to-your-nginx-proxy/.data/certs/mail.${DOMAIN?:}:/certs:ro
 ```
 
 ### Step 4: Start the mailserver
@@ -499,6 +482,7 @@ sudo ufw allow 587
 sudo ufw allow 995
 sudo ufw allow 143
 sudo ufw allow 993
+sudo ufw allow 4190
 ```
 
 ## DNS settings
@@ -507,7 +491,7 @@ sudo ufw allow 993
 
 In order to correctly send/receive emails, you need to set the rDNS entry of your linux server to `mail.example.com` (change `example.com` with the value of the `DOMAIN` variable from your `.env` file ).
 
-If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Customer Control Panel (CCP) under `Products -> Click on your server -> rDNS`.
+If you ordered your server on netcup as we do in our [server setup guide](/utilities/setup-server-and-domain), you can change the rDNS entry in the Server Control Panel (SCP) under `Network -> IPv4 -> rDNS`.
 
 ### MX record
 
