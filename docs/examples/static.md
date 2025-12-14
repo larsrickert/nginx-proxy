@@ -52,7 +52,7 @@ RUN npm run build
 # production stage
 FROM nginx:stable-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
@@ -62,51 +62,26 @@ CMD ["nginx", "-g", "daemon off;"]
 The `nginx.conf` file is needed to redirect all unknown URLs to `/` which is the expected behavior for single page applications (SPAs) like a Vue/React/Angular app. It also enables gzip compression to speed the serving of your files. This file is copied into the docker image inside the previously created `Dockerfile`.
 
 ```apache
-user nginx;
-worker_processes auto;
+server {
+  listen 80;
 
-error_log /var/log/nginx/error.log warn;
-pid /var/run/nginx.pid;
+  # The location of the static files to server, must match path defined in Dockerfile
+  root /usr/share/nginx/html;
 
-events {
-  worker_connections 1024;
-}
+  # Enable gzip. NOTE: text/html files are always gzipped when enabled
+  gzip on;
+  gzip_min_length 256;
+  gzip_types text/plain text/css application/javascript application/json image/x-icon;
 
-http {
-  include /etc/nginx/mime.types;
-  default_type application/octet-stream;
+  location / {
+    # Remove trailing slashes. /about/ -> /about
+    rewrite ^/(.*)/$ /$1 permanent;
 
-  log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-  '$status $body_bytes_sent "$http_referer" '
-  '"$http_user_agent" "$http_x_forwarded_for"';
-
-  access_log /var/log/nginx/access.log main;
-  sendfile on;
-  keepalive_timeout 65;
-
-  # This is how we host our static site.
-  server {
-    listen 80;
-    server_name localhost;
-
-    location / {
-      # Enable gzip. NOTE: text/html files are always gzipped when enabled
-      gzip on;
-      gzip_min_length 1000;
-      gzip_types text/plain text/css application/javascript application/json image/x-icon;
-
-      # The location of the static files to server, must match path defined in Dockerfile
-      root /usr/share/nginx/html;
-
-      # Remove trailing slashes. /about/ -> /about
-      # This is important because of how static files are generated.
-      rewrite ^/(.*)/$ /$1 permanent;
-
-      # config for SPAs do redirect 404 to index.html
-      try_files $uri /index.html;
-    }
+    # config for SPAs do redirect 404 to index.html
+    try_files $uri /index.html;
   }
 }
+
 ```
 
 ### Step 4: Create a `.env` file
@@ -142,7 +117,7 @@ If you don't have a build step for you static content (e.g. you just want to ser
       volumes:
         # TODO: CHANGE ME: change ./html to the path to your files
         - ./html:/usr/share/nginx/html
-        - ./nginx.conf:/etc/nginx/nginx.conf
+        - ./nginx.conf:/etc/nginx/conf.d/default.conf
 
   networks:
     default:
