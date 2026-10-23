@@ -5,7 +5,7 @@
   "main": "bin/index.js",
   "author": "larsrickert",
   "license": "MIT",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@12.15.0+sha512.b3951d6d6ff4a9f13dc7cf56cd28d2b8eb37dbcc9c68e52e1e1191873ea9f82a017287ab50baadc5ccc494f036c67c0e47eb13608c2fa36f47711b61ea128e61",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -41,12 +41,12 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
-    "@tsconfig/node24": "^24.0.4",
-    "@types/node": "^24.12.0",
+    "@tsconfig/node24": "^24.0.5",
+    "@types/node": "^24.19.2",
     "@types/shelljs": "~0.10.0",
-    "semantic-release": "^25.0.3",
+    "semantic-release": "^25.0.9",
     "semantic-release-monorepo": "^8.0.2",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.3"
   },
   "release": {
     "extends": "semantic-release-monorepo",

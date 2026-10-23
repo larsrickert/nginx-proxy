@@ -3,7 +3,6 @@
   "include": ["src"],
   "compilerOptions": {
     "rootDir": "./src",
-    "baseUrl": ".",
     "outDir": "bin",
     "declaration": true,
     "types": ["node"]
